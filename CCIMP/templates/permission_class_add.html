@@ -1,6 +1,6 @@
-{% extends "permission.html"%}
+{% extends "permission_class.html"%}
 
-{% block permissionAdd %}
+{% block permissionClassAdd %}
 
 <h3>添加权限</h3>
 <form class="form-horizontal" method="post" action="/permission/add_permission/">
@@ -29,7 +29,7 @@
                 <select name='permission_option' class="input-xlarge"
                        style="margin-left: 22px;width:180px;">
 
-                    {% for permission_name in permissions_name %}
+                    {% for permission_name in permission_names %}
 
                         <option>{{ permission_name }}</option>
 

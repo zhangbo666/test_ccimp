@@ -39,7 +39,7 @@ urlpatterns = [
     # 项目管理app
     path('project/',include('ccimp_project_app.urls')),
 
-    # 权限管理app
+    # 权限用户与权限分类管理app
     path('permission/',include('ccimp_permission_app.urls')),
 
 ]

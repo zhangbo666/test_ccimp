@@ -12,7 +12,9 @@ from django.contrib.auth.decorators import login_required
 
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 
-from ccimp_project_app.models import Project
+# from ccimp_project_app.models.projectModels import Project
+from ccimp_user_app.models.userModels import User
+from ccimp_permission_app.models.permissionClassModels import PermissionClass
 
 # from datetime import datetime
 
@@ -29,7 +31,27 @@ def project_manage(request):
 
         username = request.session.get('user','')
 
-        return render(request,"project.html",{"username":username})
+        users = User.objects.all()
+
+        permissionClasss = PermissionClass.objects.all()
+
+        for user in users:
+
+            if user.user_name == username:
+
+                if user.permission_options == 1:
+
+                    return render(request,"project.html",
+                                  {"username":username,
+                                   "type":"list",
+                                   "type_option":"permission_sap",
+                                   "permissionClasss":permissionClasss})
+
+                else:
+
+                    print (12321)
+
+                    return render(request,"project.html",{"username":username})
 
     # project_all = Project.objects.all()
     #

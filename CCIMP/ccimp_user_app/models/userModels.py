@@ -16,7 +16,7 @@ class User(models.Model):
 
       mail = models.EmailField("邮箱",max_length=200,null=False)
 
-      #1:sap超级管理员权限、2:pp项目权限、3:mp:模块权限、4:gp普通权限
+      #1:sap超级管理员权限、2:pp项目权限、3:mp模块权限、4:gp普通权限
       permission_options = models.IntegerField("权限分类",default=4)
 
       create_time = models.DateTimeField(auto_now=True)

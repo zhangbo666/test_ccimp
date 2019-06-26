@@ -45,23 +45,37 @@
                         <i class="glyphicon glyphicon-th"></i>&nbsp;&nbsp;模块管理
                     </a>
                 </li>
-               <li>
+                <li>
                    <a href="/testcase/">
                        <i class="glyphicon glyphicon-briefcase"></i>&nbsp;&nbsp;用例管理
                    </a>
-               </li>
-               <li>
-                   <a href="/report/">
-                       <i class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp;报告管理
-                   </a>
-               </li>
+                </li>
                 <li>
-                    <a href="/permission/">
-                        <i class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp;权限管理
-                    </a></li>
+                    <a href="/report/">
+                       <i class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp;报告管理
+                    </a>
+                </li>
+
+                {% if type_option == "permission_sap" %}
+
+                <li>
+                    <li>
+                        <a href="/permission/">
+                            <i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;用户权限
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/permission/class/">
+                            <i class="glyphicon glyphicon-inbox"></i>&nbsp;&nbsp;权限分类
+                        </a>
+                    </li>
+                </li>
+
+                {%endif %}
+
                 <li>
                     <a href="">
-                        <i class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp;小工具管理
+                        <i class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp;工具管理
                     </a>
                 </li>
                 <li>

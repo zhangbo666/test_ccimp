@@ -5,13 +5,9 @@ from django.shortcuts import render,redirect
 from django.http import HttpRequest,HttpResponse,HttpResponseRedirect
 
 from ccimp_user_app.forms import UserLoginForm,UserRegisterForm
-from ccimp_user_app.models import userModels,userPermissionModels
 from django.contrib.auth.decorators import login_required
-
 from ccimp_user_app.models.userModels import User
-from ccimp_user_app.models.userPermissionModels import UserPermission
 
-from ccimp_user_app.models.userModels import User
 
 # 判断用户登录的装饰器
 def auth(func):
