@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block base %}
+
+{% load  static %}
+
+<!--引用本地cs,js文件-->
+<link rel="stylesheet" type="text/css" href="{% static 'css/user_login_register_css/commons.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'css/user_login_register_css/login.css' %}"/>
+
+
+<style>
+    .op{
+        z-index: 3;
+        opacity: 0.8;
+    }
+    .op:hover{
+        opacity: 1;
+    }
+</style>
+
+
+<div id="background" class="wall"></div>
+<div id="midground" class="wall"></div>
+<div id="foreground" class="wall"></div>
+<div class="Lcentered op" >
+    <form action="/login_ccimp/" method="post">
+        <div style="margin-top: 10px">
+            <h2 style="color: #f7f7f7" align="center">灵猫智能管理平台</h2>
+        </div><br/>
+        <div align="center">
+            <ul style="list-style-type:none;">
+                <li style="color: #f7f7f7">账号：
+                    <span style="color:blue;">{{ login_obj.user_name }}</span>
+                    <!--<input type="text" id="inputUsername" name="username" placeholder="username" style="color:blue;">-->
+                </li>
+                <br/>
+                <li style="color: #f7f7f7">密码：
+                    <span style="color:blue;">{{ login_obj.password }}</span>
+                    <!--<input type="text" id="inputPassword" name="password" placeholder="password" style="color:blue;">-->
+
+                    <div style="color:red;margin-top: 1px;">
+                        <span>{{ account_info }}</span>
+                    </div>
+                </li>
+            </ul>
+        </div><br/>
+        <div  align="center" style="margin-top:-10px;">
+            <input style="width: 60px;height: 30px;"  type="submit"  value="登录" />
+            <input style="width: 60px;height: 30px;margin-left: 10px;" type="button" name="register" value="去注册"  />
+        </div>
+    </form>
+</div>
+<script>
+    $('[name="register"]').click(
+        function () {
+            window.location.replace("/register_ccimp/");
+        }
+    )
+</script>
+{% endblock %}

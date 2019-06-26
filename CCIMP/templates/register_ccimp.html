@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block base %}
+
+{% load  static %}
+
+<!--引用本地cs,js文件-->
+<link rel="stylesheet" type="text/css" href="{% static 'css/user_login_register_css/commons.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'css/user_login_register_css/login.css' %}"/>
+
+
+<style>
+    .op{
+        z-index: 3;
+        opacity: 0.8;
+    }
+    .op:hover{
+        opacity: 1;
+    }
+</style>
+
+
+<div id="background" class="wall"></div>
+<div id="midground" class="wall"></div>
+<div id="foreground" class="wall"></div>
+<div class="Rcentered" style="z-index: 3">
+    <form action="/register_ccimp/" method="post">
+        <div style="margin-top: 10px">
+            <h3 style="color: #f7f7f7" align="center">用户注册</h3>
+        </div><br/>
+        <div align="center">
+            <ul style="list-style-type:none;">
+                <li style="color: #f7f7f7">账号：
+                    <span style="color:blue;">{{ register_obj.user_name }}</span>
+                    <!--<input type="text" id="inputUsername" name="username" placeholder="username" style="color:blue;">-->
+
+                    <div style="color:red;margin-top: 1px;">
+                        <span>{{ user_name_uplicate }}</span>
+                    </div>
+                </li>
+                <br/>
+                <li style="color: #f7f7f7">密码：
+                    <span style="color:blue;">{{ register_obj.password }}</span>
+                    <!--<input type="text" id="inputUsername" name="username" placeholder="username" style="color:blue;">-->
+                    <!--<a style="color: red">*</a>-->
+                </li>
+                <br/>
+                <li style="color: #f7f7f7">姓名：
+                    <span style="color:blue;">{{ register_obj.real_name }}</span>
+                    <!--<input type="text" id="inputUsername" name="username" placeholder="username" style="color:blue;">-->
+
+                    <!--<a style="color: red">*</a>-->
+                </li>
+                <br/>
+                <li style="color: #f7f7f7">邮件：
+                    <span style="color:blue;">{{ register_obj.mail }}</span>
+                    <!--<input type="text" id="inputUsername" name="username" placeholder="username" style="color:blue;">-->
+
+                    <!--<a style="color: red">*</a>-->
+
+                    <div style="color:red;margin-top: 1px;">
+                        <span>{{ mail_uplicate }}</span>
+                    </div>
+                </li>
+                <br/>
+                <!--<li style="color: #f7f7f7;margin-left: 61px;text-align: left">权限：-->
+                    <!--<span style="color:blue;">{{ obj.permission }}</span>-->
+                    <!--<a style="color: red">*-->
+                    <!--</a>-->
+                <!--</li>-->
+                <br/>
+            </ul>
+        </div>
+        <div  style="margin-top: -25px;" align="center">
+            <input style="width: 60px;height: 30px" type="button" name="login"  value="去登录" />
+            <input style="width: 60px;height: 30px;margin-left: 10px;"  type="submit" name="submit" value="注册" />
+        </div>
+    </form>
+</div>
+</div>
+<script type="text/javascript">
+    $('[name="login"]').click(
+        function () {
+            window.location.replace("/login_ccimp/");
+        }
+
+
+    )
+</script>
+{% endblock %}
