@@ -2,8 +2,8 @@
 
 {% block permissionClassAdd %}
 
-<h3>添加权限</h3>
-<form class="form-horizontal" method="post" action="/permission/add_permission/">
+<h3>添加权限分类</h3>
+<form class="form-horizontal" method="post" action="/permission/class/add_permissionClass/">
     <fieldset>
         <div class="control-group">
             <label class="control-label" style="margin-top: 20px;">权限中文名：</label>
@@ -23,32 +23,89 @@
             <!--</div>-->
         </div>
 
+        <!--<div>-->
+            <!--<laber>* 请求方法：</laber>-->
+            <!--<label class="radio-inline">-->
+                <!--<input type="radio" name="req_method" id="get" value="get" checked="check"> GET-->
+            <!--</label>-->
+            <!--<label class="radio-inline">-->
+                <!--<input type="radio" name="req_method" id="post" value="post"> POST-->
+            <!--</label>-->
+            <!--<label class="radio-inline">-->
+                <!--<input type="radio" name="req_method" id="put" value="pust"> PUT-->
+            <!--</label>-->
+            <!--<label class="radio-inline">-->
+                <!--<input type="radio" name="req_method" id="delete" value="delete"> DELETE-->
+            <!--</label>-->
+        <!--</div>-->
+
+
         <div class="control-group">
             <label class="control-label" style="margin-top: 20px;">权限类别：</label>
             <!--<div class="controls">-->
-                <select name='permission_option' class="input-xlarge"
-                       style="margin-left: 22px;width:180px;">
 
-                    {% for permission_name in permission_names %}
+                <input type="text" name='permission_options' class="input-xlarge"
+                       style="margin-left: 21px;width:180px;">
+                <!--<select name='permission_option' class="input-xlarge"-->
+                       <!--style="margin-left: 22px;width:180px;">-->
 
-                        <option>{{ permission_name }}</option>
+                    <!--{% for permission_name in permission_names %}-->
 
-                    {% endfor %}
+                        <!--<option>{{ permission_name }}</option>-->
 
-                </select>
-                <span style="color:red">{{ name_error }}</span>
+                    <!--{% endfor %}-->
+
+                <!--</select>-->
+                <span style="color:red">{{ po_name }}</span>
             <!--</div>-->
         </div>
+        <p style="color:blue;margin-top: 10px;">说明：权限类别只能添加以下分类类型，包括："项目管理员、模块管理员、普通管理员"</p>
 
         <div class="control-group" style="margin-left:20px;margin-top:40px;float: left">
             <div class="controls">
-                <button style="margin-left: 40px;" class="btn btn-success">保存</button>
-                <button style="margin-left: 20px;" onclick="javascript:this.form.action='/project/';"
+                <button style="margin-left: 40px;" class="btn btn-success" onclick="return addPermissionOk()">保存</button>
+                <button style="margin-left: 20px;" onclick="javascript:this.form.action='/permission/class/';"
                         class="btn btn-info">返回</button>
             </div>
         </div>
     </fieldset>
 </form>
 
+<script type="text/javascript">
+
+
+
+    // 添加权限js判断
+    function addPermissionOk(){
+
+        var poName = $("[name='permission_options']").val();
+
+//        msg_ = confirm("确定添加吗？");
+
+//        if (msg_ === true){
+
+//    $.ajax({
+//        url:'/permission/class/add_permissionClass/',
+//        type:'POST',
+//        data:{'poName':poName},
+//        success:function (data) {
+//            alert(data);
+//
+//        }    })
+    }
+//        if (aa === "123"){
+//
+//            window.alert("12123");
+//
+//        }
+//            return true;
+//        }
+
+//        else{
+//
+//            return false;
+//        }
+//    };
+</script>
 
 {% endblock %}

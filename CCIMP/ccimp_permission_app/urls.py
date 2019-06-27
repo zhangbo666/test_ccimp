@@ -6,7 +6,11 @@ from ccimp_permission_app import views
 
 urlpatterns = [
 
+    # 用户权限
     path('',views.permission_manage),
+    path('edit_permission/<int:uid>/', views.edit_permission),
+
+    # 权限管理
     path('class/',views.permission_class),
     path('class/add_permissionClass/',views.add_permissionClass),
     path('class/edit_permissionClass/<int:pclass_id>/',views.edit_permissionClass),

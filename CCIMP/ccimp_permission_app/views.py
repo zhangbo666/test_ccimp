@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,HttpResponse
 
 from ccimp_user_app.views import auth
 
@@ -11,60 +11,76 @@ def permission_manage(request):
 
     if request.method == "GET":
 
-        username = request.session.get('user','')
+        get_username = request.session.get('user','')
 
-        user = User.objects.get(user_name=username)
+        users = User.objects.all()
 
-        permissions = PermissionClass.objects.all()
+        for user in users:
 
-        if user.user_name == username:
+            if user.user_name == get_username:
 
-            if user.permission_options == 1:
+                if user.permission_options == 1:
 
-                return render(request,"permission.html",
-                              {"username":username,
-                               "type":"list",
-                               "type_option":"permission_sap",
-                               "permissions":permissions})
+                    return render(request, "permission.html",
+                                  {"username": get_username,
+                                   "type": "list",
+                                   "type_option": "permission_sap",
+                                   "users": users})
 
-            else:
+                else:
 
-                return render(request,"404.html")
-        else:
+                    return render(request, "404.html")
 
-            pass
 
+# 用户权限编辑
+@auth
+def edit_permission(request,uid):
+
+    pass
+
+
+
+'''###############################################################################'''
 
 # 权限分类
 @auth
 def permission_class(request):
 
+    get_username = request.session.get('user', '')
+
+    permissionClasss = PermissionClass.objects.all()
+
     if request.method == "GET":
 
-        username = request.session.get('user','')
+        users = User.objects.all()
 
-        user = User.objects.get(user_name=username)
+        for user in users:
 
-        permissionClasss = PermissionClass.objects.all()
+            if user.user_name == get_username:
 
-        if user.user_name == username:
+                if user.permission_options == 1:
 
-            if user.permission_options == 1:
+                   return render(request,"permission_class.html",
+                              {"username":get_username,
+                               "type":"list",
+                               "type_option":"permission_sap",
+                               "permissionClasss":permissionClasss})
 
-               return render(request,"permission_class.html",
-                          {"username":username,
-                           "type":"list",
-                           "type_option":"permission_sap",
-                           "permissionClasss":permissionClasss})
+                else:
+
+                    return render(request,"404.html")
 
             else:
 
-                return render(request,"404.html")
+                pass
 
-        else:
+    else:
 
-            pass
-
+        return render(request,"permission_class.html",
+                      {"username":get_username,
+                       "type": "list",
+                       "type_option":"permission_sap",
+                       "permissionClasss": permissionClasss})
 
 # 添加权限
 @auth
@@ -76,6 +92,8 @@ def add_permissionClass(request):
 
     permission_names = []
 
+    username = request.session.get('user', '')
+
     # 返回前端非超级管理员信息
     for p1 in permission_chinese_names:
 
@@ -84,8 +102,6 @@ def add_permissionClass(request):
             permission_names.append(p1)
 
     if request.method == "GET":
-
-        username = request.session.get('user','')
 
         user = User.objects.get(user_name=username)
 
@@ -108,6 +124,24 @@ def add_permissionClass(request):
         else:
 
             pass
+
+    else:
+
+        pc_name = request.POST.get("permission_chine_name","")
+
+        pe_name = request.POST.get("permission_english_name","")
+
+        po_name = request.POST.get("permission_options","")
+
+        # po_name = request.POST.get("poName","")
+
+        if po_name == "项目管理员" or po_name == "模块管理员" or po_name == "普通管理员":
+
+            return render(request, "permission_class.html",{"username":username,"type":"add"})
+
+        else:
+
+            return render(request, "permission_class_add.html",{"username":username,"type":"add","po_name":"权限分类错误"})
 
 
 # 编辑权限

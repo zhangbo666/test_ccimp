@@ -92,8 +92,8 @@
                 <button class="btn btn-primary" type="submit">搜索用户</button>
             </form>
             <h3 class="sub-header">用户列表
-                <button class="btn btn-primary" name="submit" style="float:right;"
-                        onclick="location.href='/permission/add_permission/'">创建权限</button>
+                <!--<button class="btn btn-primary" name="submit" style="float:right;"-->
+                        <!--onclick="location.href='/permission/add_permission/'">创建权限</button>-->
             </h3>
             <div class="table-responsive">
                 <table class="table table-striped">
@@ -101,9 +101,10 @@
 
                         <tr style="text-align: center">
                             <th>id</th>
-                            <th>中文名</th>
-                            <th>英文名</th>
-                            <th>分类</th>
+                            <th>账号</th>
+                            <th>姓名</th>
+                            <th>邮件</th>
+                            <th>权限分类</th>
                             <th>创建时间</th>
                             <th>更新时间</th>
                             <th>操作</th>
@@ -111,35 +112,42 @@
                     </thead>
                     <tbody>
 
-                        {% for permission in permissions %}
+                        {% for user in users %}
 
                         <tr>
-                            <td>{{ permission.id}}</td>
-                            <td>{{ permission.permission_chinese_name}}</td>
-                            <td>{{ permission.permission_english_name}}</td>
-                            {% if permission.permission_options == 1 %}
-                                <td>超级管理员权限</td>
+                            <td>{{ user.id }}</td>
+                            <td>{{ user.user_name }}</td>
+                            <td>{{ user.real_name }}</td>
+                            <td>{{ user.mail }}</td>
 
-                            {% elif permission.permission_options == 2 %}
-                                <td>项目管理权限</td>
+                            {% if user.permission_options == 1 %}
 
-                            {% elif permission.permission_options == 3 %}
-                                <td>模块管理权限</td>
+                                <td>超级管理员</td>
+
+                            {% elif user.permission_options == 2 %}
+
+                                <td>项目管理员</td>
+
+                            {% elif user.permission_options == 3 %}
+
+                                <td>模块管理员</td>
 
                             {% else %}
-                                <td>普通权限</td>
+
+                                <td>普通管理员</td>
+
                             {% endif %}
 
-                            <td>{{ permission.create_time | date:"Y-m-d H:i:s" }}</td>
-                            <td>{{ permission.update_time | date:"Y-m-d H:i:s" }}</td>
+                            <td>{{ user.create_time | date:"Y-m-d H:i:s" }}</td>
+                            <td>{{ user.update_time | date:"Y-m-d H:i:s" }}</td>
                             <td>
-                                <a href="/permission/edit_permission/{{ permission.id }}/">
+                                <a href="/permission/edit_permission/{{ user.id }}/">
                                     <i class="glyphicon glyphicon-pencil">编辑</i>
                                 </a>
-                                <a href="/permission/delete_permission/{{ permission.id }}/" style="margin-left:20px;"
-                                          onclick="return permission_del()">
-                                    <i class="glyphicon glyphicon-trash">删除</i>
-                                </a>
+                                <!--<a href="/permission/delete_permission/{{ permission.id }}/" style="margin-left:20px;"-->
+                                          <!--onclick="return permission_del()">-->
+                                    <!--<i class="glyphicon glyphicon-trash">删除</i>-->
+                                <!--</a>-->
                                 <!--<button type="submit" name="update-data"/>更新</button>-->
                                 <!--<button type="submit" name="delete-data">删除</button>-->
                                 <!--<button type="submit" name="">查看报告</button>-->

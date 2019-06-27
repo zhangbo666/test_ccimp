@@ -15,7 +15,9 @@ def auth(func):
     def inner(request, *args, **kwargs):
         v = request.session.get('is_login', None)
         if v != True:
+
             return redirect('/login_ccimp/')
+
         return func(request, *args, **kwargs)
 
     return inner
