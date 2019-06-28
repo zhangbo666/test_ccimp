@@ -171,6 +171,15 @@
                 {% endblock %}
 
             {% endif %}
+
+            {% if type == "edit" %}
+
+                {% block permissionClassEdit %}
+
+                {% endblock %}
+
+            {% endif %}
+
         </div>
 
     </div>
@@ -179,6 +188,7 @@
 
 
 <script type="text/javascript">
+
 
     // 项目删除js判断
     function permission_del(){
@@ -214,6 +224,8 @@
 
         }
     };
+
+
 
 </script>
 

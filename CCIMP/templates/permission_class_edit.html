@@ -1,9 +1,9 @@
 {% extends "permission_class.html"%}
 
-{% block permissionClassAdd %}
+{% block permissionClassEdit %}
 
-<h3>添加权限分类</h3>
-<form class="form-horizontal" method="post" action="/permission/class/add_permissionClass/">
+<h3>编辑权限分类</h3>
+<form class="form-horizontal" method="post" action="/permission/class/edit_permissionClass/">
     <fieldset>
         <div class="control-group">
             <label class="control-label" style="margin-top: 20px;">权限中文名：</label>
@@ -65,7 +65,7 @@
 
         <div class="control-group" style="margin-left:20px;margin-top:40px;float: left">
             <div class="controls">
-                <button style="margin-left: 40px;" class="btn btn-success" onclick="return addPermissionOk()">保存</button>
+                <button style="margin-left: 40px;" class="btn btn-success" onclick="return editPermissionOk()">修改</button>
                 <button style="margin-left: 20px;" onclick="javascript:this.form.action='/permission/class/';"
                         class="btn btn-info">返回</button>
             </div>
@@ -77,10 +77,10 @@
 
 <script type="text/javascript">
 
-    //添加权限js判断
-    function addPermissionOk() {
+    //编辑权限js判断
+    function editPermissionOk() {
 
-        msg_1 = confirm("确定添加数据吗？");
+        msg_1 = confirm("确定修改数据吗？");
 
         if (msg_1 === true){
 
