@@ -17,4 +17,8 @@ urlpatterns = [
     # path('delete_project/<int:pid>/',views.delete_project),
     # path('search',views.project_search),
 
+
+    # 接口
+    path('class/edit_permissionClass/get_edit_permissionClass/',views.get_edit_permissionClass),
+
 ]

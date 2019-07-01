@@ -1,7 +1,9 @@
 from django.shortcuts import render,HttpResponse,HttpResponseRedirect
-from django.contrib import messages
+
+from django.http import JsonResponse
 
 from ccimp_user_app.views import auth
+
 
 from ccimp_permission_app.models.permissionClassModels import PermissionClass
 from ccimp_user_app.models.userModels import User
@@ -190,3 +192,32 @@ def edit_permissionClass(request,pclass_id):
                        "type": "edit",
                        "type_option":"permission_sap",
                        "permissionClasss": permissionclass})
+
+
+#获取当前编辑页权限数据
+def get_edit_permissionClass(request):
+
+    if request.method == "POST":
+
+        pclass_id = request.POST.get("pclass_id","")
+        print ("权限id：",pclass_id)
+
+        pclass_id = PermissionClass.objects.get(id=pclass_id)
+
+        pcname = pclass_id.permission_chinese_name
+        pename = pclass_id.permission_chinese_name
+        poname = pclass_id.permission_options
+
+        print (pclass_id.permission_chinese_name)
+        print (pclass_id.permission_english_name)
+        print (pclass_id.permission_options)
+
+
+        return JsonResponse({"status": 10200, "message": "请求接口正确!","data":{"pcname":pcname,
+                                                                               "pename":pename,
+                                                                               "poname":poname}})
+
+
+
+
+

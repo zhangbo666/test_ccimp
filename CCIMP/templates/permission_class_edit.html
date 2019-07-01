@@ -77,6 +77,36 @@
 
 <script type="text/javascript">
 
+    // 获取当前url地址
+    var url = document.location;
+
+    console.log("url",url.pathname.split("/")[4]);
+
+    var pclass_id = url.pathname.split("/")[4];
+
+    console.log("当前选中的权限id：",pclass_id);
+
+    if (pclass_id === ""){
+
+        alert("当前任务为空，不能进行修改")
+    }
+
+    $.post("/permission/class/edit_permissionClass/get_edit_permissionClass/",{
+
+        "pclass_id":pclass_id
+    },function (resp) {
+
+        if (resp.status === 10200 ){
+
+            alert(resp.message);
+            alert(resp.data.poname);
+            alert(resp.data.pename);
+            alert(resp.data.pcname);
+
+        }
+    });
+
+
     //编辑权限js判断
     function editPermissionOk() {
 
