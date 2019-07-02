@@ -20,5 +20,6 @@ urlpatterns = [
 
     # 接口
     path('class/edit_permissionClass/get_edit_permissionClass/',views.get_edit_permissionClass),
+    path('class/save_permissionClass/',views.save_permissionClass),
 
 ]

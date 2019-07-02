@@ -139,9 +139,11 @@
                             <td>{{ permissionClass.create_time | date:"Y-m-d H:i:s" }}</td>
                             <td>{{ permissionClass.update_time | date:"Y-m-d H:i:s" }}</td>
                             <td>
+
                                 <a href="/permission/class/edit_permissionClass/{{ permissionClass.id }}/">
                                     <i class="glyphicon glyphicon-pencil">编辑</i>
                                 </a>
+
                                 <!--<a href="/permission/class/delete_permission/{{ permission.id }}/" style="margin-left:20px;"-->
                                           <!--onclick="return permission_del()">-->
                                     <!--<i class="glyphicon glyphicon-trash">删除</i>-->
@@ -189,6 +191,7 @@
 
 <script type="text/javascript">
 
+    $("a.disabled").attr("href", "#");
 
     // 项目删除js判断
     function permission_del(){

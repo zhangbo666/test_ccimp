@@ -3,75 +3,77 @@
 {% block permissionClassEdit %}
 
 <h3>编辑权限分类</h3>
-<form class="form-horizontal" method="post" action="/permission/class/edit_permissionClass/">
-    <fieldset>
-        <div class="control-group">
-            <label class="control-label" style="margin-top: 20px;">权限中文名：</label>
-            <!--<div class="controls">-->
-                <input type="text" name='permission_chine_name' class="input-xlarge"
-                       style="margin-left: 8px;width:180px;">
-            <!--</div>-->
-            <span style="color:red">{{ pc_name }}</span>
-
-        </div>
-
-        <div class="control-group">
-            <label class="control-label" style="margin-top: 20px;">权限英文名：</label>
-            <!--<div class="controls">-->
-                <input type="text" name='permission_english_name' class="input-xlarge"
-                       style="margin-left: 8px;width:180px;">
-            <!--</div>-->
-            <span style="color:red">{{ pe_name }}</span>
-
-        </div>
-
-        <!--<div>-->
-            <!--<laber>* 请求方法：</laber>-->
-            <!--<label class="radio-inline">-->
-                <!--<input type="radio" name="req_method" id="get" value="get" checked="check"> GET-->
-            <!--</label>-->
-            <!--<label class="radio-inline">-->
-                <!--<input type="radio" name="req_method" id="post" value="post"> POST-->
-            <!--</label>-->
-            <!--<label class="radio-inline">-->
-                <!--<input type="radio" name="req_method" id="put" value="pust"> PUT-->
-            <!--</label>-->
-            <!--<label class="radio-inline">-->
-                <!--<input type="radio" name="req_method" id="delete" value="delete"> DELETE-->
-            <!--</label>-->
+<!--<form class="form-horizontal" method="post" action="/permission/class/save_permissionClass/">-->
+<fieldset>
+    <div class="control-group">
+        <label class="control-label" style="margin-top: 20px;">权限中文名：</label>
+        <!--<div class="controls">-->
+            <input type="text" name='permission_chine_name' class="input-xlarge"
+                   style="margin-left: 8px;width:180px;">
         <!--</div>-->
+        <span style="color:red">{{ pc_name }}</span>
+
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" style="margin-top: 20px;">权限英文名：</label>
+        <!--<div class="controls">-->
+            <input type="text" name='permission_english_name' class="input-xlarge"
+                   style="margin-left: 8px;width:180px;">
+        <!--</div>-->
+        <span style="color:red">{{ pe_name }}</span>
+
+    </div>
+
+    <!--<div>-->
+        <!--<laber>* 请求方法：</laber>-->
+        <!--<label class="radio-inline">-->
+            <!--<input type="radio" name="req_method" id="get" value="get" checked="check"> GET-->
+        <!--</label>-->
+        <!--<label class="radio-inline">-->
+            <!--<input type="radio" name="req_method" id="post" value="post"> POST-->
+        <!--</label>-->
+        <!--<label class="radio-inline">-->
+            <!--<input type="radio" name="req_method" id="put" value="pust"> PUT-->
+        <!--</label>-->
+        <!--<label class="radio-inline">-->
+            <!--<input type="radio" name="req_method" id="delete" value="delete"> DELETE-->
+        <!--</label>-->
+    <!--</div>-->
 
 
-        <div class="control-group">
-            <label class="control-label" style="margin-top: 20px;">权限类别：</label>
-            <!--<div class="controls">-->
+    <div class="control-group">
+        <label class="control-label" style="margin-top: 20px;">权限类别：</label>
+        <!--<div class="controls">-->
 
-                <input type="text" name='permission_options' class="input-xlarge"
-                       style="margin-left: 21px;width:180px;">
-                <!--<select name='permission_option' class="input-xlarge"-->
-                       <!--style="margin-left: 22px;width:180px;">-->
+            <input type="text" name='permission_options' class="input-xlarge"
+                   style="margin-left: 21px;width:180px;">
+            <!--<select name='permission_option' class="input-xlarge"-->
+                   <!--style="margin-left: 22px;width:180px;">-->
 
-                    <!--{% for permission_name in permission_names %}-->
+                <!--{% for permission_name in permission_names %}-->
 
-                        <!--<option>{{ permission_name }}</option>-->
+                    <!--<option>{{ permission_name }}</option>-->
 
-                    <!--{% endfor %}-->
+                <!--{% endfor %}-->
 
-                <!--</select>-->
-                <span style="color:red">{{ po_name }}</span>
-            <!--</div>-->
+            <!--</select>-->
+            <span style="color:red">{{ po_name }}</span>
+        <!--</div>-->
+    </div>
+    <p style="color:blue;margin-top: 10px;">说明：权限类别只能添加以下分类类型，包括："项目管理员、模块管理员、普通管理员"</p>
+
+    <div class="control-group" style="margin-left:20px;margin-top:40px;float: left">
+        <div class="controls">
+            <button style="margin-left: 40px;" class="btn btn-success" onclick="save_Permission()">修改</button>
+            <button style="margin-left: 20px;" onclick="location.href='/permission/class/';"
+                    class="btn btn-info">返回</button>
+            <!--<button style="margin-left: 20px;" onclick="javascript:this.form.action='/permission/class/';"-->
+                    <!--class="btn btn-info">返回</button>-->
         </div>
-        <p style="color:blue;margin-top: 10px;">说明：权限类别只能添加以下分类类型，包括："项目管理员、模块管理员、普通管理员"</p>
-
-        <div class="control-group" style="margin-left:20px;margin-top:40px;float: left">
-            <div class="controls">
-                <button style="margin-left: 40px;" class="btn btn-success" onclick="return editPermissionOk()">修改</button>
-                <button style="margin-left: 20px;" onclick="javascript:this.form.action='/permission/class/';"
-                        class="btn btn-info">返回</button>
-            </div>
-        </div>
-    </fieldset>
-</form>
+    </div>
+</fieldset>
+<!--</form>-->
 
 
 
@@ -94,37 +96,82 @@
     $.post("/permission/class/edit_permissionClass/get_edit_permissionClass/",{
 
         "pclass_id":pclass_id
+
     },function (resp) {
 
-        if (resp.status === 10200 ){
+        if (resp.status === 10200 ) {
 
-            alert(resp.message);
-            alert(resp.data.poname);
-            alert(resp.data.pename);
-            alert(resp.data.pcname);
+            document.querySelector("[name=permission_chine_name]").value = resp.data.pcname;
+            document.querySelector("[name=permission_english_name]").value = resp.data.pename;
+            document.querySelector("[name=permission_options]").value = resp.data.poname;
 
         }
     });
 
+    function save_Permission() {
 
-    //编辑权限js判断
-    function editPermissionOk() {
+        var pcname = document.querySelector("[name=permission_chine_name]").value;
+        var pename = document.querySelector("[name=permission_english_name]").value;
+        var poname = document.querySelector("[name=permission_options]").value;
 
-        msg_1 = confirm("确定修改数据吗？");
+        $.post("/permission/class/save_permissionClass/", {
 
-        if (msg_1 === true){
+        "pcname": pcname,
+        "pename": pename,
+        "poname": poname,
+        "pclass_id":pclass_id
 
-            window.location.replace("/permission/class/");
+        }, function (var_resp) {
 
-        }
+            if (var_resp.status === 10101 || var_resp.status === 10102 || var_resp.status === 10103 || var_resp.status === 10104) {
 
-        else {
+                alert(var_resp.message);
+            }
+            else {
 
-            return false;
+                alert("修改成功!");
 
-        }
+                window.location.replace("/permission/class/");
+
+            }
+        });
+
+
+//        msg_1 = confirm("确定修改数据吗？");
+//
+//        if (msg_1 === true){
+//
+//        }
+//
+//        else {
+//
+//            return false;
+//
+//        }
 
     }
+
+
+    //编辑保存用例
+
+    //编辑权限js判断
+//    function editPermissionOk() {
+//
+//        msg_1 = confirm("确定修改数据吗？");
+//
+//        if (msg_1 === true){
+//
+//            window.location.replace("/permission/class/");
+//
+//        }
+//
+//        else {
+//
+//            return false;
+//
+//        }
+//
+//    }
 
 </script>
 
