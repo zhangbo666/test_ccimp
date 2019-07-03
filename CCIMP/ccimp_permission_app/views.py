@@ -8,6 +8,15 @@ from ccimp_user_app.views import auth
 from ccimp_permission_app.models.permissionClassModels import PermissionClass
 from ccimp_user_app.models.userModels import User
 
+from time import strftime, localtime, time, ctime
+from datetime import datetime, date,timedelta,timezone
+from django.utils import timezone as timezonea
+
+from django import utils
+
+# from django.utils import timezone
+
+
 # 用户权限
 @auth
 def permission_manage(request):
@@ -42,7 +51,6 @@ def edit_permission(request,uid):
     pass
 
 
-
 '''###############################################################################'''
 
 # 权限分类list
@@ -51,6 +59,67 @@ def permission_class(request):
 
     '''权限分类list'''
 
+    # 转换为str类型
+    # current_now_time = strftime('%Y-%m-%d %H:%M:%S', localtime(time()))
+
+    # print (datetime.utcnow().strftime("%Y%m%dT%H%M%SZ"))
+
+
+    # tz_utc = timezone(timedelta(hours=8))
+
+    # print("tz_utc-->", tz_utc)
+
+    # now = datetime.now()
+
+    from datetime import datetime
+
+    import time
+
+    print(time.time())
+    print(time.time()+28800)
+
+
+
+    # tz_utc = timezone(timedelta(hours=8))
+    #
+    # print ("tz_utc-->",tz_utc)
+    #
+    # now = datetime.now()
+    #
+    # print ("now-->",now)
+    #
+    # now1 = now.timestamp()
+    #
+    # print ("now1",now1)
+    #
+    # now2 = datetime.utcfromtimestamp(now1)
+    #
+    # print ("now2",now2)
+    #
+    #
+    # now3 = now.replace(tzinfo=tz_utc)
+    #
+    # print ("now3-->",now3)
+    # print ("now3-->",type(now3))
+    #
+    # now4 = now3.strftime('%Y-%m-%d %H:%M:%S')
+    #
+    #
+    # print ("now4-->",now4)
+    # print ("now4-->",type(now4))
+
+
+    # print (datetime(now))
+
+    # 转换为datetime.datetime类型
+    # current_now_time = parser.parse(current_now_time)
+    #
+    # print(current_now_time)
+    # print(type(current_now_time))
+
+
+
+
     get_username = request.session.get('user', '')
 
     # permissionClasss = PermissionClass.objects.all()
@@ -58,6 +127,10 @@ def permission_class(request):
     permissionClasss = PermissionClass.objects.filter(permission_options__gt='1')
     # permissionClasss = PermissionClass.objects.exclude(id=1)
 
+    # for i in permissionClasss:
+    #
+    #     print (i.create_time)
+    #     print (type(i.create_time))
 
     if request.method == "GET":
 
@@ -164,9 +237,42 @@ def add_permissionClass(request):
 
                 po_name = 4
 
+            tz_utc = timezone(timedelta(hours=8))
+
+            print("tz_utc-->", tz_utc)
+
+            # now = datetime.now()
+
+            from datetime import datetime
+
+            import time
+
+            print (time.time()+28800)
+
+            aa = datetime.utcfromtimestamp(time.time()+28800)
+
+
+            # print("now-->", now)
+            #
+            # now1 = now.timestamp()
+
+            # print("now1", now1)
+            #
+            # now2 = datetime.utcfromtimestamp(now1)
+            #
+            # print("now2", now2)
+            #
+            # now3 = now.replace(tzinfo=tz_utc)
+            #
+            # print("now3-->", now3)
+            # print("now3-->", type(now3))
+            #
+            # now4 = now3.strftime('%Y-%m-%d %H:%M:%S')
+
             PermissionClass.objects.create(permission_chinese_name=pc_name,
                                            permission_english_name=pe_name,
-                                           permission_options=po_name)
+                                           permission_options=po_name,
+                                           create_time=aa)
 
             return HttpResponseRedirect("/permission/class/")
 
