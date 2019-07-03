@@ -24,7 +24,7 @@ class PermissionClass(models.Model):
       #1:sap超级管理员权限、2:pp项目管理权限、3:mp:模块管理权限、4:gp普通权限
       permission_options = models.IntegerField("权限分类",default=4)
 
-      create_time = models.DateTimeField()
+      create_time = models.DateTimeField(null=False)
 
       update_time = models.DateTimeField(null=True)
 

@@ -11,8 +11,9 @@ from ccimp_user_app.models.userModels import User
 from time import strftime, localtime, time, ctime
 from datetime import datetime, date,timedelta,timezone
 from django.utils import timezone as timezonea
-
 from django import utils
+
+import time
 
 # from django.utils import timezone
 
@@ -58,25 +59,6 @@ def edit_permission(request,uid):
 def permission_class(request):
 
     '''权限分类list'''
-
-    # 转换为str类型
-    # current_now_time = strftime('%Y-%m-%d %H:%M:%S', localtime(time()))
-
-    # print (datetime.utcnow().strftime("%Y%m%dT%H%M%SZ"))
-
-
-    # tz_utc = timezone(timedelta(hours=8))
-
-    # print("tz_utc-->", tz_utc)
-
-    # now = datetime.now()
-
-    from datetime import datetime
-
-    import time
-
-    print(time.time())
-    print(time.time()+28800)
 
 
 
@@ -239,40 +221,38 @@ def add_permissionClass(request):
 
             tz_utc = timezone(timedelta(hours=8))
 
-            print("tz_utc-->", tz_utc)
+
+
+
+            # from datetime import datetime
+
+            # import time
+
+            now1 = time.time()
+
+            print ("now1-->",now1)
+
+            now2 = datetime.utcfromtimestamp(time.time()+28800)
+
+            print ("now2-->",now2)
 
             # now = datetime.now()
-
-            from datetime import datetime
-
-            import time
-
-            print (time.time()+28800)
-
-            aa = datetime.utcfromtimestamp(time.time()+28800)
-
-
+            #
             # print("now-->", now)
             #
             # now1 = now.timestamp()
-
+            #
             # print("now1", now1)
             #
-            # now2 = datetime.utcfromtimestamp(now1)
+            # now2 = datetime.utcfromtimestamp(now1+28800)
             #
             # print("now2", now2)
-            #
-            # now3 = now.replace(tzinfo=tz_utc)
-            #
-            # print("now3-->", now3)
-            # print("now3-->", type(now3))
-            #
-            # now4 = now3.strftime('%Y-%m-%d %H:%M:%S')
+
 
             PermissionClass.objects.create(permission_chinese_name=pc_name,
                                            permission_english_name=pe_name,
                                            permission_options=po_name,
-                                           create_time=aa)
+                                           create_time=now2)
 
             return HttpResponseRedirect("/permission/class/")
 
