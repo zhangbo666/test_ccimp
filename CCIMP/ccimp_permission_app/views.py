@@ -9,6 +9,15 @@ from ccimp_permission_app.models.permissionClassModels import PermissionClass
 from ccimp_user_app.models.userModels import User
 
 from datetime import datetime, date,timedelta,timezone
+<<<<<<< HEAD
+=======
+from django.utils import timezone as timezonea
+from django import utils
+
+import time
+
+# from django.utils import timezone
+>>>>>>> e01fe973de61706e0fa81fd3ca17d3c373a65745
 
 
 # 用户权限
@@ -53,8 +62,18 @@ def permission_class(request):
 
     '''权限分类list'''
 
+<<<<<<< HEAD
     # from datetime import datetime,timedelta
     # from django.utils import timezone
+=======
+
+
+    # tz_utc = timezone(timedelta(hours=8))
+    #
+    # print ("tz_utc-->",tz_utc)
+    #
+    # now = datetime.now()
+>>>>>>> e01fe973de61706e0fa81fd3ca17d3c373a65745
     #
     # now = timezone.now()
     # print("now-->",now)
@@ -193,6 +212,7 @@ def add_permissionClass(request):
 
                 po_name = 4
 
+<<<<<<< HEAD
 
             tz_utc = timezone(timedelta(hours=8))
 
@@ -201,12 +221,46 @@ def add_permissionClass(request):
             now2 = now1.replace(tzinfo=tz_utc)
 
             now3 = now2.strftime('%Y-%m-%d %H:%M:%S')
+=======
+            tz_utc = timezone(timedelta(hours=8))
+
+
+
+
+            # from datetime import datetime
+
+            # import time
+
+            now1 = time.time()
+
+            print ("now1-->",now1)
+
+            now2 = datetime.utcfromtimestamp(time.time()+28800)
+
+            print ("now2-->",now2)
+
+            # now = datetime.now()
+            #
+            # print("now-->", now)
+            #
+            # now1 = now.timestamp()
+            #
+            # print("now1", now1)
+            #
+            # now2 = datetime.utcfromtimestamp(now1+28800)
+            #
+            # print("now2", now2)
+>>>>>>> e01fe973de61706e0fa81fd3ca17d3c373a65745
 
 
             PermissionClass.objects.create(permission_chinese_name=pc_name,
                                            permission_english_name=pe_name,
                                            permission_options=po_name,
+<<<<<<< HEAD
                                            create_time=now3)
+=======
+                                           create_time=now2)
+>>>>>>> e01fe973de61706e0fa81fd3ca17d3c373a65745
 
             return HttpResponseRedirect("/permission/class/")
 
