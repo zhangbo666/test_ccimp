@@ -8,13 +8,7 @@ from ccimp_user_app.views import auth
 from ccimp_permission_app.models.permissionClassModels import PermissionClass
 from ccimp_user_app.models.userModels import User
 
-from time import strftime, localtime, time, ctime
 from datetime import datetime, date,timedelta,timezone
-from django.utils import timezone as timezonea
-
-from django import utils
-
-# from django.utils import timezone
 
 
 # 用户权限
@@ -59,63 +53,29 @@ def permission_class(request):
 
     '''权限分类list'''
 
-    # 转换为str类型
-    # current_now_time = strftime('%Y-%m-%d %H:%M:%S', localtime(time()))
-
-    # print (datetime.utcnow().strftime("%Y%m%dT%H%M%SZ"))
-
-
-    # tz_utc = timezone(timedelta(hours=8))
-
-    # print("tz_utc-->", tz_utc)
-
-    # now = datetime.now()
-
-    from datetime import datetime
-
-    import time
-
-    print(time.time())
-    print(time.time()+28800)
-
-
-
-    # tz_utc = timezone(timedelta(hours=8))
+    # from datetime import datetime,timedelta
+    # from django.utils import timezone
     #
-    # print ("tz_utc-->",tz_utc)
+    # now = timezone.now()
+    # print("now-->",now)
+    # print ("now-->",type(now))
     #
-    # now = datetime.now()
+    # nowstr = now.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+    # utc = "2018-07-17T08:48:31.151Z"
     #
-    # print ("now-->",now)
+    # print("nowstr-->",nowstr)
+    # print("type(nowstr)-->",type(nowstr))
     #
-    # now1 = now.timestamp()
+    # UTC_FORMAT = "%Y-%m-%dT%H:%M:%S.%fZ"
+    # utcTime = datetime.strptime(nowstr, UTC_FORMAT)
+    # print("utcTime-->",utcTime)
+    # print ("utcTime-->",type(utcTime))
     #
-    # print ("now1",now1)
-    #
-    # now2 = datetime.utcfromtimestamp(now1)
-    #
-    # print ("now2",now2)
-    #
-    #
-    # now3 = now.replace(tzinfo=tz_utc)
-    #
-    # print ("now3-->",now3)
-    # print ("now3-->",type(now3))
-    #
-    # now4 = now3.strftime('%Y-%m-%d %H:%M:%S')
-    #
-    #
-    # print ("now4-->",now4)
-    # print ("now4-->",type(now4))
+    # localtime = utcTime + timedelta(hours=8)
+    # print("localtime-->",localtime)
+    # print ("localtime-->",type(localtime))
 
 
-    # print (datetime(now))
-
-    # 转换为datetime.datetime类型
-    # current_now_time = parser.parse(current_now_time)
-    #
-    # print(current_now_time)
-    # print(type(current_now_time))
 
 
 
@@ -127,10 +87,6 @@ def permission_class(request):
     permissionClasss = PermissionClass.objects.filter(permission_options__gt='1')
     # permissionClasss = PermissionClass.objects.exclude(id=1)
 
-    # for i in permissionClasss:
-    #
-    #     print (i.create_time)
-    #     print (type(i.create_time))
 
     if request.method == "GET":
 
@@ -237,42 +193,20 @@ def add_permissionClass(request):
 
                 po_name = 4
 
+
             tz_utc = timezone(timedelta(hours=8))
 
-            print("tz_utc-->", tz_utc)
+            now1 = datetime.now()
 
-            # now = datetime.now()
+            now2 = now1.replace(tzinfo=tz_utc)
 
-            from datetime import datetime
+            now3 = now2.strftime('%Y-%m-%d %H:%M:%S')
 
-            import time
-
-            print (time.time()+28800)
-
-            aa = datetime.utcfromtimestamp(time.time()+28800)
-
-
-            # print("now-->", now)
-            #
-            # now1 = now.timestamp()
-
-            # print("now1", now1)
-            #
-            # now2 = datetime.utcfromtimestamp(now1)
-            #
-            # print("now2", now2)
-            #
-            # now3 = now.replace(tzinfo=tz_utc)
-            #
-            # print("now3-->", now3)
-            # print("now3-->", type(now3))
-            #
-            # now4 = now3.strftime('%Y-%m-%d %H:%M:%S')
 
             PermissionClass.objects.create(permission_chinese_name=pc_name,
                                            permission_english_name=pe_name,
                                            permission_options=po_name,
-                                           create_time=aa)
+                                           create_time=now3)
 
             return HttpResponseRedirect("/permission/class/")
 
