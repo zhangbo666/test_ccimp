@@ -8,18 +8,14 @@ from ccimp_user_app.views import auth
 from ccimp_permission_app.models.permissionClassModels import PermissionClass
 from ccimp_user_app.models.userModels import User
 
-from datetime import datetime, date,timedelta,timezone
-<<<<<<< HEAD
-=======
+from datetime import datetime, date,time,timedelta,timezone
 from django.utils import timezone as timezonea
 from django import utils
 
-import time
-
-# from django.utils import timezone
->>>>>>> e01fe973de61706e0fa81fd3ca17d3c373a65745
+# import time
 
 
+'''###############################################################################'''
 # 用户权限
 @auth
 def permission_manage(request):
@@ -47,6 +43,7 @@ def permission_manage(request):
                     return render(request, "404.html")
 
 
+'''###############################################################################'''
 # 用户权限编辑
 @auth
 def edit_permission(request,uid):
@@ -54,49 +51,29 @@ def edit_permission(request,uid):
     pass
 
 
-'''###############################################################################'''
 
+'''###############################################################################'''
 # 权限分类list
 @auth
 def permission_class(request):
 
     '''权限分类list'''
 
-<<<<<<< HEAD
-    # from datetime import datetime,timedelta
-    # from django.utils import timezone
-=======
 
+    tz_utc = timezone(timedelta(hours=8))
 
-    # tz_utc = timezone(timedelta(hours=8))
-    #
-    # print ("tz_utc-->",tz_utc)
-    #
-    # now = datetime.now()
->>>>>>> e01fe973de61706e0fa81fd3ca17d3c373a65745
-    #
-    # now = timezone.now()
-    # print("now-->",now)
-    # print ("now-->",type(now))
-    #
-    # nowstr = now.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
-    # utc = "2018-07-17T08:48:31.151Z"
-    #
-    # print("nowstr-->",nowstr)
-    # print("type(nowstr)-->",type(nowstr))
-    #
-    # UTC_FORMAT = "%Y-%m-%dT%H:%M:%S.%fZ"
-    # utcTime = datetime.strptime(nowstr, UTC_FORMAT)
-    # print("utcTime-->",utcTime)
-    # print ("utcTime-->",type(utcTime))
-    #
-    # localtime = utcTime + timedelta(hours=8)
-    # print("localtime-->",localtime)
-    # print ("localtime-->",type(localtime))
+    print ("tz_utc-->",tz_utc)
 
+    now1 = datetime.now()
+    print ("now1-->",now1)
 
+    now2 = now1.replace(tzinfo=tz_utc)
 
+    print ("now2-->",now2)
 
+    now3 = now2.strftime('%Y-%m-%d %H:%M:%S')
+
+    print ("now3-->",now3)
 
 
     get_username = request.session.get('user', '')
@@ -138,6 +115,10 @@ def permission_class(request):
                        "type": "list",
                        "type_option":"permission_sap",
                        "permissionClasss": permissionClasss})
+
+
+
+'''###############################################################################'''
 
 # 添加权限分类
 @auth
@@ -212,55 +193,28 @@ def add_permissionClass(request):
 
                 po_name = 4
 
-<<<<<<< HEAD
-
-            tz_utc = timezone(timedelta(hours=8))
-
             now1 = datetime.now()
+            now1 = datetime.today()
 
-            now2 = now1.replace(tzinfo=tz_utc)
-
-            now3 = now2.strftime('%Y-%m-%d %H:%M:%S')
-=======
-            tz_utc = timezone(timedelta(hours=8))
-
-
+            now2 = now1.strftime('%Y-%m-%d %H:%M:%S')
+            now2 = now2[11:13]
+            now2 = int(now2)
+            now3 = now1.replace(hour=now2+8)
 
 
-            # from datetime import datetime
 
-            # import time
-
-            now1 = time.time()
-
-            print ("now1-->",now1)
-
-            now2 = datetime.utcfromtimestamp(time.time()+28800)
-
-            print ("now2-->",now2)
-
-            # now = datetime.now()
+            # tz_utc = timezone(timedelta(hours=8))
             #
-            # print("now-->", now)
+            # now1 = datetime.now()
             #
-            # now1 = now.timestamp()
+            # now2 = now1.replace(tzinfo=tz_utc)
             #
-            # print("now1", now1)
-            #
-            # now2 = datetime.utcfromtimestamp(now1+28800)
-            #
-            # print("now2", now2)
->>>>>>> e01fe973de61706e0fa81fd3ca17d3c373a65745
-
+            # now3 = now2.strftime('%Y-%m-%d %H:%M:%S')
 
             PermissionClass.objects.create(permission_chinese_name=pc_name,
                                            permission_english_name=pe_name,
                                            permission_options=po_name,
-<<<<<<< HEAD
                                            create_time=now3)
-=======
-                                           create_time=now2)
->>>>>>> e01fe973de61706e0fa81fd3ca17d3c373a65745
 
             return HttpResponseRedirect("/permission/class/")
 
@@ -272,6 +226,8 @@ def add_permissionClass(request):
                                                                  "po_name": "权限分类数据错误，请查看原因！"})
 
 
+
+'''###############################################################################'''
 # 编辑权限分类
 @auth
 def edit_permissionClass(request,pclass_id):
@@ -291,6 +247,9 @@ def edit_permissionClass(request,pclass_id):
                        "permissionclass":permissionclass})
 
 
+
+
+'''###############################################################################'''
 # 保存编辑权限分类
 def save_permissionClass(request):
 
@@ -350,6 +309,8 @@ def save_permissionClass(request):
 
 
 
+
+'''###############################################################################'''
 @auth
 #获取当前编辑页权限数据
 def get_edit_permissionClass(request):
