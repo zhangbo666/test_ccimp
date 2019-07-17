@@ -61,7 +61,7 @@
             <span style="color:red">{{ po_name }}</span>
         <!--</div>-->
     </div>
-    <p style="color:blue;margin-top: 10px;">说明：权限类别只能添加以下分类类型，包括："项目管理员、模块管理员、普通管理员"</p>
+    <p style="color:blue;margin-top: 10px;">说明：权限类别只能修改以下分类类型，包括："项目管理员、模块管理员、普通管理员"</p>
 
     <div class="control-group" style="margin-left:20px;margin-top:40px;float: left">
         <div class="controls">
@@ -116,42 +116,35 @@
         var pename = document.querySelector("[name=permission_english_name]").value;
         var poname = document.querySelector("[name=permission_options]").value;
 
-        $.post("/permission/class/save_permissionClass/", {
+        msg_1 = confirm("确定修改数据吗？");
 
-        "pcname": pcname,
-        "pename": pename,
-        "poname": poname,
-        "pclass_id":pclass_id
+        if (msg_1 === true){
 
-        }, function (var_resp) {
+            $.post("/permission/class/save_permissionClass/", {
 
-            if (var_resp.status === 10101 || var_resp.status === 10102 || var_resp.status === 10103 || var_resp.status === 10104) {
+            "pcname": pcname,
+            "pename": pename,
+            "poname": poname,
+            "pclass_id":pclass_id
 
-                alert(var_resp.message);
-            }
-            else {
+            }, function (var_resp) {
 
-                alert("修改成功!");
+                if (var_resp.status === 10101 || var_resp.status === 10102 || var_resp.status === 10103 || var_resp.status === 10104) {
 
-                window.location.replace("/permission/class/");
+                    alert(var_resp.message);
+                }
+                else {
 
-            }
-        });
+                    alert("修改成功!");
 
+                    window.location.replace("/permission/class/");
 
-//        msg_1 = confirm("确定修改数据吗？");
-//
-//        if (msg_1 === true){
-//
-//        }
-//
-//        else {
-//
-//            return false;
-//
-//        }
+                }
+            });
+        }
 
     }
+
 
 
     //编辑保存用例

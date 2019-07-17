@@ -48,7 +48,9 @@ def permission_manage(request):
 @auth
 def edit_permission(request,uid):
 
-    pass
+    if request.method == "GET":
+
+        pass
 
 
 
@@ -194,22 +196,13 @@ def add_permissionClass(request):
                 po_name = 4
 
             now1 = datetime.now()
-            now1 = datetime.today()
+            # now1 = datetime.today()
 
             now2 = now1.strftime('%Y-%m-%d %H:%M:%S')
             now2 = now2[11:13]
             now2 = int(now2)
             now3 = now1.replace(hour=now2+8)
 
-
-
-            # tz_utc = timezone(timedelta(hours=8))
-            #
-            # now1 = datetime.now()
-            #
-            # now2 = now1.replace(tzinfo=tz_utc)
-            #
-            # now3 = now2.strftime('%Y-%m-%d %H:%M:%S')
 
             PermissionClass.objects.create(permission_chinese_name=pc_name,
                                            permission_english_name=pe_name,
@@ -295,9 +288,18 @@ def save_permissionClass(request):
 
                 poname = 4
 
+            now1 = datetime.now()
+            # now1 = datetime.today()
+
+            now2 = now1.strftime('%Y-%m-%d %H:%M:%S')
+            now2 = now2[11:13]
+            now2 = int(now2)
+            now3 = now1.replace(hour=now2+8)
+
             permissionclass.permission_chinese_name = pcname
             permissionclass.permission_english_name = pename
             permissionclass.permission_options      = poname
+            permissionclass.update_time             = now3
 
             permissionclass.save()
 
