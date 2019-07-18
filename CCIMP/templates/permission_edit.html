@@ -1,8 +1,8 @@
-{% extends "permission_class.html"%}
+{% extends "permission.html"%}
 
-{% block permissionClassEdit %}
+{% block permissionEdit %}
 
-<h3>编辑权限分类</h3>
+<h3>编辑用户信息</h3>
 <!--<form class="form-horizontal" method="post" action="/permission/class/save_permissionClass/">-->
 <fieldset>
     <div class="control-group">
@@ -66,7 +66,7 @@
     <div class="control-group" style="margin-left:20px;margin-top:40px;float: left">
         <div class="controls">
             <button style="margin-left: 40px;" class="btn btn-success" onclick="save_PermissionClass()">修改</button>
-            <button style="margin-left: 20px;" onclick="location.href='/permission/class/';"
+            <button style="margin-left: 20px;" onclick="location.href='/permission/';"
                     class="btn btn-info">返回</button>
             <!--<button style="margin-left: 20px;" onclick="javascript:this.form.action='/permission/class/';"-->
                     <!--class="btn btn-info">返回</button>-->
@@ -82,29 +82,29 @@
     // 获取当前url地址
     var url = document.location;
 
-    console.log("url",url.pathname.split("/")[4]);
+    console.log("url",url.pathname.split("/")[3]);
 
-    var pclass_id = url.pathname.split("/")[4];
+    var pUser_id = url.pathname.split("/")[3];
 
-    console.log("当前选中的权限id：",pclass_id);
+    console.log("当前选中的用户信息id：",pUser_id);
 
-    if (pclass_id === ""){
+    if (pUser_id === ""){
 
-        alert("当前任务为空，不能进行修改")
+        alert("当前用户为空，不能进行修改")
     }
 
     //调用api，获取权限分类数据
-    $.post("/permission/class/edit_permissionClass/get_edit_permissionClass/",{
+    $.post("/permission/edit_permission/get_edit_permission/",{
 
-        "pclass_id":pclass_id
+        "pUser_id":pUser_id
 
     },function (resp) {
 
         if (resp.status === 10200 ) {
 
-            document.querySelector("[name=permission_chine_name]").value   = resp.data.pcname;
+            document.querySelector("[name=permission_chine_name]").value = resp.data.pcname;
             document.querySelector("[name=permission_english_name]").value = resp.data.pename;
-            document.querySelector("[name=permission_options]").value      = resp.data.poname;
+            document.querySelector("[name=permission_options]").value = resp.data.poname;
 
         }
     });

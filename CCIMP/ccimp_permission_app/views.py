@@ -48,9 +48,17 @@ def permission_manage(request):
 @auth
 def edit_permission(request,uid):
 
+    get_username = request.session.get('user', '')
+
     if request.method == "GET":
 
-        pass
+        permission = User.objects.get(id=uid)
+
+        return render(request,"permission_edit.html",
+                  {"username":get_username,
+                   "type": "edit",
+                   "type_option": "permission_sap",
+                   "permissionClasss": permission})
 
 
 

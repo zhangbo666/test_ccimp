@@ -9,6 +9,7 @@ urlpatterns = [
     # 用户权限
     path('',views.permission_manage),
     path('edit_permission/<int:uid>/', views.edit_permission),
+    path('edit_permission/get_edit_permission/<int:uid>/', views.edit_permission),
 
     # 权限管理
     path('class/',views.permission_class),
