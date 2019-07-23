@@ -89,7 +89,7 @@
             {% if type == "list" %}
 
             <form class="permission" method="get" name="permission-page" action="search">
-                <input type="text" name="search_name" placeholder="用户名称">
+                <input type="text" name="search_name" placeholder="用户账户">
                 <button class="btn btn-primary" type="submit">搜索用户</button>
             </form>
             <h3 class="sub-header">用户列表
@@ -162,6 +162,7 @@
                     </tbody>
                 </table>
                 <div style="text-align: center;color:red">{{ error }}</div>
+                <div style="text-align: center;color:red">{{ search_error }}</div>
             </div>
 
             {% endif %}
@@ -180,7 +181,7 @@
                <nav aria-label="Page navigation">
                   <ul class="pagination">
 
-                      {% if tasks %}
+                      {% if users %}
 
                           {% if search_name %}
 
@@ -201,12 +202,12 @@
                           {% endif %}
 
 
-                          {% if tasks.has_previous %}
+                          {% if users.has_previous %}
 
                               {% if search_name %}
 
                                   <li>
-                                      <a href="?search_name={{ search_name }}&page={{ tasks.previous_page_number}}" aria-label="Previous">
+                                      <a href="?search_name={{ search_name }}&page={{ users.previous_page_number}}" aria-label="Previous">
                                           <span aria-hidden="true">&laquo;</span>
                                       </a>
                                   </li>
@@ -214,7 +215,7 @@
                               {% else %}
 
                                   <li>
-                                      <a href="?page={{ tasks.previous_page_number}}" aria-label="Previous">
+                                      <a href="?page={{ users.previous_page_number}}" aria-label="Previous">
                                           <span aria-hidden="true">&laquo;</span>
                                       </a>
                                   </li>
@@ -234,11 +235,11 @@
 
                           {% for p1 in paginator_num_pages_array_ %}
 
-                              {% if tasks.has_previous %}
+                              {% if users.has_previous %}
 
                                   {% if search_name %}
 
-                                      {% if p1 == tasks.number %}
+                                      {% if p1 == users.number %}
 
                                           <li class="active">
 
@@ -263,7 +264,7 @@
 
                                   {% else %}
 
-                                      {% if p1 == tasks.number %}
+                                      {% if p1 == users.number %}
 
                                           <li class="active">
 
@@ -291,7 +292,7 @@
 
                                   {% if search_name %}
 
-                                      {% if p1 == tasks.number %}
+                                      {% if p1 == users.number %}
 
                                           <li class="active">
 
@@ -315,7 +316,7 @@
 
                                   {% else %}
 
-                                      {% if p1 == tasks.number %}
+                                      {% if p1 == users.number %}
 
                                           <li class="active">
 
@@ -344,12 +345,12 @@
                           {% endfor %}
 
 
-                          {% if tasks.has_next %}
+                          {% if users.has_next %}
 
                               {% if search_name %}
 
                                   <li>
-                                      <a href="?search_name={{ search_name }}&page={{ tasks.next_page_number}}" aria-label="Previous">
+                                      <a href="?search_name={{ search_name }}&page={{ users.next_page_number}}" aria-label="Previous">
                                           <span aria-hidden="true">&raquo;</span>
                                       </a>
                                   </li>
@@ -357,7 +358,7 @@
                               {% else %}
 
                                   <li>
-                                      <a href="?page={{ tasks.next_page_number}}" aria-label="Previous">
+                                      <a href="?page={{ users.next_page_number}}" aria-label="Previous">
                                           <span aria-hidden="true">&raquo;</span>
                                       </a>
                                   </li>

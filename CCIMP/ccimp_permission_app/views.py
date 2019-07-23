@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect,JsonResponse
 
 from ccimp_user_app.views import auth
 
+from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 
 from ccimp_permission_app.models.permissionClassModels import PermissionClass
 from ccimp_user_app.models.userModels import User
@@ -12,7 +13,6 @@ from datetime import datetime, date,time,timedelta,timezone
 from django.utils import timezone as timezonea
 from django import utils
 
-# import time
 
 
 '''###############################################################################'''
@@ -47,11 +47,54 @@ def permission_manage(request):
 
                 if user.user_name == get_username:
 
+                    paginator = Paginator(users,2)
+
+                    # 最大分几页数字表示
+                    paginator_num_pages = paginator.num_pages
+
+                    # 分几页表示range(1, 3)，循环顺序1，2
+                    paginator_num_pages_array_ = paginator.page_range
+
+                    # 当前第一页表示<Page 1 of 2>
+                    # 当前第二页表示<Page 2 of 2>
+                    page1 = paginator.page(1)
+                    page_num = page1.number
+
+                    # 传一个页面数据get参数的值
+                    page = request.GET.get('page','')
+                    print ("urlpage传参：",page)
+
+                    try:
+
+                        # 获取page参数的值
+                        contacts = paginator.page(page)
+                        print ("contacts---------->1",contacts)
+
+                    except PageNotAnInteger:
+
+                        contacts = paginator.page(1)
+
+                        print ("contacts---------->2",contacts)
+
+                    except EmptyPage:
+
+                        contacts = paginator.page(paginator.num_pages)
+
+                        print ("contacts---------->3",contacts)
+
+                    # print ("第二页索引：",contacts.number)
+
+                    # print ("第几页：",contacts)
+
+
                     return render(request, "permission.html",
-                                  {"username": get_username,
-                                   "type": "list",
+                                  {"type": "list",
                                    "type_option": "permission_sap",
-                                   "users": users})
+                                   "username": get_username,
+                                   "users": contacts,
+                                   "page_num":page_num,
+                                   "paginator_num_pages":paginator_num_pages,
+                                   "paginator_num_pages_array_":paginator_num_pages_array_})
 
             else:
 
@@ -71,12 +114,89 @@ def edit_permission(request,uid):
 
     if request.method == "GET":
 
-
         return render(request,"permission_edit.html",
                   {"username":get_username,
                    "type": "edit",
                    "type_option": "permission_sap",
                    "permissionClasss": permission})
+
+
+'''###############################################################################'''
+# 用户权限搜索
+def permission_search(request):
+
+    '''用户权限搜索'''
+
+    if request.method == "GET":
+
+        get_username = request.session.get('user','')
+
+        search_name = request.GET.get("search_name","")
+
+        user_search_list = User.objects.filter(user_name__contains=search_name).order_by('id')#升序
+
+        paginator = Paginator(user_search_list,2)
+
+        # 最大分几页数字表示
+        paginator_num_pages = paginator.num_pages
+        print ("共分：",str(paginator_num_pages)+"页")
+
+
+        # 分几页表示range(1, 3)，循环顺序1，2
+        paginator_num_pages_array_ = paginator.page_range
+        print ("数组形式表示：",paginator_num_pages_array_)
+
+        # 当前第一页表示<Page 1 of 3>
+        # 当前第二页表示<Page 2 of 3>
+        # 当前第三页表示<Page 3 of 3>
+        page1 = paginator.page(1)
+        print ("第一页：",page1)
+
+        page_num = page1.number
+        print ("第一页：",page_num)
+
+
+        if (len(user_search_list) == 0):
+
+            return render(request,"permission.html",{"type":"list",
+                                                     "type_option": "permission_sap",
+                                                     "username": get_username,
+                                                     "users":user_search_list,
+                                                     "search_error":"搜索任务查询结果为空，请重新查询！！！"})
+
+        else:
+
+            # 传一个页面数据get参数的值
+            page = request.GET.get('page','')
+            print (page)
+
+            try:
+
+                # 获取page参数的值
+                contacts = paginator.page(page)
+                print ("contacts---------->1",contacts)
+
+            except PageNotAnInteger:
+
+                contacts = paginator.page(1)
+
+                print ("contacts---------->2",contacts)
+
+            except EmptyPage:
+
+                contacts = paginator.page(paginator.num_pages)
+
+                print ("contacts---------->3",contacts)
+
+            return render(request,"permission.html",{"type":"list",
+                                                     "type_option": "permission_sap",
+                                                     "username": get_username,
+                                                     "users":contacts,
+                                                     "page":page,
+                                                     "page_num":page_num,
+                                                     "search_name":search_name,
+                                                     "paginator_num_pages":paginator_num_pages,
+                                                     "paginator_num_pages_array_":paginator_num_pages_array_})
 
 
 '''###############################################################################'''
@@ -88,10 +208,30 @@ def permission_class(request):
 
     get_username = request.session.get('user', '')
 
-    # permissionClasss = PermissionClass.objects.all()
-
     permissionClasss = PermissionClass.objects.filter(permission_options__gt='1')
     # permissionClasss = PermissionClass.objects.exclude(id=1)
+
+    paginator = Paginator(permissionClasss,3)
+
+    # 最大分几页数字表示
+    paginator_num_pages = paginator.num_pages
+    print ("共分：",str(paginator_num_pages)+"页")
+
+
+    # 分几页表示range(1, 3)，循环顺序1，2
+    paginator_num_pages_array_ = paginator.page_range
+    print ("数组形式表示：",paginator_num_pages_array_)
+
+    # 当前第一页表示<Page 1 of 3>
+    # 当前第二页表示<Page 2 of 3>
+    # 当前第三页表示<Page 3 of 3>
+
+    page1 = paginator.page(1)
+    print ("第一页：",page1)
+
+    page_num = page1.number
+    print ("第一页：",page_num)
+
 
 
     if request.method == "GET":
@@ -106,18 +246,43 @@ def permission_class(request):
                       "type_option": "permission_sap",
                       "error":"未找到数据，请查看原因！！！"})
 
-
         for user in users_all:
 
             if user.user_name == get_username:
 
                 if user.permission_options == 1:
 
+                    # 传一个页面数据get参数的值
+                    page = request.GET.get('page','')
+                    print (page)
+
+                    try:
+
+                        # 获取page参数的值
+                        contacts = paginator.page(page)
+                        print ("contacts---------->1",contacts)
+
+                    except PageNotAnInteger:
+
+                        contacts = paginator.page(1)
+
+                        print ("contacts---------->2",contacts)
+
+                    except EmptyPage:
+
+                        contacts = paginator.page(paginator.num_pages)
+
+                        print ("contacts---------->3",contacts)
+
+
                     return render(request,"permission_class.html",
                                 {"username":get_username,
                                  "type":"list",
                                  "type_option":"permission_sap",
-                                 "permissionClasss":permissionClasss})
+                                 "permissionClasss":contacts,
+                                 "page_num":page_num,
+                                 "paginator_num_pages":paginator_num_pages,
+                                 "paginator_num_pages_array_":paginator_num_pages_array_})
 
                 else:
 
@@ -251,6 +416,89 @@ def edit_permissionClass(request,pclass_id):
                        "type": "edit",
                        "type_option":"permission_sap",
                        "permissionclass":permissionclass})
+
+
+'''###############################################################################'''
+# 权限分类搜索
+def permission_class_search(request):
+
+    '''权限分类搜索'''
+
+    if request.method == "GET":
+
+        get_username = request.session.get('user','')
+
+        search_name = request.GET.get("search_name","")
+
+        # 找到权限分类搜索数据:2个搜索条件以上过滤
+        permission_class_search_list = PermissionClass.objects.filter(permission_chinese_name__contains=search_name,permission_options__gt='1').order_by('id')#升序
+
+        paginator = Paginator(permission_class_search_list,3)
+
+        # 最大分几页数字表示
+        paginator_num_pages = paginator.num_pages
+        print ("共分：",str(paginator_num_pages)+"页")
+
+
+        # 分几页表示range(1, 3)，循环顺序1，2
+        paginator_num_pages_array_ = paginator.page_range
+        print ("数组形式表示：",paginator_num_pages_array_)
+
+        # 当前第一页表示<Page 1 of 3>
+        # 当前第二页表示<Page 2 of 3>
+        # 当前第三页表示<Page 3 of 3>
+
+        page1 = paginator.page(1)
+        print ("第一页：",page1)
+
+        page_num = page1.number
+        print ("第一页：",page_num)
+
+
+        if (len(permission_class_search_list) == 0):
+
+            return render(request,"permission_class.html",
+                                  {"type":"list",
+                                   "type_option": "permission_sap",
+                                   "username": get_username,
+                                   "permissionClasss":permission_class_search_list,
+                                   "search_error":"搜索查询结果为空，请重新查询！！！"})
+
+        else:
+
+            # 传一个页面数据get参数的值
+            page = request.GET.get('page','')
+            print (page)
+
+            try:
+
+                # 获取page参数的值
+                contacts = paginator.page(page)
+                print ("contacts---------->1",contacts)
+
+            except PageNotAnInteger:
+
+                contacts = paginator.page(1)
+
+                print ("contacts---------->2",contacts)
+
+            except EmptyPage:
+
+                contacts = paginator.page(paginator.num_pages)
+
+                print ("contacts---------->3",contacts)
+
+            return render(request,"permission_class.html",
+                                    {"type":"list",
+                                     "type_option": "permission_sap",
+                                     "username": get_username,
+                                     "permissionClasss":contacts,
+                                     "page":page,
+                                     "page_num":page_num,
+                                     "search_name":search_name,
+                                     "paginator_num_pages":paginator_num_pages,
+                                     "paginator_num_pages_array_":paginator_num_pages_array_})
+
 
 
 
