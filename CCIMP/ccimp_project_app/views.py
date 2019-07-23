@@ -48,9 +48,6 @@ def project_manage(request):
                                    "permissionClasss":permissionClasss})
 
                 else:
-
-                    print (12321)
-
                     return render(request,"project.html",{"username":username})
 
     # project_all = Project.objects.all()

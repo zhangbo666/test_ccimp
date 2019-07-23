@@ -6,24 +6,35 @@
 <!--<form class="form-horizontal" method="post" action="/permission/class/save_permissionClass/">-->
 <fieldset>
     <div class="control-group">
-        <label class="control-label" style="margin-top: 20px;">权限中文名：</label>
+        <label class="control-label" style="margin-top: 20px;">账户：</label>
         <!--<div class="controls">-->
-            <input type="text" name='permission_chine_name' class="input-xlarge"
-                   style="margin-left: 8px;width:180px;">
+            <input type="text" name='user_name' class="input-xlarge"
+                   style="margin-left: 30px;width:180px;">
         <!--</div>-->
         <span style="color:red">{{ pc_name }}</span>
 
     </div>
 
     <div class="control-group">
-        <label class="control-label" style="margin-top: 20px;">权限英文名：</label>
+        <label class="control-label" style="margin-top: 20px;">姓名：</label>
         <!--<div class="controls">-->
-            <input type="text" name='permission_english_name' class="input-xlarge"
-                   style="margin-left: 8px;width:180px;">
+            <input type="text" name='real_name' class="input-xlarge"
+                   style="margin-left: 30px;width:180px;">
         <!--</div>-->
         <span style="color:red">{{ pe_name }}</span>
 
     </div>
+
+    <div class="control-group">
+        <label class="control-label" style="margin-top: 20px;">邮件：</label>
+        <!--<div class="controls">-->
+            <input type="text" name='mail' class="input-xlarge"
+                   style="margin-left: 30px;width:180px;">
+        <!--</div>-->
+        <span style="color:red">{{ pe_name }}</span>
+
+    </div>
+
 
     <!--<div>-->
         <!--<laber>* 请求方法：</laber>-->
@@ -47,7 +58,7 @@
         <!--<div class="controls">-->
 
             <input type="text" name='permission_options' class="input-xlarge"
-                   style="margin-left: 21px;width:180px;">
+                   style="margin-left: 2px;width:180px;">
             <!--<select name='permission_option' class="input-xlarge"-->
                    <!--style="margin-left: 22px;width:180px;">-->
 
@@ -65,7 +76,7 @@
 
     <div class="control-group" style="margin-left:20px;margin-top:40px;float: left">
         <div class="controls">
-            <button style="margin-left: 40px;" class="btn btn-success" onclick="save_PermissionClass()">修改</button>
+            <button style="margin-left: 40px;" class="btn btn-success" onclick="save_Permission()">修改</button>
             <button style="margin-left: 20px;" onclick="location.href='/permission/';"
                     class="btn btn-info">返回</button>
             <!--<button style="margin-left: 20px;" onclick="javascript:this.form.action='/permission/class/';"-->
@@ -102,34 +113,37 @@
 
         if (resp.status === 10200 ) {
 
-            document.querySelector("[name=permission_chine_name]").value = resp.data.pcname;
-            document.querySelector("[name=permission_english_name]").value = resp.data.pename;
-            document.querySelector("[name=permission_options]").value = resp.data.poname;
+            document.querySelector("[name=user_name]").value = resp.data.pUser_name;
+            document.querySelector("[name=real_name]").value = resp.data.pReal_name;
+            document.querySelector("[name=mail]").value = resp.data.pMail;
+            document.querySelector("[name=permission_options]").value = resp.data.permission_option;
 
         }
     });
 
-    //保存权限分类数据
-    function save_PermissionClass() {
+    //保存用户信息分类数据
+    function save_Permission() {
 
-        var pcname = document.querySelector("[name=permission_chine_name]").value;
-        var pename = document.querySelector("[name=permission_english_name]").value;
-        var poname = document.querySelector("[name=permission_options]").value;
+        var user_name = document.querySelector("[name=user_name]").value;
+        var real_name = document.querySelector("[name=real_name]").value;
+        var mail = document.querySelector("[name=mail]").value;
+        var permission_options = document.querySelector("[name=permission_options]").value;
 
         msg_1 = confirm("确定修改数据吗？");
 
         if (msg_1 === true){
 
-            $.post("/permission/class/save_permissionClass/", {
+            $.post("/permission/save_permission/", {
 
-            "pcname": pcname,
-            "pename": pename,
-            "poname": poname,
-            "pclass_id":pclass_id
+            "user_name": user_name,
+            "real_name": real_name,
+            "mail": mail,
+            "permission_options": permission_options,
+            "pUser_id":pUser_id
 
             }, function (var_resp) {
 
-                if (var_resp.status === 10101 || var_resp.status === 10102 || var_resp.status === 10103 || var_resp.status === 10104) {
+                if (var_resp.status === 10101 || var_resp.status === 10102 || var_resp.status === 10103 || var_resp.status === 10104 || var_resp.status === 10105) {
 
                     alert(var_resp.message);
                 }
@@ -137,7 +151,7 @@
 
                     alert("修改成功!");
 
-                    window.location.replace("/permission/class/");
+                    window.location.replace("/permission/");
 
                 }
             });

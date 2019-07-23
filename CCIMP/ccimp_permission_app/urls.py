@@ -22,5 +22,7 @@ urlpatterns = [
     # 接口
     path('class/edit_permissionClass/get_edit_permissionClass/',views.get_edit_permissionClass),
     path('class/save_permissionClass/',views.save_permissionClass),
+    path('edit_permission/get_edit_permission/',views.get_edit_permission),
+    path('save_permission/',views.save_permission),
 
 ]
