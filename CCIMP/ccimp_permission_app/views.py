@@ -9,10 +9,13 @@ from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 from ccimp_permission_app.models.permissionClassModels import PermissionClass
 from ccimp_user_app.models.userModels import User
 
-from datetime import datetime, date,time,timedelta,timezone
-from django.utils import timezone as timezonea
-from django import utils
-
+# from datetime import datetime, date,time,timedelta,timezone
+# from django.utils import timezone as timezonea
+# from django import utils
+# from time import strftime,localtime,time
+# from dateutil import parser
+from datetime import datetime
+import time
 
 
 '''###############################################################################'''
@@ -131,7 +134,8 @@ def permission_search(request):
 
         search_name = request.GET.get("search_name","")
 
-        user_search_list = User.objects.filter(user_name__contains=search_name).order_by('id')#升序
+        # 找到用户权限搜索数据:2个搜索条件以上过滤
+        user_search_list = User.objects.filter(user_name__contains=search_name,permission_options__gt='1').order_by('id')#升序
 
         paginator = Paginator(user_search_list,2)
 
@@ -160,7 +164,7 @@ def permission_search(request):
                                                      "type_option": "permission_sap",
                                                      "username": get_username,
                                                      "users":user_search_list,
-                                                     "search_error":"搜索任务查询结果为空，请重新查询！！！"})
+                                                     "search_error":"搜索查询结果为空，请重新查询！！！"})
 
         else:
 
@@ -208,7 +212,7 @@ def permission_class(request):
     permissionClasss = PermissionClass.objects.filter(permission_options__gt='1')
     # permissionClasss = PermissionClass.objects.exclude(id=1)
 
-    paginator = Paginator(permissionClasss,3)
+    paginator = Paginator(permissionClasss,1)
 
     # 最大分几页数字表示
     paginator_num_pages = paginator.num_pages
@@ -229,7 +233,25 @@ def permission_class(request):
     page_num = page1.number
     # print ("第一页：",page_num)
 
+    # 传一个页面数据get参数的值
+    page = request.GET.get('page','')
+    # print (page)
 
+    try:
+
+        # 获取page参数的值
+        contacts = paginator.page(page)
+        # print ("contacts---------->1",contacts)
+
+    except PageNotAnInteger:
+
+        contacts = paginator.page(1)
+        # print ("contacts---------->2",contacts)
+
+    except EmptyPage:
+
+        contacts = paginator.page(paginator.num_pages)
+        # print ("contacts---------->3",contacts)
 
     if request.method == "GET":
 
@@ -249,27 +271,6 @@ def permission_class(request):
 
                 if user.permission_options == 1:
 
-                    # 传一个页面数据get参数的值
-                    page = request.GET.get('page','')
-                    # print (page)
-
-                    try:
-
-                        # 获取page参数的值
-                        contacts = paginator.page(page)
-                        # print ("contacts---------->1",contacts)
-
-                    except PageNotAnInteger:
-
-                        contacts = paginator.page(1)
-                        # print ("contacts---------->2",contacts)
-
-                    except EmptyPage:
-
-                        contacts = paginator.page(paginator.num_pages)
-                        # print ("contacts---------->3",contacts)
-
-
                     return render(request,"permission_class.html",
                                 {"username":get_username,
                                  "type":"list",
@@ -283,14 +284,17 @@ def permission_class(request):
 
                     return render(request,"404.html")
 
+    #添加页面返回时，触发post
     else:
 
         return render(request,"permission_class.html",
                       {"username":get_username,
                        "type": "list",
                        "type_option":"permission_sap",
-                       "permissionClasss": permissionClasss})
-
+                       "page_num":page_num,
+                       "permissionClasss": contacts,
+                       "paginator_num_pages":paginator_num_pages,
+                       "paginator_num_pages_array_":paginator_num_pages_array_})
 
 
 '''###############################################################################'''
@@ -301,15 +305,11 @@ def add_permissionClass(request):
 
     '''创建权限分类'''
 
-    permission_chinese_names = PermissionClass.objects.all()
-
     get_username = request.session.get('user', '')
 
     if request.method == "GET":
 
         user = User.objects.get(user_name=get_username)
-
-        permissionClasss = PermissionClass.objects.all()
 
         if user.user_name == get_username:
 
@@ -339,48 +339,41 @@ def add_permissionClass(request):
             return render(request, "permission_class_add.html", {"username": get_username,
                                                                  "type": "add",
                                                                  "type_option": "permission_sap",
-                                                                 "pc_name": "权限名称不能为空！"})
+                                                                 "pc_name": "权限中文名称不能为空！"})
         elif pe_name == "":
 
             return render(request, "permission_class_add.html", {"username": get_username,
                                                                  "type": "add",
                                                                  "type_option": "permission_sap",
-                                                                 "pe_name": "权限英文不能为空！"})
+                                                                 "pe_name": "权限英文名称不能为空！"})
 
         elif po_name == "":
 
             return render(request, "permission_class_add.html", {"username": get_username,
                                                                  "type": "add",
                                                                  "type_option": "permission_sap",
-                                                                 "po_name": "权限分类不能为空！"})
+                                                                 "po_name": "权限类别不能为空！"})
 
-        if po_name == "项目管理员" or po_name == "模块管理员" or po_name == "普通管理员":
+        if po_name == "项目管理员" or po_name == "普通管理员":
 
             if po_name == "项目管理员":
 
                 po_name = 2
 
-            elif po_name == "模块管理员":
+            elif po_name == "普通管理员":
 
                 po_name = 3
 
-            elif po_name == "普通管理员":
 
-                po_name = 4
-
-            now1 = datetime.now()
-            # now1 = datetime.today()
-
-            now2 = now1.strftime('%Y-%m-%d %H:%M:%S')
-            now2 = now2[11:13]
-            now2 = int(now2)
-            now3 = now1.replace(hour=now2+8)
-
+            currery_now = datetime.utcfromtimestamp(time.time()+28800)
+            # print ("currery_now-->",currery_now,type(currery_now))
+            currery_now = currery_now.strftime('%Y-%m-%d %H:%M:%S')
+            # print ("currery_now-->",currery_now,type(currery_now))
 
             PermissionClass.objects.create(permission_chinese_name=pc_name,
                                            permission_english_name=pe_name,
                                            permission_options=po_name,
-                                           create_time=now3)
+                                           create_time=currery_now)
 
             return HttpResponseRedirect("/permission/class/")
 
@@ -389,8 +382,7 @@ def add_permissionClass(request):
             return render(request, "permission_class_add.html", {"username": get_username,
                                                                  "type": "add",
                                                                  "type_option": "permission_sap",
-                                                                 "po_name": "权限分类数据错误，请查看原因！"})
-
+                                                                 "po_name": "权限类别数据错误，请查看原因！"})
 
 
 '''###############################################################################'''
@@ -400,8 +392,6 @@ def edit_permissionClass(request,pclass_id):
 
     '''编辑权限分类'''
 
-    permissionclass = PermissionClass.objects.get(id=pclass_id)
-
     get_username = request.session.get('user', '')
 
     if request.method == "GET":
@@ -409,8 +399,7 @@ def edit_permissionClass(request,pclass_id):
         return render(request,"permission_class_edit.html",
                       {"username":get_username,
                        "type": "edit",
-                       "type_option":"permission_sap",
-                       "permissionclass":permissionclass})
+                       "type_option":"permission_sap"})
 
 
 '''###############################################################################'''
@@ -494,9 +483,6 @@ def permission_class_search(request):
                                      "paginator_num_pages_array_":paginator_num_pages_array_})
 
 
-
-
-
 '''###############################################################################'''
 # 保存编辑权限分类
 def save_permissionClass(request):
@@ -527,70 +513,75 @@ def save_permissionClass(request):
 
         elif poname == "":
 
-            return JsonResponse({"status": 10103, "message": "权限类型为空！"})
+            return JsonResponse({"status": 10103, "message": "权限类别为空！"})
 
-        if poname == "项目管理员" or poname == "模块管理员" or poname == "普通管理员":
+        if poname == "项目管理员" or poname == "普通管理员":
 
             if poname == "项目管理员":
 
                 poname = 2
 
-            elif poname == "模块管理员":
+            elif poname == "普通管理员":
 
                 poname = 3
 
-            elif poname == "普通管理员":
+            # now1 = datetime.now()
+            # # print ("now1-->>",now1)
+            # # now1 = datetime.today()
+            #
+            # now_format = now1.strftime('%Y-%m-%d %H:%M:%S')
+            # now_hour = now_format[11:13]
+            # # print ("now_hour-->>",now_hour)
+            # now_day = now_format[8:10]
+            # # print ("now_day-->>",now_day)
+            # now_hour = int(now_hour)
+            # now_day = int(now_day)
+            #
+            # if now_hour == 16:
+            #
+            #     now_date = now1.replace(hour=0,day=now_day+1)
+            #
+            # elif now_hour == 17:
+            #
+            #     now_date = now1.replace(hour=1,day=now_day+1)
+            #
+            # elif now_hour == 18:
+            #
+            #     now_date = now1.replace(hour=2,day=now_day+1)
+            #
+            # elif now_hour == 19:
+            #
+            #     now_date = now1.replace(hour=3,day=now_day+1)
+            #
+            # elif now_hour == 20:
+            #
+            #     now_date = now1.replace(hour=4,day=now_day+1)
+            #
+            # elif now_hour == 21:
+            #
+            #     now_date = now1.replace(hour=5,day=now_day+1)
+            #
+            # elif now_hour == 22:
+            #
+            #     now_date = now1.replace(hour=6,day=now_day+1)
+            #
+            # elif now_hour == 23:
+            #
+            #     now_date = now1.replace(hour=7,day=now_day+1)
+            #
+            # else:
+            #
+            #     now_date = now1.replace(hour=now_hour+8)
 
-                poname = 4
-
-            now1 = datetime.now()
-            # now1 = datetime.today()
-
-            now2 = now1.strftime('%Y-%m-%d %H:%M:%S')
-            now2 = now2[11:13]
-
-            now2 = int(now2)
-
-            if now2 == 16:
-
-                now3 = now1.replace(hour=0)
-
-            elif now2 == 17:
-
-                now3 = now1.replace(hour=1)
-
-            elif now2 == 18:
-
-                now3 = now1.replace(hour=2)
-
-            elif now2 == 19:
-
-                now3 = now1.replace(hour=3)
-
-            elif now2 == 20:
-
-                now3 = now1.replace(hour=4)
-
-            elif now2 == 21:
-
-                now3 = now1.replace(hour=5)
-
-            elif now2 == 22:
-
-                now3 = now1.replace(hour=6)
-
-            elif now2 == 23:
-
-                now3 = now1.replace(hour=7)
-
-            else:
-
-                now3 = now1.replace(hour=now2+8)
+            getCurreryEditDate = datetime.utcfromtimestamp(time.time()+28800)
+            # print ("getCurreryEditDate-->",getCurreryEditDate,type(getCurreryEditDate))
+            getCurreryEditDate_str = getCurreryEditDate.strftime('%Y-%m-%d %H:%M:%S')
+            # print ("getCurreryEditDate_str-->",getCurreryEditDate_str,type(getCurreryEditDate_str))
 
             permissionclass.permission_chinese_name = pcname
             permissionclass.permission_english_name = pename
             permissionclass.permission_options      = poname
-            permissionclass.update_time             = now3
+            permissionclass.update_time             = getCurreryEditDate_str
 
             permissionclass.save()
 
@@ -598,7 +589,7 @@ def save_permissionClass(request):
 
         else:
 
-            return JsonResponse({"status": 10104, "message": "权限分类数据错误，请查看说明！"})
+            return JsonResponse({"status": 10104, "message": "权限类别数据错误，请查看说明！"})
 
 
 
@@ -629,10 +620,6 @@ def get_edit_permissionClass(request):
             poname = "项目管理员"
 
         elif poname == 3:
-
-            poname = "模块管理员"
-
-        elif poname == 4:
 
             poname = "普通管理员"
 
@@ -677,10 +664,6 @@ def get_edit_permission(request):
 
         elif permission_option == 3:
 
-            permission_option = "模块管理员"
-
-        elif permission_option == 4:
-
             permission_option = "普通管理员"
 
 
@@ -688,6 +671,7 @@ def get_edit_permission(request):
                                                                                   "pReal_name":pReal_name,
                                                                                   "pMail":pMail,
                                                                                   "permission_option":permission_option}})
+
     else:
 
         return JsonResponse({"status": 10100, "message": "方法请求错误!"})
@@ -731,70 +715,76 @@ def save_permission(request):
 
         elif permission_options == "":
 
-            return JsonResponse({"status": 10104, "message": '权限类型为空！'})
+            return JsonResponse({"status": 10104, "message": '权限类别为空！'})
 
-        if permission_options == "项目管理员" or permission_options == "模块管理员" or permission_options == "普通管理员":
+        if permission_options == "项目管理员" or permission_options == "普通管理员":
 
             if permission_options == "项目管理员":
 
                 permission_options = 2
 
-            elif permission_options == "模块管理员":
+            elif permission_options == "普通管理员":
 
                 permission_options = 3
 
-            elif permission_options == "普通管理员":
+            # now1 = datetime.now()
+            # # print ("now1-->>",now1)
+            # # now1 = datetime.today()
+            #
+            # now_format = now1.strftime('%Y-%m-%d %H:%M:%S')
+            # now_hour = now_format[11:13]
+            # # print ("now_hour-->>",now_hour)
+            # now_day = now_format[8:10]
+            # # print ("now_day-->>",now_day)
+            # now_hour = int(now_hour)
+            # now_day = int(now_day)
+            #
+            # if now_hour == 16:
+            #
+            #     now_date = now1.replace(hour=0,day=now_day+1)
+            #
+            # elif now_hour == 17:
+            #
+            #     now_date = now1.replace(hour=1,day=now_day+1)
+            #
+            # elif now_hour == 18:
+            #
+            #     now_date = now1.replace(hour=2,day=now_day+1)
+            #
+            # elif now_hour == 19:
+            #
+            #     now_date = now1.replace(hour=3,day=now_day+1)
+            #
+            # elif now_hour == 20:
+            #
+            #     now_date = now1.replace(hour=4,day=now_day+1)
+            #
+            # elif now_hour == 21:
+            #
+            #     now_date = now1.replace(hour=5,day=now_day+1)
+            #
+            # elif now_hour == 22:
+            #
+            #     now_date = now1.replace(hour=6,day=now_day+1)
+            #
+            # elif now_hour == 23:
+            #
+            #     now_date = now1.replace(hour=7,day=now_day+1)
+            #
+            # else:
+            #
+            #     now_date = now1.replace(hour=now_hour+8)
 
-                permission_options = 4
-
-            now1 = datetime.now()
-            # now1 = datetime.today()
-
-            now2 = now1.strftime('%Y-%m-%d %H:%M:%S')
-            now2 = now2[11:13]
-            now2 = int(now2)
-
-            if now2 == 16:
-
-                now3 = now1.replace(hour=0)
-
-            elif now2 == 17:
-
-                now3 = now1.replace(hour=1)
-
-            elif now2 == 18:
-
-                now3 = now1.replace(hour=2)
-
-            elif now2 == 19:
-
-                now3 = now1.replace(hour=3)
-
-            elif now2 == 20:
-
-                now3 = now1.replace(hour=4)
-
-            elif now2 == 21:
-
-                now3 = now1.replace(hour=5)
-
-            elif now2 == 22:
-
-                now3 = now1.replace(hour=6)
-
-            elif now2 == 23:
-
-                now3 = now1.replace(hour=7)
-
-            else:
-
-                now3 = now1.replace(hour=now2+8)
+            getCurreryEditDate = datetime.utcfromtimestamp(time.time()+28800)
+            print ("getCurreryEditDate-->",getCurreryEditDate,type(getCurreryEditDate))
+            getCurreryEditDate_str = getCurreryEditDate.strftime('%Y-%m-%d %H:%M:%S')
+            print ("getCurreryEditDate_str-->",getCurreryEditDate_str,type(getCurreryEditDate_str))
 
             permission.user_name = user_name
             permission.real_name = real_name
             permission.mail = mail
             permission.permission_options = permission_options
-            permission.update_time        = now3
+            permission.update_time        = getCurreryEditDate_str
 
             permission.save()
 
@@ -802,7 +792,7 @@ def save_permission(request):
 
         else:
 
-            return JsonResponse({"status": 10105, "message": "权限分类数据错误，请查看说明！"})
+            return JsonResponse({"status": 10105, "message": "权限类别数据错误，请查看说明！"})
 
 
 

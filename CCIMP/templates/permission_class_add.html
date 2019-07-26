@@ -61,13 +61,15 @@
                 <span style="color:red">{{ po_name }}</span>
             <!--</div>-->
         </div>
-        <p style="color:blue;margin-top: 10px;">说明：权限类别只能添加以下分类类型，包括："项目管理员、模块管理员、普通管理员"</p>
+        <p style="color:blue;margin-top: 10px;">说明：权限类别只能添加以下分类类型，包括："项目管理员、普通管理员"</p>
 
         <div class="control-group" style="margin-left:20px;margin-top:40px;float: left">
             <div class="controls">
                 <button style="margin-left: 40px;" class="btn btn-success" onclick="return addPermissionOk()">保存</button>
                 <button style="margin-left: 20px;" onclick="javascript:this.form.action='/permission/class/';"
                         class="btn btn-info">返回</button>
+                <!--<button style="margin-left: 20px;" onclick="location.href='/permission/class/';"-->
+                    <!--class="btn btn-info">返回</button>-->
             </div>
         </div>
     </fieldset>

@@ -8,6 +8,9 @@ from ccimp_user_app.forms import UserLoginForm,UserRegisterForm
 from django.contrib.auth.decorators import login_required
 from ccimp_user_app.models.userModels import User
 
+from datetime import datetime
+import time
+
 
 # 判断用户登录的装饰器
 def auth(func):
@@ -93,6 +96,7 @@ def register(request):
     '''
     灵猫智能管理平台注册页
     '''
+
     register_obj = UserRegisterForm()
 
     if request.method == "GET":
@@ -143,10 +147,15 @@ def register(request):
 
                 except:
 
+                    #获取系统当前时间判断
+                    currery_now = datetime.utcfromtimestamp(time.time()+28800)
+                    currery_now = currery_now.strftime('%Y-%m-%d %H:%M:%S')
+
                     User.objects.create(user_name=get_user_name,
                                         password=get_password,
                                         real_name=get_real_name,
-                                        mail=get_mail)
+                                        mail=get_mail,
+                                        create_time=currery_now)
 
                     request.session['is_login'] = True
 

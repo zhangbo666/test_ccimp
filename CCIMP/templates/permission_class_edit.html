@@ -61,7 +61,7 @@
             <span style="color:red">{{ po_name }}</span>
         <!--</div>-->
     </div>
-    <p style="color:blue;margin-top: 10px;">说明：权限类别只能修改以下分类类型，包括："项目管理员、模块管理员、普通管理员"</p>
+    <p style="color:blue;margin-top: 10px;">说明：权限类别只能修改以下分类类型，包括："项目管理员、普通管理员"</p>
 
     <div class="control-group" style="margin-left:20px;margin-top:40px;float: left">
         <div class="controls">
@@ -90,7 +90,7 @@
 
     if (pclass_id === ""){
 
-        alert("当前任务为空，不能进行修改")
+        alert("当前权限分类id为空，不能进行修改")
     }
 
     //调用api，获取权限分类数据
