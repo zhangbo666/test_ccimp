@@ -193,7 +193,6 @@ def permission_search(request):
                                                      "type_option": "permission_sap",
                                                      "username": get_username,
                                                      "users":contacts,
-                                                     "page":page,
                                                      "page_num":page_num,
                                                      "search_name":search_name,
                                                      "paginator_num_pages":paginator_num_pages,
@@ -291,8 +290,8 @@ def permission_class(request):
                       {"username":get_username,
                        "type": "list",
                        "type_option":"permission_sap",
-                       "page_num":page_num,
                        "permissionClasss": contacts,
+                       "page_num":page_num,
                        "paginator_num_pages":paginator_num_pages,
                        "paginator_num_pages_array_":paginator_num_pages_array_})
 
@@ -476,7 +475,6 @@ def permission_class_search(request):
                                      "type_option": "permission_sap",
                                      "username": get_username,
                                      "permissionClasss":contacts,
-                                     "page":page,
                                      "page_num":page_num,
                                      "search_name":search_name,
                                      "paginator_num_pages":paginator_num_pages,

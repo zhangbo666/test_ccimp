@@ -164,7 +164,6 @@
                                           onclick="return project_del()">
                                     <i class="glyphicon glyphicon-trash">删除</i>
                                 </a>
-                                <!--<button type="submit" name="delete-data">删除</button>-->
                                 <!--<button type="submit" name="">查看报告</button>-->
                             </td>
 
@@ -205,7 +204,7 @@
                <nav aria-label="Page navigation">
                   <ul class="pagination">
 
-                      {% if users %}
+                      {% if projects %}
 
                           {% if search_name %}
 
@@ -226,12 +225,12 @@
                           {% endif %}
 
 
-                          {% if users.has_previous %}
+                          {% if projects.has_previous %}
 
                               {% if search_name %}
 
                                   <li>
-                                      <a href="?search_name={{ search_name }}&page={{ users.previous_page_number}}" aria-label="Previous">
+                                      <a href="?search_name={{ search_name }}&page={{ projects.previous_page_number}}" aria-label="Previous">
                                           <span aria-hidden="true">&laquo;</span>
                                       </a>
                                   </li>
@@ -239,7 +238,7 @@
                               {% else %}
 
                                   <li>
-                                      <a href="?page={{ users.previous_page_number}}" aria-label="Previous">
+                                      <a href="?page={{ projects.previous_page_number}}" aria-label="Previous">
                                           <span aria-hidden="true">&laquo;</span>
                                       </a>
                                   </li>
@@ -259,11 +258,11 @@
 
                           {% for p1 in paginator_num_pages_array_ %}
 
-                              {% if users.has_previous %}
+                              {% if projects.has_previous %}
 
                                   {% if search_name %}
 
-                                      {% if p1 == users.number %}
+                                      {% if p1 == projects.number %}
 
                                           <li class="active">
 
@@ -288,7 +287,7 @@
 
                                   {% else %}
 
-                                      {% if p1 == users.number %}
+                                      {% if p1 == projects.number %}
 
                                           <li class="active">
 
@@ -316,7 +315,7 @@
 
                                   {% if search_name %}
 
-                                      {% if p1 == users.number %}
+                                      {% if p1 == projects.number %}
 
                                           <li class="active">
 
@@ -340,7 +339,7 @@
 
                                   {% else %}
 
-                                      {% if p1 == users.number %}
+                                      {% if p1 == projects.number %}
 
                                           <li class="active">
 
@@ -369,12 +368,12 @@
                           {% endfor %}
 
 
-                          {% if users.has_next %}
+                          {% if projects.has_next %}
 
                               {% if search_name %}
 
                                   <li>
-                                      <a href="?search_name={{ search_name }}&page={{ users.next_page_number}}" aria-label="Previous">
+                                      <a href="?search_name={{ search_name }}&page={{ projects.next_page_number}}" aria-label="Previous">
                                           <span aria-hidden="true">&raquo;</span>
                                       </a>
                                   </li>
@@ -382,7 +381,7 @@
                               {% else %}
 
                                   <li>
-                                      <a href="?page={{ users.next_page_number}}" aria-label="Previous">
+                                      <a href="?page={{ projects.next_page_number}}" aria-label="Previous">
                                           <span aria-hidden="true">&raquo;</span>
                                       </a>
                                   </li>
@@ -442,8 +441,7 @@
         if (msg_ == true){
 
             return true;
-
-            }
+        }
 
         else{
 

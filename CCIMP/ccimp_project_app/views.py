@@ -37,7 +37,46 @@ def project_manage(request):
 
         projects = Project.objects.filter(user_id=user.id)
 
-        print ("projects-->",projects,type(projects))
+        paginator = Paginator(projects,1)
+
+        # 最大分几页数字表示
+        paginator_num_pages = paginator.num_pages
+        print ("共分：",str(paginator_num_pages)+"页")
+
+        # 分几页表示range(1, 4)，循环顺序1，2，3
+        paginator_num_pages_array_ = paginator.page_range
+        print ("数组形式表示：",paginator_num_pages_array_)
+
+
+        # 当前第一页表示<Page 1 of 2>
+        # 当前第二页表示<Page 2 of 2>
+        page1 = paginator.page(1)
+        print ("第一页：",page1)
+
+        page_num = page1.number
+        print ("第一页：",page_num)
+
+        # 传一个页面数据get参数的值
+        page = request.GET.get('page','')
+        print ("urlpage传参：",page)
+
+        try:
+
+            # 获取page参数的值
+            contacts = paginator.page(page)
+            print ("contacts---------->1",contacts)
+
+        except PageNotAnInteger:
+
+            contacts = paginator.page(1)
+
+            print ("contacts---------->2",contacts)
+
+        except EmptyPage:
+
+            contacts = paginator.page(paginator.num_pages)
+
+            print ("contacts---------->3",contacts)
 
         if user.user_name == get_username:
 
@@ -59,7 +98,10 @@ def project_manage(request):
                                    "type":"list",
                                    "type_option_admin":"permission_sap",
                                    "type_option_project":"permission_sap_pp",
-                                   "projects":projects})
+                                   "projects":contacts,
+                                   "page_num":page_num,
+                                   "paginator_num_pages":paginator_num_pages,
+                                   "paginator_num_pages_array_":paginator_num_pages_array_})
 
 
             elif user.permission_options == 2:
@@ -78,7 +120,10 @@ def project_manage(request):
                                   {"username":get_username,
                                    "type":"list",
                                    "type_option_project":"permission_sap_pp",
-                                   "projects":projects})
+                                   "projects":contacts,
+                                   "page_num":page_num,
+                                   "paginator_num_pages":paginator_num_pages,
+                                   "paginator_num_pages_array_":paginator_num_pages_array_})
 
             elif user.permission_options == 3:
 
@@ -92,64 +137,6 @@ def project_manage(request):
 
                 return render(request,"404.html")
 
-
-
-    # project_all = Project.objects.all()
-    #
-    # paginator = Paginator(project_all,5)
-    #
-    # # 最大分几页数字表示
-    # paginator_num_pages = paginator.num_pages
-    # print ("共分：",str(paginator_num_pages)+"页")
-    #
-    # # 分几页表示range(1, 3)，循环顺序1，2
-    # paginator_num_pages_array_ = paginator.page_range
-    # print ("数组形式表示：",paginator_num_pages_array_)
-    #
-    #
-    # # 当前第一页表示<Page 1 of 2>
-    # # 当前第二页表示<Page 2 of 2>
-    # page1 = paginator.page(1)
-    # print ("第一页：",page1)
-    #
-    # page_num = page1.number
-    # print ("第一页：",page_num)
-    #
-    #
-    # # 传一个页面数据get参数的值
-    # page = request.GET.get('page','')
-    # print ("urlpage传参：",page)
-    #
-    #
-    # try:
-    #
-    #     # 获取page参数的值
-    #     contacts = paginator.page(page)
-    #     print ("contacts---------->1",contacts)
-    #
-    # except PageNotAnInteger:
-    #
-    #     contacts = paginator.page(1)
-    #
-    #     print ("contacts---------->2",contacts)
-    #
-    # except EmptyPage:
-    #
-    #     contacts = paginator.page(paginator.num_pages)
-    #
-    #     print ("contacts---------->3",contacts)
-    #
-    # print ("第二页索引：",contacts.number)
-    #
-    # print ("第几页：",contacts)
-    #
-    #
-    # return render(request,"project.html",{"projects":contacts,
-    #                                       "type":"list",
-    #                                       "page":page,
-    #                                       "page_num":page_num,
-    #                                       "paginator_num_pages":paginator_num_pages,
-    #                                       "paginator_num_pages_array_":paginator_num_pages_array_})
 
     #添加页面返回时，触发post
     # else:
@@ -532,9 +519,147 @@ def edit_save_project(request):
         return JsonResponse({"status": 10200, "message": "修改成功！"})
 
 
+'''###############################################################################'''
+# 项目删除
+def delete_project(request,pid):
+
+    '''项目删除'''
+
+    if request.method == "GET":
+
+        try:
+
+            project = Project.objects.get(id=pid)
+
+            project.delete()
+
+        except Project.DoesNotExist:
+
+            return HttpResponseRedirect("/project/")
+
+        return HttpResponseRedirect("/project/")
+
+    else:
+
+        return HttpResponseRedirect("/project/")
 
 
+'''###############################################################################'''
+# 项目搜索
+def project_search(request):
+
+    '''项目搜索'''
+
+    get_username = request.session.get('user','')
+
+    if request.method == "GET":
+
+        users = User.objects.all()
+
+        for user in users:
+
+            search_name = request.GET.get("search_name","")
+
+            project_search_list = Project.objects.filter(name__contains=search_name,user_id=user.id).order_by('id')#升序
+
+            paginator = Paginator(project_search_list,1)
+
+            # 最大分几页数字表示
+            paginator_num_pages = paginator.num_pages
+            print ("共分：",str(paginator_num_pages)+"页")
 
 
+            # 分几页表示range(1, 3)，循环顺序1，2
+            paginator_num_pages_array_ = paginator.page_range
+            print ("数组形式表示：",paginator_num_pages_array_)
+
+            # 当前第一页表示<Page 1 of 3>
+            # 当前第二页表示<Page 2 of 3>
+            # 当前第三页表示<Page 3 of 3>
+
+            page1 = paginator.page(1)
+            print ("第一页：",page1)
+
+            page_num = page1.number
+            print ("第一页：",page_num)
+
+            # 传一个页面数据get参数的值
+            page = request.GET.get('page','')
+            print (page)
+
+            try:
+
+                # 获取page参数的值
+                contacts = paginator.page(page)
+                print ("contacts---------->1",contacts)
+
+            except PageNotAnInteger:
+
+                contacts = paginator.page(1)
+
+                print ("contacts---------->2",contacts)
+
+            except EmptyPage:
+
+                contacts = paginator.page(paginator.num_pages)
+
+                print ("contacts---------->3",contacts)
+
+            if user.user_name == get_username:
+
+                if user.permission_options == 1:
+
+                    if not project_search_list:
+
+                        return render(request,"project_list.html",
+                                  {"username":get_username,
+                                   "type":"list",
+                                   "type_option_admin":"permission_sap",
+                                   "type_option_project":"permission_sap_pp",
+                                   "not_projects_data":"搜索项目查询结果为空，请重新查询！"})
+
+                    else:
+
+                        return render(request,"project_list.html",
+                                      {"username":get_username,
+                                       "type":"list",
+                                       "type_option_admin":"permission_sap",
+                                       "type_option_project":"permission_sap_pp",
+                                       "projects":contacts,
+                                       "page_num":page_num,
+                                       "paginator_num_pages":paginator_num_pages,
+                                       "paginator_num_pages_array_":paginator_num_pages_array_})
 
 
+                elif user.permission_options == 2:
+
+                    if not project_search_list:
+
+                        return render(request,"project_list.html",
+                                      {"username":get_username,
+                                       "type":"list",
+                                       "type_option_project":"permission_sap_pp",
+                                       "not_projects_data":"搜索项目查询结果为空，请重新查询！！"})
+
+                    else:
+
+                        return render(request,"project_list.html",
+                                      {"username":get_username,
+                                       "type":"list",
+                                       "type_option_project":"permission_sap_pp",
+                                       "projects":contacts,
+                                       "page_num":page_num,
+                                       "paginator_num_pages":paginator_num_pages,
+                                       "paginator_num_pages_array_":paginator_num_pages_array_})
+
+                elif user.permission_options == 3:
+
+                    return render(request,"module_list.html",
+                                  {"username":get_username,
+                                   "type":"list",
+                                   "type_option":"permission_gp",
+                                   "modules":"modules"})
+
+                else:
+
+                    return render(request,"404.html")
