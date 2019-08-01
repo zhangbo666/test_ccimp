@@ -1,0 +1,261 @@
+{% extends "base.html" %}
+{% block base %}
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+          </button>
+        <a class="navbar-brand" href="#">CCIMP</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <!--<li><a href="#">Settings</a></li>-->
+                <li style="margin-top: 16px;">
+                    <span style="color:red;">欢迎,{{username }}！
+                        <a href="/logout/">
+                            <span style="color:salmon;margin-right: 5px;">&nbsp;&nbsp;logout</span>
+                        </a>
+                    </span>
+                </li>
+            </ul>
+            <!--<form class="navbar-form navbar-right">-->
+                <!--<input type="text" class="form-control" placeholder="Search..." disabled="disabled">-->
+            <!--</form>-->
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar" style="width:150px;">
+            <ul class="nav nav-sidebar">
+                <li>
+                    <a href="/project/">
+                        <i class="glyphicon glyphicon-th-large"></i>&nbsp;&nbsp;项目管理
+                    </a>
+                </li>
+                <li>
+                    <a href="/module/">
+                        <i class="glyphicon glyphicon-th"></i>&nbsp;&nbsp;模块管理
+                    </a>
+                </li>
+                <li>
+                    <a href="/testcase/">
+                       <i class="glyphicon glyphicon-briefcase"></i>&nbsp;&nbsp;用例管理
+                    </a>
+                </li>
+                <li>
+                    <a href="/report/">
+                       <i class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp;报告管理
+                    </a>
+                </li>
+
+                {% if type_option == "permission_sap" %}
+                <li>
+                    <li>
+                        <a href="/permission/">
+                            <i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;用户权限
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/permission/class/">
+                            <i class="glyphicon glyphicon-inbox"></i>&nbsp;&nbsp;权限分类
+                        </a>
+                    </li>
+                </li>
+                {% endif %}
+
+                <li class="active">
+                    <a href="/tool/sale_order/">
+                        <i class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp;工具管理
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <i class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp;系统设置
+                    </a>
+                </li>
+           </ul>
+        </div>
+        <div style="margin-left: 135px;" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h4>获取登录状态：
+                <!--<button class="btn btn-primary" name="submit" style="float:right;"-->
+                        <!--onclick="location.href='/permission/add_permission/'">创建权限</button>-->
+            </h4><br>
+            <!--<form class="permission" method="post" name="permission-page" action="search">-->
+            <label>请输入登录手机号：</label>
+            <input type="text" name="mobile_name" placeholder="手机号码">
+            <label style="margin-left: 20px;">请输入登录密码：</label>
+            <input type="text" name="password_name" placeholder="用户密码">
+            <button class="btn btn-success" type="submit" style="margin-left: 20px;"
+                    onclick="return userPackageDetail()">获取用户套餐详情</button>
+            <!--</form>-->
+            <br><br><br>
+
+            <div class="table-responsive">
+                <table class="table table-striped" id="myTable">
+                    <thead>
+
+                        <tr style="text-align: center">
+                            <th>序号</th>
+                            <th>套餐编号</th>
+                            <th>套餐名称</th>
+                            <th>套餐价格</th>
+                            <th>套餐类型</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody></tbody>
+
+                </table>
+            </div>
+            <button class="btn btn-success" type="submit" style="margin-left: 20px;float: right;"
+                    onclick="return saleOrder()">下单</button>
+        </div>
+    </div>
+
+</div>
+
+
+<script type="text/javascript">
+
+    //获取套餐详情数据
+    function userPackageDetail() {
+
+        var userMobile = $("[name='mobile_name']").val();
+        var userPasword = $("[name='password_name']").val();
+
+        $.ajax({
+        url:'/tool/sale_order/get_package_detail/',
+        type:'POST',
+        data:{'userMobile':userMobile,'userPasword':userPasword},
+        success:function (data) {
+
+            if (data.status_code === 10200){
+
+                console.log("data-->",data);
+                console.log("result-->",data.result);
+
+                var obj = eval(data.result);
+                var tbody =$('<tbody></tbody>');
+
+                $(obj).each(function (index){
+
+                    var val=obj[index];
+                    var tr=$('<tr></tr>');
+                    tr.append('<td>' +
+                              '<input type="radio" name="radio_status" id="radio_status" value=' + val.point_id + '>' +
+                              '</td>' +
+                              '<td>' + val.point_id + '</td>' + '<td>' + val.name + '</td>' +
+                              '<td>' + val.price + '</td>' + '<td>' + val.point_type + '</td>');
+                    tbody.append(tr);
+                });
+
+                //清空创建到元素内容
+//                $(myTable).empty();
+
+//                var data = data.result;
+//                for (var i=0; i<data.length; i++){
+//
+//                    var str = '<td>' + '<input type="radio" name="status">' + '</td>' +
+//                              '<td>' + data[i].point_id + '</td>' + '<td>' + data[i].name + '</td>' +
+//                              '<td>' + data[i].price + '</td>' + '<td>' + data[i].point_type + '</td>';
+//                    $("#myTable").append('<tr>' + str + '</tr>');
+//                }
+
+//                for (var i in data){
+//
+//                    var str = '<td>' + '<input type="radio" name="status" ' + 'value=' + data[i].point_id + '>' + '</td>' +
+//                              '<td>' + data[i].point_id + '</td>' + '<td>' + data[i].name + '</td>' +
+//                              '<td>' + data[i].price + '</td>' + '<td>' + data[i].point_type + '</td>';
+//                    $("#myTable").append('<tr>' + str + '</tr>');
+//                }
+
+//                $.each(data,function(index,item){
+//
+//                    var str = '<td>' + '<input type="radio" name="status">' + '</td>' +
+//                              '<td>' + item.point_id + '</td>' + '<td>' + item.name + '</td>' +
+//                              '<td>' + item.price + '</td>' + '<td>' + item.point_type + '</td>';
+//                    $("#myTable").append('<tr>' + str + '</tr>');
+//                });
+
+            }
+
+            else{
+
+                window.alert(data.message);
+
+                window.location.reload()
+
+            }
+        $('#myTable tbody').replaceWith(tbody);
+
+        }
+
+        });
+
+    }
+
+    //下单数据
+    function saleOrder(){
+
+        var r_radion = document.all('radio_status');
+        //var r_radion = document.getElementsByName('radio_status');
+        var isCheck = false;
+
+        if ($("#radio_status").length > 0) {
+
+            for (var i = 0; i < r_radion.length; i++) {
+
+//                if (r_radion[i].checked){
+//
+//                    userid = r_radion[i].value;
+//
+//                    isCheck = true;
+//
+//                }
+                var checkeds = document.querySelectorAll("[name=radio_status]")[i].checked;
+
+                if (checkeds === true){
+
+                    var checked_value = $("input[name=radio_status]:checked").val();
+
+                    alert("获取到单选钮到value值为：" + checked_value);
+
+                    isCheck = true;
+
+                }
+            }
+
+            if (!isCheck){
+
+                alert("还未选择套餐！！！");
+
+            }
+
+//            else {
+//
+//                alert("获取到单选钮到value值为：" + checked_value);
+//            }
+
+        }
+
+        else{
+
+            alert("当前没有套餐数据，不能下单！")
+        }
+
+    }
+
+</script>
+
+
+
+{% endblock %}
