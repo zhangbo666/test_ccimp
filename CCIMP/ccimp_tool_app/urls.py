@@ -12,5 +12,5 @@ urlpatterns = [
 
     # 接口
     path('sale_order/get_package_detail/',views.get_package_detail),
-    # path('edit_save_project/',views.edit_save_project),
+    path('sale_order/order_pay_success/',views.order_pay_success),
 ]

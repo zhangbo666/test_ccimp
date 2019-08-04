@@ -84,7 +84,7 @@
            </ul>
         </div>
         <div style="margin-left: 135px;" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <h4>获取登录状态：
+            <h4 style="color: blue;">获取登录状态：
                 <!--<button class="btn btn-primary" name="submit" style="float:right;"-->
                         <!--onclick="location.href='/permission/add_permission/'">创建权限</button>-->
             </h4><br>
@@ -98,8 +98,10 @@
             <!--</form>-->
             <br><br><br>
 
+            <h4 style="color: blue;">获取用户套餐详情：</h4><br>
+
             <div class="table-responsive">
-                <table class="table table-striped" id="myTable">
+                <table class="table table-striped" id="myTablePlaceOrder">
                     <thead>
 
                         <tr style="text-align: center">
@@ -118,6 +120,30 @@
             </div>
             <button class="btn btn-success" type="submit" style="margin-left: 20px;float: right;"
                     onclick="return saleOrder()">下单</button>
+            <br><br><br>
+
+            <h4 style="color: blue;">读取订单数据：</h4><br>
+
+            <div class="table-responsive">
+                <table class="table table-striped" id="myTableProcessOrder">
+                    <thead>
+
+                        <tr style="text-align: center">
+                            <th>订单编号</th>
+                            <th>订单名称</th>
+                            <th>订单金额</th>
+                            <th>支付方式</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody></tbody>
+
+                </table>
+            </div>
+            <button class="btn btn-success" type="submit" style="margin-left: 20px;float: right;"
+                    onclick="return ProcessOrder()">处理订单</button>
+
         </div>
     </div>
 
@@ -132,6 +158,7 @@
         var userMobile = $("[name='mobile_name']").val();
         var userPasword = $("[name='password_name']").val();
 
+        //获取套餐详情接口
         $.ajax({
         url:'/tool/sale_order/get_package_detail/',
         type:'POST',
@@ -195,7 +222,7 @@
                 window.location.reload()
 
             }
-        $('#myTable tbody').replaceWith(tbody);
+        $('#myTablePlaceOrder tbody').replaceWith(tbody);
 
         }
 
@@ -205,6 +232,9 @@
 
     //下单数据
     function saleOrder(){
+
+        var userMobile = $("[name='mobile_name']").val();
+        var userPasword = $("[name='password_name']").val();
 
         var r_radion = document.all('radio_status');
         //var r_radion = document.getElementsByName('radio_status');
@@ -225,11 +255,39 @@
 
                 if (checkeds === true){
 
-                    var checked_value = $("input[name=radio_status]:checked").val();
+                    var point_id = $("input[name=radio_status]:checked").val();
 
-                    alert("获取到单选钮到value值为：" + checked_value);
+//                    alert("获取到单选钮的value值为：" + point_id);
 
                     isCheck = true;
+
+                    //下单接口
+                    $.ajax({
+                    url:'/tool/sale_order/order_pay_success/',
+                    type:'POST',
+                    data:{'userMobile':userMobile,'userPasword':userPasword,'point_id':point_id},
+                    success:function(data){
+
+                        if (data.status_code === 10101 ||
+                                data.status_code === 10102 ||
+                                data.status_code === 10103 ||
+                                data.status_code === 10104) {
+
+                            alert(data.message);
+
+                        }
+
+                        else if (data.status_code === 10200) {
+
+                            alert(data.message);
+
+                            alert("生成的订单号为：" + data.result);
+
+                        }
+
+                    }
+
+                    });
 
                 }
             }
