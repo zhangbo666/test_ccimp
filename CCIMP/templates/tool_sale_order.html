@@ -125,14 +125,16 @@
             <h4 style="color: blue;">读取订单数据：</h4><br>
 
             <div class="table-responsive">
-                <table class="table table-striped" id="myTableProcessOrder">
+                <table class="table table-striped" id="myTableGetOrderDetail">
                     <thead>
 
                         <tr style="text-align: center">
+                            <th>序号</th>
                             <th>订单编号</th>
-                            <th>订单名称</th>
+                            <th>套餐编号</th>
                             <th>订单金额</th>
-                            <th>支付方式</th>
+                            <th>付款方式</th>
+                            <th>订单类型</th>
                         </tr>
 
                     </thead>
@@ -170,47 +172,73 @@
                 console.log("data-->",data);
                 console.log("result-->",data.result);
 
-                var obj = eval(data.result);
-                var tbody =$('<tbody></tbody>');
-
-                $(obj).each(function (index){
-
-                    var val=obj[index];
-                    var tr=$('<tr></tr>');
-                    tr.append('<td>' +
-                              '<input type="radio" name="radio_status" id="radio_status" value=' + val.point_id + '>' +
-                              '</td>' +
-                              '<td>' + val.point_id + '</td>' + '<td>' + val.name + '</td>' +
-                              '<td>' + val.price + '</td>' + '<td>' + val.point_type + '</td>');
-                    tbody.append(tr);
-                });
+//                var obj = eval(data.result);
+//                var tbody =$('<tbody></tbody>');
+//
+//                $(obj).each(function (index){
+//
+//                    var val=obj[index];
+//                    var tr=$('<tr></tr>');
+//                    tr.append('<td>' +
+//                              '<input type="radio" name="radio_status" id="radio_status" value=' + val.point_id + '>' +
+//                              '</td>' +
+//                              '<td>' + val.point_id + '</td>' + '<td>' + val.name + '</td>' +
+//                              '<td>' + val.price + '</td>' + '<td>' + val.point_type + '</td>');
+//                    tbody.append(tr);
+//                });
 
                 //清空创建到元素内容
-//                $(myTable).empty();
+//                $(myTablePlaceOrder).empty();
+//                $(myTableGetOrderDetail).empty();
 
-//                var data = data.result;
-//                for (var i=0; i<data.length; i++){
-//
-//                    var str = '<td>' + '<input type="radio" name="status">' + '</td>' +
-//                              '<td>' + data[i].point_id + '</td>' + '<td>' + data[i].name + '</td>' +
-//                              '<td>' + data[i].price + '</td>' + '<td>' + data[i].point_type + '</td>';
-//                    $("#myTable").append('<tr>' + str + '</tr>');
-//                }
+                var table1=document.getElementById("myTablePlaceOrder");
+                var table2=document.getElementById("myTableGetOrderDetail");
+
+                var table1_tbody=table1.getElementsByTagName("tbody");
+                var table2_tbody=table2.getElementsByTagName("tbody");
+
+                if (table1_tbody.length >0){
+
+                    table1.removeChild(table1_tbody[0]);
+
+                };
+
+                if (table2_tbody.length >0){
+
+                    table2.removeChild(table2_tbody[0]);
+
+                };
+
+
+                var data = data.result;
+                for (var i=0; i<data.length; i++){
+
+                    var str = '<td>' +
+                              '<input type="radio" name="radio_status" id="radio_status" value=' + data[i].point_id + '>' +
+                              '</td>' +
+                              '<td>' + data[i].point_id + '</td>' + '<td>' + data[i].name + '</td>' +
+                              '<td>' + data[i].price + '</td>' + '<td>' + data[i].point_type + '</td>';
+                    $("#myTablePlaceOrder").append('<tr>' + str + '</tr>');
+                }
 
 //                for (var i in data){
 //
-//                    var str = '<td>' + '<input type="radio" name="status" ' + 'value=' + data[i].point_id + '>' + '</td>' +
+//                    var str = '<td>' +
+//                              '<input type="radio" name="radio_status" id="radio_status" value=' + data[i].point_id + '>' +
+//                              '</td>' +
 //                              '<td>' + data[i].point_id + '</td>' + '<td>' + data[i].name + '</td>' +
 //                              '<td>' + data[i].price + '</td>' + '<td>' + data[i].point_type + '</td>';
-//                    $("#myTable").append('<tr>' + str + '</tr>');
+//                    $("#myTablePlaceOrder").append('<tr>' + str + '</tr>');
 //                }
 
 //                $.each(data,function(index,item){
 //
-//                    var str = '<td>' + '<input type="radio" name="status">' + '</td>' +
+//                    var str = '<td>' +
+//                              '<input type="radio" name="radio_status" id="radio_status" value=' + item.point_id + '>' +
+//                              '</td>' +
 //                              '<td>' + item.point_id + '</td>' + '<td>' + item.name + '</td>' +
 //                              '<td>' + item.price + '</td>' + '<td>' + item.point_type + '</td>';
-//                    $("#myTable").append('<tr>' + str + '</tr>');
+//                    $("#myTablePlaceOrder").append('<tr>' + str + '</tr>');
 //                });
 
             }
@@ -222,7 +250,8 @@
                 window.location.reload()
 
             }
-        $('#myTablePlaceOrder tbody').replaceWith(tbody);
+//        $('#myTablePlaceOrder tbody').replaceWith(tbody);
+
 
         }
 
@@ -230,23 +259,24 @@
 
     }
 
-    //下单数据
+    //下单
     function saleOrder(){
 
         var userMobile = $("[name='mobile_name']").val();
         var userPasword = $("[name='password_name']").val();
 
-        var r_radion = document.all('radio_status');
-        //var r_radion = document.getElementsByName('radio_status');
+        var radio_statu = document.all('radio_status');
+
+        //var radio_statu = document.getElementsByName('radio_status');
         var isCheck = false;
 
         if ($("#radio_status").length > 0) {
 
-            for (var i = 0; i < r_radion.length; i++) {
+            for (var i = 0; i < radio_statu.length; i++) {
 
-//                if (r_radion[i].checked){
+//                if (radio_statu[i].checked){
 //
-//                    userid = r_radion[i].value;
+//                    userid = radio_statu[i].value;
 //
 //                    isCheck = true;
 //
@@ -283,6 +313,73 @@
 
                             alert("生成的订单号为：" + data.result);
 
+                            //读取订单数据
+                            $.ajax({
+                            url:'/tool/sale_order/get_order_detail/',
+                            type:'POST',
+                            data:{'order_id':data.result},
+                            success:function(data){
+
+                                console.log("data-->",data);
+                                console.log("data-->",data.result);
+
+                                if (data.status_code === 10101) {
+
+                                    alert(data.message);
+
+                                }
+
+                                else if (data.status_code === 10200) {
+
+                                    alert(data.message);
+
+                                    var table2=document.getElementById("myTableGetOrderDetail");
+
+                                    var table2_tbody=table2.getElementsByTagName("tbody");
+
+                                    if (table2_tbody.length >0){
+
+                                        table2.removeChild(table2_tbody[0]);
+
+                                    };
+
+                                    var data = data.result;
+                                    for (var i=0; i<data.length; i++){
+
+                                        var str ='<td>' +
+                                                 '<input type="radio" name="radio_orders" id="radio_orders" value=' + data[i].id + '>' +
+                                                 '</td>' +
+                                                 '<td>' + data[i].id + '</td>' +
+                                                 '<td>' + data[i].extend_id + '</td>' +
+                                                 '<td>' + data[i].order_money + '</td>' +
+                                                 '<td>' + data[i].pay_method + '</td>' +
+                                                 '<td>' + data[i].order_type + '</td>';
+
+                                        console.log(data[i].id,data[i].extend_id,data[i].order_money,data[i].pay_method,data[i].order_type);
+
+                                        $("#myTableGetOrderDetail").append('<tr>' + str + '</tr>');
+                                    }
+
+
+//                                    var obj = eval(date.result);
+//                                    var tbody =$('<tbody></tbody>');
+//
+//                                    $(obj).each(function (index){
+//
+//                                        var val=obj[index];
+//                                        var tr=$('<tr></tr>');
+//                                        tr.append('<td>' + val.id + '</td>' + '<td>' + val.order_money + '</td>' +
+//                                                  '<td>' + val.pay_method + '</td>' + '<td>' + val.order_type + '</td>');
+//                                        tbody.append(tr);
+//                                    });
+
+                                }
+//                            $('#myTableGetOrderDetail tbody').replaceWith(tbody);
+
+                            }
+
+                            });
+
                         }
 
                     }
@@ -294,7 +391,7 @@
 
             if (!isCheck){
 
-                alert("还未选择套餐！！！");
+                alert("还未选择套餐！");
 
             }
 
@@ -312,6 +409,148 @@
 
     }
 
+    //处理订单
+    function ProcessOrder(){
+
+        var radio_order = document.getElementsByName('radio_orders');
+
+        var isCheck = false;
+
+        if ($("#radio_orders").length > 0) {
+
+            for (var i = 0; i < radio_order.length; i++) {
+
+//                if (radio_order[i].checked){
+//
+//                    userid = radio_order[i].value;
+//
+//                    isCheck = true;
+//
+//                }
+                var checkeds = document.querySelectorAll("[name=radio_orders]")[i].checked;
+
+                if (checkeds === true){
+
+                    var order_id = $("input[name=radio_orders]:checked").val();
+
+                    alert("获取到订单列表的value值为：" + order_id);
+
+                    isCheck = true;
+
+                    //下单接口
+//                    $.ajax({
+//                    url:'/tool/sale_order/process_order/',
+//                    type:'POST',
+//                    data:{'order_id':order_id},
+//                    success:function(data){
+//
+//                        if (data.status_code === 10101 ||
+//                                data.status_code === 10102 ||
+//                                data.status_code === 10103 ||
+//                                data.status_code === 10104) {
+//
+//                            alert(data.message);
+//
+//                        }
+//
+//                        else if (data.status_code === 10200) {
+//
+//                            alert(data.message);
+//
+//                            alert("生成的订单号为：" + data.result);
+//
+//                            //读取订单数据
+//                            $.ajax({
+//                            url:'/tool/sale_order/get_order_detail/',
+//                            type:'POST',
+//                            data:{'order_id':data.result},
+//                            success:function(data){
+//
+//                                console.log("data-->",data);
+//                                console.log("data-->",data.result);
+//
+//                                if (data.status_code === 10101) {
+//
+//                                    alert(data.message);
+//
+//                                }
+//
+//                                else if (data.status_code === 10200) {
+//
+//                                    alert(data.message);
+//
+//                                    var table2=document.getElementById("myTableGetOrderDetail");
+//
+//                                    var table2_tbody=table2.getElementsByTagName("tbody");
+//
+//                                    if (table2_tbody.length >0){
+//
+//                                        table2.removeChild(table2_tbody[0]);
+//
+//                                    };
+//
+//                                    var data = data.result;
+//                                    for (var i=0; i<data.length; i++){
+//
+//                                        var str ='<td>' +
+//                                                 '<input type="radio" name="radio_orders" id="radio_orders" value=' + data[i].id + '>' +
+//                                                 '</td>' +
+//                                                 '<td>' + data[i].id + '</td>' +
+//                                                 '<td>' + data[i].extend_id + '</td>' +
+//                                                 '<td>' + data[i].order_money + '</td>' +
+//                                                 '<td>' + data[i].pay_method + '</td>' +
+//                                                 '<td>' + data[i].order_type + '</td>';
+//
+//                                        console.log(data[i].id,data[i].extend_id,data[i].order_money,data[i].pay_method,data[i].order_type);
+//
+//                                        $("#myTableGetOrderDetail").append('<tr>' + str + '</tr>');
+//                                    }
+//
+//
+////                                    var obj = eval(date.result);
+////                                    var tbody =$('<tbody></tbody>');
+////
+////                                    $(obj).each(function (index){
+////
+////                                        var val=obj[index];
+////                                        var tr=$('<tr></tr>');
+////                                        tr.append('<td>' + val.id + '</td>' + '<td>' + val.order_money + '</td>' +
+////                                                  '<td>' + val.pay_method + '</td>' + '<td>' + val.order_type + '</td>');
+////                                        tbody.append(tr);
+////                                    });
+//
+//                                }
+////                            $('#myTableGetOrderDetail tbody').replaceWith(tbody);
+//
+//                            }
+//
+//                            });
+//
+//                        }
+//
+//                    }
+//
+//                    });
+
+                }
+            }
+
+            if (!isCheck){
+
+                alert("当前还未选择订单！！！");
+
+            }
+
+
+        }
+
+        else{
+
+            alert("当前订单数据列表为空！")
+        }
+
+
+    }
 </script>
 
 

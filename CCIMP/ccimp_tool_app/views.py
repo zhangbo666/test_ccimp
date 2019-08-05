@@ -14,6 +14,9 @@ from externalClass.userLogin import userLogin
 from externalClass.getPackageDetail import getPackageDetail
 from externalClass.getOrderInfo import getOrderInfo
 
+from db_config.talkQueryUserOrder import talk_query_user_order_success
+from db_config.db_config import *
+
 import json
 
 
@@ -94,7 +97,8 @@ def get_package_detail(request):
                 # point_detail_list.append(pointDetail)
 
             point_info = point_detail_json['data']
-            print (type(point_info))
+            print ("point_info-->",point_info)
+            print ("point_info-->",type(point_info))
             return JsonResponse({"status_code":10200,
                                  "message":"获取套餐数据正确！！！",
                                  "result":point_info})
@@ -152,3 +156,53 @@ def order_pay_success(request):
                 return JsonResponse({"status_code":10200,
                                      "message":"下单成功，数据返回正确！！！",
                                      "result":status_flage})
+
+
+'''###############################################################################'''
+#获取订单详情
+@auth
+def get_order_detail(request):
+
+    if request.method == "POST":
+
+        order_id = request.POST.get("order_id","")
+
+        #调用获取加密密码接口
+        # pwd = publicKeyRsa(user_password)
+
+        #调用获取登录状态接口
+        # req = userLogin(user_mobile,pwd)
+
+        #调用获取套餐详情接口
+        # point_detail_list = getPackageDetail(req)
+
+        #获取用户下单详情
+        # status_flage = getOrderInfo(req,point_id)
+
+        #获取订单详情
+        order_detail = talk_query_user_order_success(order_id)
+
+        # cursor_talk.close()
+        #
+        # conn_talk.close()
+
+        if order_detail == ():
+
+            return JsonResponse({"status_code":10101,
+                 "message":"订单获取失败，无法读取该订单数据！"})
+
+        else:
+
+            return JsonResponse({"status_code":10200,
+                                 "message":"订单获取正常！",
+                                 "result":order_detail})
+
+
+'''###############################################################################'''
+#处理订单
+@auth
+def process_order(request):
+
+    if request.method == "POST":
+
+        pass
