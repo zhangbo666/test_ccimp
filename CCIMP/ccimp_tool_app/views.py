@@ -13,6 +13,8 @@ from externalClass.publicKeyRsa import publicKeyRsa
 from externalClass.userLogin import userLogin
 from externalClass.getPackageDetail import getPackageDetail
 from externalClass.getOrderInfo import getOrderInfo
+from externalClass.adminLogin import adminLogin
+from externalClass.processOrder import processOrder
 
 from db_config.talkQueryUserOrder import talk_query_user_order_success
 from db_config.db_config import *
@@ -27,12 +29,29 @@ def sale_order(request):
 
     get_username = request.session.get('user','')
 
+    users = User.objects.all()
+
     if request.method == "GET":
 
-        return render(request,"tool_sale_order.html",
-                      {"username":get_username,
-                       "type_option":"permission_sap"})
+        for user in users:
 
+            if user.user_name == get_username:
+
+                if user.permission_options == 1:
+
+                    return render(request,"tool_sale_order.html",
+                                  {"username":get_username,
+                                   "type_option_admin":"permission_sap"})
+
+                elif user.permission_options == 2:
+
+                    return render(request,"tool_sale_order.html",
+                                  {"username":get_username})
+
+                elif user.permission_options == 3:
+
+                    return render(request,"tool_sale_order.html",
+                                  {"username":get_username})
 
 '''###############################################################################'''
 #获取套餐详情
@@ -149,7 +168,7 @@ def order_pay_success(request):
             if status_flage == False:
 
                 return JsonResponse({"status_code":10104,
-                     "message":"签名获取失败，不能创建订单数据！"})
+                                     "message":"签名获取失败，不能创建订单数据！"})
 
             else:
 
@@ -189,7 +208,7 @@ def get_order_detail(request):
         if order_detail == ():
 
             return JsonResponse({"status_code":10101,
-                 "message":"订单获取失败，无法读取该订单数据！"})
+                                 "message":"订单获取失败，无法读取该订单数据！"})
 
         else:
 
@@ -205,4 +224,35 @@ def process_order(request):
 
     if request.method == "POST":
 
-        pass
+        order_id = request.POST.get("order_id","")
+
+        # print ("order_id-->",type(order_id))
+
+
+        if order_id == "":
+
+            return JsonResponse({"status_code":10101,
+                                 "message":"订单号为空，无法处理该订单数据！"})
+
+        else:
+
+            #调用admin后台登录接口
+            req = adminLogin()
+
+            #调用admin后台处理订单接口
+            responses_result = processOrder(req,order_id)
+
+            # print ("responses_result-->",responses_result)
+            # print ("responses_result-->",type(responses_result))
+
+            if responses_result.text == '订单处理成功':
+
+                return JsonResponse({"status_code":10200,
+                                     "message":responses_result.text})
+
+            else:
+
+                return JsonResponse({"status_code":10102,
+                                     "message":"订单处理失败！"})
+
+

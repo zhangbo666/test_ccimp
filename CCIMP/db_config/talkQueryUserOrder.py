@@ -23,6 +23,8 @@ def talk_query_user_order_success(orderId):
             #查询
             sql_query  = "select id,extend_id,order_money,pay_method,order_type from user_order where id = %s" % (orderId)
 
+            conn_talk.ping(reconnect=True)
+
             cursor.execute(sql_query)
 
             user_order_info_result = cursor.fetchall()

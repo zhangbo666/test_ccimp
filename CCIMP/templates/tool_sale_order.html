@@ -56,7 +56,7 @@
                     </a>
                 </li>
 
-                {% if type_option == "permission_sap" %}
+                {% if type_option_admin == "permission_sap" %}
                 <li>
                     <li>
                         <a href="/permission/">
@@ -143,7 +143,7 @@
 
                 </table>
             </div>
-            <button class="btn btn-success" type="submit" style="margin-left: 20px;float: right;"
+            <button class="btn btn-success" id="processOrder" type="submit" style="margin-left: 20px;float: right;"
                     onclick="return ProcessOrder()">处理订单</button>
 
         </div>
@@ -172,6 +172,10 @@
                 console.log("data-->",data);
                 console.log("result-->",data.result);
 
+                //释放按钮点击事件
+                //$("#processOrder").attr("disabled",false);
+                $("#processOrder").removeAttr("disabled");
+
 //                var obj = eval(data.result);
 //                var tbody =$('<tbody></tbody>');
 //
@@ -191,6 +195,7 @@
 //                $(myTablePlaceOrder).empty();
 //                $(myTableGetOrderDetail).empty();
 
+                //清空tbody元素
                 var table1=document.getElementById("myTablePlaceOrder");
                 var table2=document.getElementById("myTableGetOrderDetail");
 
@@ -313,6 +318,10 @@
 
                             alert("生成的订单号为：" + data.result);
 
+                            //释放按钮点击事件
+                            //$("#processOrder").attr("disabled",false);
+                            $("#processOrder").removeAttr("disabled");
+
                             //读取订单数据
                             $.ajax({
                             url:'/tool/sale_order/get_order_detail/',
@@ -433,104 +442,36 @@
 
                     var order_id = $("input[name=radio_orders]:checked").val();
 
-                    alert("获取到订单列表的value值为：" + order_id);
+                    alert("订单处理开始，请等候...");
 
                     isCheck = true;
 
-                    //下单接口
-//                    $.ajax({
-//                    url:'/tool/sale_order/process_order/',
-//                    type:'POST',
-//                    data:{'order_id':order_id},
-//                    success:function(data){
-//
-//                        if (data.status_code === 10101 ||
-//                                data.status_code === 10102 ||
-//                                data.status_code === 10103 ||
-//                                data.status_code === 10104) {
-//
-//                            alert(data.message);
-//
-//                        }
-//
-//                        else if (data.status_code === 10200) {
-//
-//                            alert(data.message);
-//
-//                            alert("生成的订单号为：" + data.result);
-//
-//                            //读取订单数据
-//                            $.ajax({
-//                            url:'/tool/sale_order/get_order_detail/',
-//                            type:'POST',
-//                            data:{'order_id':data.result},
-//                            success:function(data){
-//
-//                                console.log("data-->",data);
-//                                console.log("data-->",data.result);
-//
-//                                if (data.status_code === 10101) {
-//
-//                                    alert(data.message);
-//
-//                                }
-//
-//                                else if (data.status_code === 10200) {
-//
-//                                    alert(data.message);
-//
-//                                    var table2=document.getElementById("myTableGetOrderDetail");
-//
-//                                    var table2_tbody=table2.getElementsByTagName("tbody");
-//
-//                                    if (table2_tbody.length >0){
-//
-//                                        table2.removeChild(table2_tbody[0]);
-//
-//                                    };
-//
-//                                    var data = data.result;
-//                                    for (var i=0; i<data.length; i++){
-//
-//                                        var str ='<td>' +
-//                                                 '<input type="radio" name="radio_orders" id="radio_orders" value=' + data[i].id + '>' +
-//                                                 '</td>' +
-//                                                 '<td>' + data[i].id + '</td>' +
-//                                                 '<td>' + data[i].extend_id + '</td>' +
-//                                                 '<td>' + data[i].order_money + '</td>' +
-//                                                 '<td>' + data[i].pay_method + '</td>' +
-//                                                 '<td>' + data[i].order_type + '</td>';
-//
-//                                        console.log(data[i].id,data[i].extend_id,data[i].order_money,data[i].pay_method,data[i].order_type);
-//
-//                                        $("#myTableGetOrderDetail").append('<tr>' + str + '</tr>');
-//                                    }
-//
-//
-////                                    var obj = eval(date.result);
-////                                    var tbody =$('<tbody></tbody>');
-////
-////                                    $(obj).each(function (index){
-////
-////                                        var val=obj[index];
-////                                        var tr=$('<tr></tr>');
-////                                        tr.append('<td>' + val.id + '</td>' + '<td>' + val.order_money + '</td>' +
-////                                                  '<td>' + val.pay_method + '</td>' + '<td>' + val.order_type + '</td>');
-////                                        tbody.append(tr);
-////                                    });
-//
-//                                }
-////                            $('#myTableGetOrderDetail tbody').replaceWith(tbody);
-//
-//                            }
-//
-//                            });
-//
-//                        }
-//
-//                    }
-//
-//                    });
+                    //处理接口
+                    $.ajax({
+                    url:'/tool/sale_order/process_order/',
+                    type:'POST',
+                    data:{'order_id':order_id},
+                    success:function(data){
+
+                        if (data.status_code === 10101 || data.status_code === 10102) {
+
+                            alert(data.message);
+
+                        }
+
+                        else if (data.status_code === 10200) {
+
+                            alert("该订单处理成功！");
+
+                            //禁用按钮点击事件
+                            //$("#processOrder").attr("disabled",true);
+                            $("#processOrder").attr("disabled","disabled");
+
+                        }
+
+                    }
+
+                    });
 
                 }
             }
