@@ -50,7 +50,7 @@ def permission_manage(request):
 
                 if user.user_name == get_username:
 
-                    paginator = Paginator(users,2)
+                    paginator = Paginator(users,5)
 
                     # 最大分几页数字表示
                     paginator_num_pages = paginator.num_pages
@@ -137,7 +137,7 @@ def permission_search(request):
         # 找到用户权限搜索数据:2个搜索条件以上过滤
         user_search_list = User.objects.filter(user_name__contains=search_name,permission_options__gt='1').order_by('id')#升序
 
-        paginator = Paginator(user_search_list,2)
+        paginator = Paginator(user_search_list,5)
 
         # 最大分几页数字表示
         paginator_num_pages = paginator.num_pages
@@ -211,7 +211,7 @@ def permission_class(request):
     permissionClasss = PermissionClass.objects.filter(permission_options__gt='1')
     # permissionClasss = PermissionClass.objects.exclude(id=1)
 
-    paginator = Paginator(permissionClasss,1)
+    paginator = Paginator(permissionClasss,5)
 
     # 最大分几页数字表示
     paginator_num_pages = paginator.num_pages
@@ -416,7 +416,7 @@ def permission_class_search(request):
         # 找到权限分类搜索数据:2个搜索条件以上过滤
         permission_class_search_list = PermissionClass.objects.filter(permission_chinese_name__contains=search_name,permission_options__gt='1').order_by('id')#升序
 
-        paginator = Paginator(permission_class_search_list,3)
+        paginator = Paginator(permission_class_search_list,5)
 
         # 最大分几页数字表示
         paginator_num_pages = paginator.num_pages

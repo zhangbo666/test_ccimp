@@ -90,62 +90,63 @@
             </h4><br>
             <!--<form class="permission" method="post" name="permission-page" action="search">-->
             <label>请输入登录手机号：</label>
-            <input type="text" name="mobile_name" placeholder="手机号码">
+            <input type="text" name="mobile_name" placeholder="手机号码" id="mobile_name">
             <label style="margin-left: 20px;">请输入登录密码：</label>
-            <input type="text" name="password_name" placeholder="用户密码">
+            <input type="text" name="password_name" placeholder="用户密码" id="password_name">
             <button class="btn btn-success" type="submit" style="margin-left: 20px;"
                     onclick="return userPackageDetail()">获取用户套餐详情</button>
             <!--</form>-->
             <br><br><br>
 
-            <h4 style="color: blue;">获取用户套餐详情：</h4><br>
+            <div id="hide_cancle" style="display: none">
+                <h4 style="color: blue;">获取用户套餐详情：</h4><br>
 
-            <div class="table-responsive">
-                <table class="table table-striped" id="myTablePlaceOrder">
-                    <thead>
+                <div class="table-responsive">
+                    <table class="table table-striped" id="myTablePlaceOrder">
+                        <thead>
 
-                        <tr style="text-align: center">
-                            <th>序号</th>
-                            <th>套餐编号</th>
-                            <th>套餐名称</th>
-                            <th>套餐价格</th>
-                            <th>套餐类型</th>
-                        </tr>
+                            <tr style="text-align: center">
+                                <th>序号</th>
+                                <th>套餐编号</th>
+                                <th>套餐名称</th>
+                                <th>套餐价格</th>
+                                <th>套餐类型</th>
+                            </tr>
 
-                    </thead>
+                        </thead>
 
-                    <tbody></tbody>
+                        <tbody></tbody>
 
-                </table>
+                    </table>
+                </div>
+                <button class="btn btn-success" type="submit" style="margin-left: 20px;float: right;"
+                        onclick="return saleOrder()">下单</button>
+                <br><br><br>
+
+                <h4 style="color: blue;">读取订单数据：</h4><br>
+
+                <div class="table-responsive">
+                    <table class="table table-striped" id="myTableGetOrderDetail">
+                        <thead>
+
+                            <tr style="text-align: center">
+                                <th>序号</th>
+                                <th>订单编号</th>
+                                <th>套餐编号</th>
+                                <th>订单金额</th>
+                                <th>付款方式</th>
+                                <th>订单类型</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody></tbody>
+
+                    </table>
+                </div>
+                <button class="btn btn-success" id="processOrder" type="submit" style="margin-left: 20px;float: right;"
+                        onclick="return ProcessOrder()">处理订单</button>
             </div>
-            <button class="btn btn-success" type="submit" style="margin-left: 20px;float: right;"
-                    onclick="return saleOrder()">下单</button>
-            <br><br><br>
-
-            <h4 style="color: blue;">读取订单数据：</h4><br>
-
-            <div class="table-responsive">
-                <table class="table table-striped" id="myTableGetOrderDetail">
-                    <thead>
-
-                        <tr style="text-align: center">
-                            <th>序号</th>
-                            <th>订单编号</th>
-                            <th>套餐编号</th>
-                            <th>订单金额</th>
-                            <th>付款方式</th>
-                            <th>订单类型</th>
-                        </tr>
-
-                    </thead>
-
-                    <tbody></tbody>
-
-                </table>
-            </div>
-            <button class="btn btn-success" id="processOrder" type="submit" style="margin-left: 20px;float: right;"
-                    onclick="return ProcessOrder()">处理订单</button>
-
         </div>
     </div>
 
@@ -172,9 +173,16 @@
                 console.log("data-->",data);
                 console.log("result-->",data.result);
 
+                //区域元素显示出来
+                document.getElementById('hide_cancle').style.display="inline";
+//                document.getElementById('hide_cancle').style.display="block";
+//                document.getElementById('hide_cancle').removeAttribute('class');
+//                document.getElementById('hide_cancle').style.visibility="visible";
+
                 //释放按钮点击事件
-                //$("#processOrder").attr("disabled",false);
-                $("#processOrder").removeAttr("disabled");
+                $("#processOrder").attr("disabled",false);
+//                $("#processOrder").removeAttr("disabled");
+//                window.document.getElementById('processOrder').removeAttribute('disabled');
 
 //                var obj = eval(data.result);
 //                var tbody =$('<tbody></tbody>');
@@ -320,7 +328,8 @@
 
                             //释放按钮点击事件
                             //$("#processOrder").attr("disabled",false);
-                            $("#processOrder").removeAttr("disabled");
+//                            $("#processOrder").removeAttr("disabled");
+                            window.document.getElementById("processOrder").removeAttribute("disabled");
 
                             //读取订单数据
                             $.ajax({
@@ -353,6 +362,7 @@
                                     };
 
                                     var data = data.result;
+
                                     for (var i=0; i<data.length; i++){
 
                                         var str ='<td>' +
@@ -464,8 +474,9 @@
                             alert("该订单处理成功！");
 
                             //禁用按钮点击事件
-                            //$("#processOrder").attr("disabled",true);
-                            $("#processOrder").attr("disabled","disabled");
+                            $("#processOrder").attr("disabled",true);
+                            //$("#processOrder").attr("disabled","disabled");
+                            //window.document.getElementById('processOrder').setAttribute("disabled",true);
 
                         }
 

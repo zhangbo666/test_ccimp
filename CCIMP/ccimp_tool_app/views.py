@@ -118,6 +118,7 @@ def get_package_detail(request):
             point_info = point_detail_json['data']
             print ("point_info-->",point_info)
             print ("point_info-->",type(point_info))
+
             return JsonResponse({"status_code":10200,
                                  "message":"获取套餐数据正确！！！",
                                  "result":point_info})

@@ -37,7 +37,7 @@ def project_manage(request):
 
         projects = Project.objects.filter(user_id=user.id)
 
-        paginator = Paginator(projects,1)
+        paginator = Paginator(projects,5)
 
         # 最大分几页数字表示
         paginator_num_pages = paginator.num_pages
@@ -562,7 +562,7 @@ def project_search(request):
 
             project_search_list = Project.objects.filter(name__contains=search_name,user_id=user.id).order_by('id')#升序
 
-            paginator = Paginator(project_search_list,1)
+            paginator = Paginator(project_search_list,5)
 
             # 最大分几页数字表示
             paginator_num_pages = paginator.num_pages
