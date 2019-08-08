@@ -124,6 +124,7 @@ def edit_permission(request,uid):
 
 '''###############################################################################'''
 # 用户权限搜索
+@auth
 def permission_search(request):
 
     '''用户权限搜索'''
@@ -403,6 +404,7 @@ def edit_permissionClass(request,pclass_id):
 
 '''###############################################################################'''
 # 权限分类搜索
+@auth
 def permission_class_search(request):
 
     '''权限分类搜索'''
@@ -593,7 +595,6 @@ def save_permissionClass(request):
 
 
 '''###############################################################################'''
-@auth
 #获取当前编辑页权限数据
 def get_edit_permissionClass(request):
 
@@ -632,8 +633,8 @@ def get_edit_permissionClass(request):
 
 
 '''###############################################################################'''
-@auth
 #获取当前用户编辑页权限数据
+@auth
 def get_edit_permission(request):
 
     if request.method == "POST":
