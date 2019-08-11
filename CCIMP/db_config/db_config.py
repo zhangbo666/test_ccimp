@@ -53,15 +53,3 @@ cursor_talk = conn_talk.cursor()
 #                           cursorclass=cursors.DictCursor)
 # 连接线上测试数据库游标
 # cursor_onlie_test = conn_onlie_test.cursor()
-
-
-# 连接172.16.70.20测试数据库
-# conn_onlie_test = connect(host='172.16.70.20',
-#                           user='rd_user',
-#                           password='NTHXDF7czYwi',
-#                           port=3306,
-#                           db='talk',
-#                           charset='utf8',
-#                           cursorclass=cursors.DictCursor)
-# 连接线上测试数据库游标
-# cursor_onlie_test = conn_onlie_test.cursor()

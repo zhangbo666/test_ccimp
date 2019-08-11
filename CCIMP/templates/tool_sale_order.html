@@ -93,7 +93,7 @@
             <input type="text" name="mobile_name" placeholder="手机号码" id="mobile_name">
             <label style="margin-left: 20px;">请输入登录密码：</label>
             <input type="text" name="password_name" placeholder="用户密码" id="password_name">
-            <button class="btn btn-success" type="submit" style="margin-left: 20px;"
+            <button class="btn btn-success" type="submit" id="userPackageDetail" style="margin-left: 20px;"
                     onclick="return userPackageDetail()">获取用户套餐详情</button>
             <!--</form>-->
             <br><br><br>
@@ -155,11 +155,29 @@
 
 <script type="text/javascript">
 
+    var double_click= 0;
+
     //获取套餐详情数据
     function userPackageDetail() {
 
         var userMobile = $("[name='mobile_name']").val();
         var userPasword = $("[name='password_name']").val();
+
+        //判断按钮连击
+        if (double_click == 0) {
+
+            double_click = 1;
+
+          $("#userPackageDetail").attr("disabled",true);
+
+            setTimeout(function () {
+
+                double_click = 0;
+
+              $("#userPackageDetail").attr("disabled",false);
+
+            }, 20000);
+        }
 
         //获取套餐详情接口
         $.ajax({
@@ -172,6 +190,8 @@
 
                 console.log("data-->",data);
                 console.log("result-->",data.result);
+
+                alert(data.message);
 
                 //区域元素显示出来
                 document.getElementById('hide_cancle').style.display="inline";
@@ -234,6 +254,9 @@
                     $("#myTablePlaceOrder").append('<tr>' + str + '</tr>');
                 }
 
+                //释放获取用户套餐详情按钮点击事件
+//                $("#userPackageDetail").attr("disabled",false);
+
 //                for (var i in data){
 //
 //                    var str = '<td>' +
@@ -271,6 +294,7 @@
         });
 
     }
+
 
     //下单
     function saleOrder(){

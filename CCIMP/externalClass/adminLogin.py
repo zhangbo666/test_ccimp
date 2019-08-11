@@ -1,11 +1,11 @@
-# -*- coding: utf-8 -*-：  
+# -*- coding: utf-8 -*-:
+
 
 '''
-@author: andong
+@author: zhangbo
 
 @file: adminLogin.py
 
-@time: 2019/7/26 16:30
 '''
 
 import requests
@@ -15,7 +15,7 @@ def adminLogin():
     后台登录
     使用：实例化后直接调请求方法
     '''
-    adminLoginUrl = 'http://www.51talk.com/admin/login.php'
+    adminLoginUrl = 'http://crm.51talk.com/admin/login.php'
     data = {
         'user_name': 'admin',
         'password': '123456',
@@ -28,13 +28,15 @@ def adminLogin():
     }
     request = requests.Session()
 
-    request.post(url=adminLoginUrl, data=data, headers=head)
+    aa = request.post(url=adminLoginUrl, data=data, headers=head)
+
+    print (aa)
 
     return request
 
 if __name__ == '__main__':
 
-    url = 'http://www.51talk.com/admin/user/stu_list.php?is_buy=All&user_id=' + \
+    url = 'http://crm.51talk.com/admin/user/stu_list.php?is_buy=All&user_id=' + \
           str(800003511) + \
           '&student_id=&email=&skype_id=&qq=&mobile=&agent=&submit=Search'
 

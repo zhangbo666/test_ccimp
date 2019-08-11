@@ -41,42 +41,42 @@ def project_manage(request):
 
         # 最大分几页数字表示
         paginator_num_pages = paginator.num_pages
-        print ("共分：",str(paginator_num_pages)+"页")
+        # print ("共分：",str(paginator_num_pages)+"页")
 
         # 分几页表示range(1, 4)，循环顺序1，2，3
         paginator_num_pages_array_ = paginator.page_range
-        print ("数组形式表示：",paginator_num_pages_array_)
+        # print ("数组形式表示：",paginator_num_pages_array_)
 
 
         # 当前第一页表示<Page 1 of 2>
         # 当前第二页表示<Page 2 of 2>
         page1 = paginator.page(1)
-        print ("第一页：",page1)
+        # print ("第一页：",page1)
 
         page_num = page1.number
-        print ("第一页：",page_num)
+        # print ("第一页：",page_num)
 
         # 传一个页面数据get参数的值
         page = request.GET.get('page','')
-        print ("urlpage传参：",page)
+        # print ("urlpage传参：",page)
 
         try:
 
             # 获取page参数的值
             contacts = paginator.page(page)
-            print ("contacts---------->1",contacts)
+            # print ("contacts---------->1",contacts)
 
         except PageNotAnInteger:
 
             contacts = paginator.page(1)
 
-            print ("contacts---------->2",contacts)
+            # print ("contacts---------->2",contacts)
 
         except EmptyPage:
 
             contacts = paginator.page(paginator.num_pages)
 
-            print ("contacts---------->3",contacts)
+            # print ("contacts---------->3",contacts)
 
         if user.user_name == get_username:
 
@@ -566,44 +566,42 @@ def project_search(request):
 
             # 最大分几页数字表示
             paginator_num_pages = paginator.num_pages
-            print ("共分：",str(paginator_num_pages)+"页")
+            # print ("共分：",str(paginator_num_pages)+"页")
 
 
             # 分几页表示range(1, 3)，循环顺序1，2
             paginator_num_pages_array_ = paginator.page_range
-            print ("数组形式表示：",paginator_num_pages_array_)
+            # print ("数组形式表示：",paginator_num_pages_array_)
 
             # 当前第一页表示<Page 1 of 3>
             # 当前第二页表示<Page 2 of 3>
             # 当前第三页表示<Page 3 of 3>
 
             page1 = paginator.page(1)
-            print ("第一页：",page1)
+            # print ("第一页：",page1)
 
             page_num = page1.number
-            print ("第一页：",page_num)
+            # print ("第一页：",page_num)
 
             # 传一个页面数据get参数的值
             page = request.GET.get('page','')
-            print (page)
+            # print (page)
 
             try:
 
                 # 获取page参数的值
                 contacts = paginator.page(page)
-                print ("contacts---------->1",contacts)
+                # print ("contacts---------->1",contacts)
 
             except PageNotAnInteger:
 
                 contacts = paginator.page(1)
-
-                print ("contacts---------->2",contacts)
+                # print ("contacts---------->2",contacts)
 
             except EmptyPage:
 
                 contacts = paginator.page(paginator.num_pages)
-
-                print ("contacts---------->3",contacts)
+                # print ("contacts---------->3",contacts)
 
             if user.user_name == get_username:
 
