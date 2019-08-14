@@ -1,0 +1,128 @@
+*{
+	padding: 0;
+	margin: 0;
+}
+
+body {
+    /*font-family: "\5FAE\8F6F\96C5\9ED1","Microsoft Yahei","Hiragino Sans GB",tahoma,arial,"\5B8B\4F53";*/
+    /*line-height: 1;*/
+    /*color: red;*/
+}
+
+/*左边栏整体区域*/
+.leftMenu{
+	margin-top: -21px;
+	width: 250px;
+	height: 700px;
+	background-color: #505050;
+	/*background-color: rgb(245, 245, 245);*/
+	float: left;
+	text-align: center;
+}
+
+/*.leftMenu .topMenu{*/
+	/*height: 42px;*/
+	/*background-color: #3992d0;*/
+/*}*/
+
+/*.leftMenu .topMenu img{*/
+	/*margin: 11px;*/
+	/*float: left;*/
+/*}*/
+
+/*.leftMenu .topMenu .changeMenu{*/
+	/*cursor: pointer;*/
+/*}*/
+
+/*.leftMenu .topMenu .banshi{*/
+	/*padding-left: 23px;*/
+/*}*/
+
+/*.leftMenu .topMenu .menuTitle{*/
+	/*text-align: center;*/
+	/*color: #F2F2F2;*/
+	/*color: yellow;*/
+	/*float: left;*/
+	/*line-height: 42px;*/
+	/*font-size: 25px;*/
+	/*width:180px;*/
+/*}*/
+
+
+
+/*.menu_list {*/
+	/*width: 140px;*/
+	/*background: #354045;*/
+
+/*}*/
+
+/*.menu_list ul li{*/
+	/*display: block;*/
+	/*text-align: center;*/
+	/*width: 100%;*/
+
+/*}*/
+
+/*一级菜单*/
+.menu_list li .fuMenu{
+	color: #b8c7ce;
+	font-size: 14px;
+	cursor: pointer;
+	height: 50px;
+	line-height: 50px;
+	width: 140px;
+	border-top: 2px solid rosybrown;
+	float: left;
+}
+
+.menu_list li .xiala{
+	float: left;
+	margin-left:-38px;
+	margin-top: 20px;
+
+}
+
+.menu_list li .div1 {
+	/*width: 100%;*/
+	height: auto;
+	float: left;
+}
+
+/*去掉ul li中的原点*/
+.menu_list li{
+	list-style:none;
+}
+
+/*二级菜单*/
+.menu_list li .div1 .zcd{
+	color: #FFF;
+	font-size: 14px;
+	height: 50px;
+	line-height: 50px;
+	background-color: #6a6780;
+	margin-bottom: 0px;
+	cursor: pointer;
+	width: 140px;
+}
+
+.div1 {
+	height: 180px;
+	display: none;
+}
+
+/*二级菜单图标*/
+.menu_list li .div1 .zcd .glyphicon{
+	color:deepskyblue;
+}
+
+/*二级菜单hover文字*/
+.menu_list li .div1 .zcd:hover {
+	color: #FFF;
+	font-weight: bold;
+}
+
+.removes{
+	color: greenyellow !important;
+	/*background-color: #6a6780 !important;*/
+	border-left: 0px solid #0FB9EF;
+}
