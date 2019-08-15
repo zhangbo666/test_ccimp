@@ -271,7 +271,7 @@
 
                     </table>
                 </div>
-                <button class="btn btn-success" type="submit" style="margin-left: 20px;float: right;"
+                <button class="btn btn-success" type="submit" id="saleOrder" style="margin-left: 20px;float: right;"
                         onclick="return saleOrder()">下单</button>
                 <br><br><br>
 
@@ -297,7 +297,7 @@
                     </table>
                 </div>
                 <button class="btn btn-success" id="processOrder" type="submit" style="margin-left: 20px;float: right;"
-                        onclick="return ProcessOrder()">处理订单</button>
+                        onclick="return processOrder()">处理订单</button>
             </div>
         </div>
     </div>
@@ -307,7 +307,14 @@
 
 <script type="text/javascript">
 
-    var double_click= 0;
+    //获取用户套餐详情按钮连击
+    var userPackageDetailDoubleClick = 0;
+
+    //下单按钮连击
+    var saleOrderDoubleClick = 0;
+
+    //处理订单按钮连击
+    var processOrderDoubleClick = 0;
 
     //获取套餐详情数据
     function userPackageDetail() {
@@ -315,16 +322,16 @@
         var userMobile = $("[name='mobile_name']").val();
         var userPasword = $("[name='password_name']").val();
 
-        //判断按钮连击
-        if (double_click == 0) {
+        //获取用户套餐详情按钮连击
+        if (userPackageDetailDoubleClick == 0) {
 
-            double_click = 1;
+            userPackageDetailDoubleClick = 1;
 
-          $("#userPackageDetail").attr("disabled",true);
+            $("#userPackageDetail").attr("disabled",true);
 
             setTimeout(function () {
 
-                double_click = 0;
+                userPackageDetailDoubleClick = 0;
 
               $("#userPackageDetail").attr("disabled",false);
 
@@ -351,7 +358,7 @@
 //                document.getElementById('hide_cancle').removeAttribute('class');
 //                document.getElementById('hide_cancle').style.visibility="visible";
 
-                //释放按钮点击事件
+                //释放处理订单按钮点击事件
                 $("#processOrder").attr("disabled",false);
 //                $("#processOrder").removeAttr("disabled");
 //                window.document.getElementById('processOrder').removeAttribute('disabled');
@@ -480,6 +487,23 @@
 
                     isCheck = true;
 
+                    //下单按钮连击
+                    if (saleOrderDoubleClick == 0) {
+
+                        saleOrderDoubleClick = 1;
+
+                        $("#saleOrder").attr("disabled",true);
+
+                        setTimeout(function () {
+
+                            saleOrderDoubleClick = 0;
+
+                          $("#saleOrder").attr("disabled",false);
+
+                        }, 20000);
+                    }
+
+
                     //下单接口
                     $.ajax({
                     url:'/tool/sale_order/order_pay_success/',
@@ -605,7 +629,7 @@
     }
 
     //处理订单
-    function ProcessOrder(){
+    function processOrder(){
 
         var radio_order = document.getElementsByName('radio_orders');
 
@@ -631,6 +655,23 @@
                     alert("订单处理开始，请等候...");
 
                     isCheck = true;
+
+                    //处理订单按钮连击，暂不考虑
+//                    if (processOrderDoubleClick == 0) {
+//
+//                        processOrderDoubleClick = 1;
+//
+//                        $("#processOrder").attr("disabled",true);
+
+//                        setTimeout(function () {
+//
+//                            processOrderDoubleClick = 0;
+//
+//                          $("#processOrder").attr("disabled",false);
+//
+//                        }, 20000);
+//                    }
+
 
                     //处理订单接口
                     $.ajax({

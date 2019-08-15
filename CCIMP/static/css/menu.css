@@ -63,6 +63,11 @@ body {
 
 /*}*/
 
+/*左边栏整体菜单：针对sidebar，设置背景图为黑色*/
+.col-sm-3{
+	background-color: #505050;
+}
+
 /*一级菜单*/
 .menu_list li .fuMenu{
 	color: #b8c7ce;
@@ -71,7 +76,7 @@ body {
 	height: 50px;
 	line-height: 50px;
 	width: 140px;
-	border-top: 2px solid rosybrown;
+	border-top: 0px solid rosybrown;
 	float: left;
 }
 
@@ -83,7 +88,6 @@ body {
 }
 
 .menu_list li .div1 {
-	/*width: 100%;*/
 	height: auto;
 	float: left;
 }
@@ -117,7 +121,8 @@ body {
 
 /*二级菜单hover文字*/
 .menu_list li .div1 .zcd:hover {
-	color: #FFF;
+	/*color: #FFF;*/
+	color: deepskyblue;
 	font-weight: bold;
 }
 

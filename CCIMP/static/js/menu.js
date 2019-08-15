@@ -39,7 +39,7 @@ $('.div1').click(function(e){
 });
 
 //点击子菜单为子菜单添加样式，并移除所有其他子菜单样式
-$(".menu_list ul li .div1 .zcd").click(function() {
+$(".menu_list ul li .div1 a .zcd span").click(function() {
 	//设置当前菜单为选中状态的样式，并移除同类同级别的其他元素的样式
 	$(this).addClass("removes").siblings().removeClass("removes");
 	//遍历获取所有父菜单元素
