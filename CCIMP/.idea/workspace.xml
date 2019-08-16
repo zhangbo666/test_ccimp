@@ -3,8 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="5d4a13ed-3ecf-4528-9f42-2e99ec0f8af1" name="Default" comment="" />
     <ignored path="CCIMP.iws" />
-    <ignored path=".idea/workspace.xml" />
-    <ignored path=".idea/dataSources.local.xml" />
+    <ignored path=".idea/workspace.xml"/>
+    <ignored path=".idea/dataSources.local.xml"/>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

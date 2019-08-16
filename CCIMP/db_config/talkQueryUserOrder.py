@@ -44,4 +44,4 @@ def talk_query_user_order_success(orderId):
 
         conn_talk.rollback()
 
-        print (e)
+        print ("e-->",e)
