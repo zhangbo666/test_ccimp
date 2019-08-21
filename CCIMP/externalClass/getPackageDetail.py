@@ -27,11 +27,16 @@ def getPackageDetail(req):
 
             try:
 
+                #返回dict类型
                 data_json = req.get(url=point_url).json()
+                # print ("data_json-->",data_json)
+                # print ("type(data_json)-->",type(data_json))
 
                 if data_json['status'] == 0:
 
                     print ('该' + point_type + '套餐接口下暂无套餐信息-->>',data_json['info'])
+                    # print ('data_json["data"]-->',data_json['data'])
+                    # print ('data_json["data"]-->',type(data_json['data']))
 
                 else:
 
@@ -43,7 +48,6 @@ def getPackageDetail(req):
                     }
 
                     point_type_list.append(point_type_dict)
-
                     # print ("point_type_list-->",point_type_list)
 
             except:
@@ -63,13 +67,22 @@ def getPackageDetail(req):
 
     }
 
+    # print ("order_detail_dict-->",order_detail_dict)
+
+    #返回list类型
     order_info = order_info_dict['order_detail_dict']['point_type_data']
+    # print ("order_info-->",order_info)
+    # print ("order_info-->",type(order_info))
+
 
     point_detail_list = []
 
     for info in order_info:
 
         point_info = info['point_info']
+        # print ("point_info-->",point_info)
+        # print ("point_info-->",type(point_info))
+        # print (" ")
 
         for p_info in point_info:
 
@@ -90,20 +103,10 @@ def getPackageDetail(req):
         "data":point_detail_list
     }
 
-    #转为json格式
-    point_detail_dict_json = json.dumps(point_detail_dict)
+    #转为json格式(str)
+    point_detail_dict_jsonStr = json.dumps(point_detail_dict)
+    # print ("point_detail_dict_jsonStr-->",point_detail_dict_jsonStr)
+    print ("point_detail_dict_jsonStr-->",type(point_detail_dict_jsonStr))
+    print (" ")
 
-    return point_detail_dict_json
-
-    # for o1 in point_detail_list:
-    #
-    #     point_type = o1['point_type']
-    #     point_id = o1['point_id']
-    #     price = o1['price']
-    #     name = o1['name']
-    #
-    #     print ("套餐信息分别如下：")
-    #     print ("point_type-->>",point_type)
-    #     print ("point_id-->>",point_id)
-    #     print ("price-->>",price)
-    #     print ("name-->>",name,'\n')
+    return point_detail_dict_jsonStr

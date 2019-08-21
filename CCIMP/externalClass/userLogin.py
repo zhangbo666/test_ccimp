@@ -10,6 +10,7 @@
 import requests,re
 from externalClass.publicKeyRsa import publicKeyRsa
 from externalClass.getPackageDetail import getPackageDetail
+from externalClass.public_configure import global_configure
 
 def userLogin(mobile,password):
     '''
@@ -51,12 +52,20 @@ def userLogin(mobile,password):
             indxe = request.get(url=index_url)
             # print ("indxe-->",indxe.text)
 
+            return request
+
         except:
-            print('账户登录错误！')
+
+            print(global_configure.login_error_message)
+
+            return global_configure.login_error_message
+
     except BaseException as e:
+
         print('调用登录方法报错！信息：%s'%e)
-    else:
-        return request
+
+    # else:
+    #     return request
 
 if __name__ == '__main__':
 

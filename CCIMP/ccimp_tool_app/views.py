@@ -15,7 +15,7 @@ from externalClass.getPackageDetail import getPackageDetail
 from externalClass.getOrderInfo import getOrderInfo
 from externalClass.adminLogin import adminLogin
 from externalClass.processOrder import processOrder
-
+from externalClass.public_configure import global_configure
 from db_config.talkQueryUserOrder import talk_query_user_order_success
 from db_config.db_config import *
 
@@ -53,6 +53,7 @@ def sale_order(request):
                     return render(request,"tool_sale_order.html",
                                   {"username":get_username})
 
+
 '''###############################################################################'''
 #获取套餐详情
 @auth
@@ -62,9 +63,6 @@ def get_package_detail(request):
 
         user_mobile = request.POST.get("userMobile","")
         user_password = request.POST.get("userPasword","")
-
-        # print ("user_mobile-->",user_mobile)
-        # print ("user_password-->",user_password)
 
         if user_mobile == "":
 
@@ -91,37 +89,40 @@ def get_package_detail(request):
             #调用获取登录状态接口
             req = userLogin(user_mobile,pwd)
 
-            #调用获取套餐详情接口
-            point_detail_list = getPackageDetail(req)
+            #登录错误或者不是内部网络
+            if req == global_configure.login_error_message:
 
-            #json转list
-            point_detail_json = json.loads(point_detail_list)
+                return JsonResponse({"status_code":10100,
+                     "message":req})
 
-            # print ("point_detail_json-->",point_detail_json)
-            # print ("point_detail_json-->",type(point_detail_json))
+            else:
 
-            # for point_info in point_detail_json['data']:
+                #调用获取套餐详情接口
+                point_detail_dict_jsonStr = getPackageDetail(req)
 
+                #转为dict格式
+                point_detail_dict = json.loads(point_detail_dict_jsonStr)
+                # print ("point_detail_dict-->",point_detail_dict)
+                print ("point_detail_dict-->",type(point_detail_dict))
+                print (" ")
+
+                #转为list格式
+                point_info = point_detail_dict['data']
                 # print ("point_info-->",point_info)
-                # print ("point_info-->",type(point_info))
+                print ("point_info-->",type(point_info))
+                print (" ")
 
-                # pointDetail = {
-                #
-                #     "point_id":p_info['point_id'],
-                #     "name":p_info['name'],
-                #     "price":p_info['price'],
-                #     "point_type":p_info['point_type'],
-                # }
+                #获取套餐数据为空
+                if (point_info == []):
 
-                # point_detail_list.append(pointDetail)
+                    return JsonResponse({"status_code":10104,
+                                         "message":"获取套餐数据为空，请查看原因！！！",
+                                         "result":point_info})
+                else:
 
-            point_info = point_detail_json['data']
-            print ("point_info-->",point_info)
-            print ("point_info-->",type(point_info))
-
-            return JsonResponse({"status_code":10200,
-                                 "message":"获取套餐数据正确！！！",
-                                 "result":point_info})
+                    return JsonResponse({"status_code":10200,
+                                         "message":"获取套餐数据正确！！！",
+                                         "result":point_info})
 
 
 '''###############################################################################'''
@@ -209,12 +210,12 @@ def get_order_detail(request):
         if order_detail == ():
 
             return JsonResponse({"status_code":10101,
-                                 "message":"订单获取失败，无法读取该订单数据！"})
+                                 "message":"订单获取失败，无法读取该订单数据！！！"})
 
         else:
 
             return JsonResponse({"status_code":10200,
-                                 "message":"订单获取正常！",
+                                 "message":"订单获取正常！！！",
                                  "result":order_detail})
 
 
@@ -257,3 +258,4 @@ def process_order(request):
                                      "message":"订单处理失败！"})
 
 
+'''###############################################################################'''
