@@ -2,16 +2,17 @@ __author__ = 'zhangbo'
 
 
 def getOrderInfo(req,point_id) -> str:
+
     '''
     用户下单
-    :param pointId:套餐id
-    :param is_Process: 是否处理订单
+    :param point_id:套餐id
     :return:订单id
     '''
 
     signUrl = 'http://sale.51talk.com/ajax/getOrderInfo?&web=1&cart={"cart":["' + str(point_id) + '"]}'
     s = req.get(url=signUrl)
     try:
+
         sign = s.json()['data']['data_sign']
         print('获取签名：{}'.format(sign))
 

@@ -511,10 +511,13 @@
                     data:{'userMobile':userMobile,'userPasword':userPasword,'point_id':point_id},
                     success:function(data){
 
-                        if (data.status_code === 10101 ||
+                        if (
+                                data.status_code === 10101 ||
                                 data.status_code === 10102 ||
                                 data.status_code === 10103 ||
-                                data.status_code === 10104) {
+                                data.status_code === 10104 ||
+                                data.status_code === 10105
+                            ) {
 
                             alert(data.message);
 
@@ -522,9 +525,9 @@
 
                         else if (data.status_code === 10200) {
 
-                            alert(data.message);
+//                            alert(data.message);
 
-                            alert("生成的订单号为：" + data.result);
+                            alert("下单成功，生成的订单号为：" + data.result);
 
                             //释放按钮点击事件
                             //$("#processOrder").attr("disabled",false);

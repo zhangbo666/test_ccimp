@@ -16,6 +16,8 @@ from externalClass.getOrderInfo import getOrderInfo
 from externalClass.adminLogin import adminLogin
 from externalClass.processOrder import processOrder
 from externalClass.public_configure import global_configure
+from externalClass.getCheckCartInfo import getCheckCartInfo
+
 from db_config.talkQueryUserOrder import talk_query_user_order_success
 from db_config.db_config import *
 
@@ -164,19 +166,29 @@ def order_pay_success(request):
             #调用获取套餐详情接口
             # point_detail_list = getPackageDetail(req)
 
-            #获取用户下单详情
-            status_flage = getOrderInfo(req,point_id)
+            #查看套餐是否可以被下单
+            req_s = getCheckCartInfo(req,point_id)
 
-            if status_flage == False:
+            if req_s == False:
 
                 return JsonResponse({"status_code":10104,
-                                     "message":"签名获取失败，不能创建订单数据！"})
+                                     "message":"您当前还有同类型未完成的课程，请上完课后再来购买！！！"})
 
             else:
 
-                return JsonResponse({"status_code":10200,
-                                     "message":"下单成功，数据返回正确！！！",
-                                     "result":status_flage})
+                #获取用户下单详情
+                status_flage = getOrderInfo(req,point_id)
+
+                if status_flage == False:
+
+                    return JsonResponse({"status_code":10105,
+                                         "message":"签名获取失败，不能创建订单数据！"})
+
+                else:
+
+                    return JsonResponse({"status_code":10200,
+                                         "message":"下单成功，数据返回正确！！！",
+                                         "result":status_flage})
 
 
 '''###############################################################################'''
