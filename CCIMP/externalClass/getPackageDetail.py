@@ -92,6 +92,8 @@ def getPackageDetail(req):
                 "name":p_info['name'],
                 "price":p_info['price'],
                 "point_type":p_info['point_type'],
+                "point_gift_package":p_info['gift_package_title'],
+                "point_press_book":p_info['press_book']
             }
 
             point_detail_list.append(pointDetail)

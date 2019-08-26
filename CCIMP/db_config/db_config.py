@@ -29,6 +29,18 @@ conn_talk = connect(host='172.16.70.20',
 # 连接talk数据库游标
 cursor_talk = conn_talk.cursor()
 
+# 连接172.16.70.20--point测试数据库
+conn_point = connect(host='172.16.70.20',
+                          user='rd_user',
+                          password='NTHXDF7czYwi',
+                          port=3306,
+                          db='point',
+                          charset='utf8',
+                          cursorclass=cursors.DictCursor)
+# 连接talk数据库游标
+cursor_point = conn_point.cursor()
+
+
 
 # 连接本地测试数据库
 # conn_test = connect(host='127.0.0.1',

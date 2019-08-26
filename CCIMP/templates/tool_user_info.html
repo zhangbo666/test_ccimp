@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 {% block base %}
 
+<style>
+    .op{
+        text-align: center;
+    }
+</style>
+
+
 <nav class="navbar navbar-inverse navbar-fixed-top" xmlns="http://www.w3.org/1999/html">
     <div class="container-fluid_1">
         <div class="navbar-header">
@@ -186,91 +193,45 @@
                     </div>
                 </div>
 
-
-
-
-
-
-
-
-                <!--<li>-->
-                    <!--<a href="/project/">-->
-                        <!--<i class="glyphicon glyphicon-th-large"></i>&nbsp;&nbsp;项目管理-->
-                    <!--</a>-->
-                <!--</li>-->
-                <!--<li>-->
-                    <!--<a href="/module/">-->
-                        <!--<i class="glyphicon glyphicon-th"></i>&nbsp;&nbsp;模块管理-->
-                    <!--</a>-->
-                <!--</li>-->
-                <!--<li>-->
-                    <!--<a href="/testcase/">-->
-                       <!--<i class="glyphicon glyphicon-briefcase"></i>&nbsp;&nbsp;用例管理-->
-                    <!--</a>-->
-                <!--</li>-->
-                <!--<li>-->
-                    <!--<a href="/report/">-->
-                       <!--<i class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp;报告管理-->
-                    <!--</a>-->
-                <!--</li>-->
-
-                <!--{% if type_option_admin == "permission_sap" %}-->
-                <!--<li>-->
-                    <!--<li>-->
-                        <!--<a href="/permission/">-->
-                            <!--<i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;用户权限-->
-                        <!--</a>-->
-                    <!--</li>-->
-                    <!--<li>-->
-                        <!--<a href="/permission/class/">-->
-                            <!--<i class="glyphicon glyphicon-inbox"></i>&nbsp;&nbsp;权限分类-->
-                        <!--</a>-->
-                    <!--</li>-->
-                <!--</li>-->
-                <!--{% endif %}-->
-
-                <!--<li class="active">-->
-                    <!--<a href="/tool/sale_order/">-->
-                        <!--<i class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp;工具管理-->
-                    <!--</a>-->
-                <!--</li>-->
-                <!--<li>-->
-                    <!--<a href="">-->
-                        <!--<i class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp;系统设置-->
-                    <!--</a>-->
-                <!--</li>-->
-
-
            </ul>
         </div>
         <div style="margin-left: 135px;" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <h4 style="color: blue;">获取登录状态：
+            <h4 style="color: blue;">51Talk用户信息查询：
                 <!--<button class="btn btn-primary" name="submit" style="float:right;"-->
                         <!--onclick="location.href='/permission/add_permission/'">创建权限</button>-->
             </h4><br>
             <!--<form class="permission" method="post" name="permission-page" action="search">-->
-            <label>请输入登录手机号：</label>
-            <input type="text" name="mobile_name" placeholder="手机号码" id="mobile_name">
-            <label style="margin-left: 20px;">请输入登录密码：</label>
-            <input type="text" name="password_name" placeholder="用户密码" id="password_name">
-            <button class="btn btn-success" type="submit" id="userPackageDetail" style="margin-left: 20px;"
-                    onclick="return userPackageDetail()">获取用户套餐详情</button>
+            <label>请输入用户手机号：</label>
+            <input type="text" name="user_mobile" placeholder="手机号码" id="user_mobile">
+            <!--<label style="margin-left: 20px;">请输入登录密码：</label>-->
+            <!--<input type="text" name="password_name" placeholder="用户密码" id="password_name">-->
+            <button class="btn btn-success" type="submit" id="userInfoDetail" style="margin-left: 20px;"
+                    onclick="return userInfoDetail()">获取用户信息详情</button>
             <!--</form>-->
             <br><br><br>
 
             <div id="hide_cancle" style="display: none">
-                <h4 style="color: blue;">获取用户套餐详情：</h4><br>
+                <h4 style="color: blue;">获取用户信息：</h4><br>
 
-                <div class="table-responsive">
-                    <table class="table table-striped" id="myTablePlaceOrder">
+                <div class="table-responsive" style="font-size:14px;">
+                    <table class="table table-striped table-bo" id="myTableUserInfo"
+                           style="width:150%;
+                           table-layout: fixed;word-break: break-all;word-wrap: break-word;">
                         <thead>
 
-                            <tr style="text-align: center">
-                                <th>序号</th>
-                                <th>套餐编号</th>
-                                <th>套餐名称</th>
-                                <th>套餐价格</th>
-                                <th>套餐类型</th>
+                            <tr style="vertical-align: middle;text-align: center;">
+                                <th>id</th>
+                                <th>姓名</th>
+                                <th>别名</th>
+                                <th>手机号</th>
+                                <th>体验课状态</th>
+                                <th>付费状态</th>
+                                <th>初始等级</th>
+                                <th>当前等级</th>
+                                <th>推荐人</th>
+                                <th>城市</th>
+                                <th>财富</th>
+
                             </tr>
 
                         </thead>
@@ -279,33 +240,33 @@
 
                     </table>
                 </div>
-                <button class="btn btn-success" type="submit" id="saleOrder" style="margin-left: 20px;float: right;"
-                        onclick="return saleOrder()">下单</button>
-                <br><br><br>
+                <!--<button class="btn btn-success" type="submit" id="saleOrder" style="margin-left: 20px;float: right;"-->
+                        <!--onclick="return saleOrder()">下单</button>-->
+                <!--<br><br><br>-->
 
-                <h4 style="color: blue;">读取订单数据：</h4><br>
+                <!--<h4 style="color: blue;">读取订单数据：</h4><br>-->
 
-                <div class="table-responsive">
-                    <table class="table table-striped" id="myTableGetOrderDetail">
-                        <thead>
+                <!--<div class="table-responsive">-->
+                    <!--<table class="table table-striped" id="myTableGetOrderDetail">-->
+                        <!--<thead>-->
 
-                            <tr style="text-align: center">
-                                <th>序号</th>
-                                <th>订单编号</th>
-                                <th>套餐编号</th>
-                                <th>订单金额</th>
-                                <th>付款方式</th>
-                                <th>订单类型</th>
-                            </tr>
+                            <!--<tr style="text-align: center">-->
+                                <!--<th>序号</th>-->
+                                <!--<th>订单编号</th>-->
+                                <!--<th>套餐编号</th>-->
+                                <!--<th>订单金额</th>-->
+                                <!--<th>付款方式</th>-->
+                                <!--<th>订单类型</th>-->
+                            <!--</tr>-->
 
-                        </thead>
+                        <!--</thead>-->
 
-                        <tbody></tbody>
+                        <!--<tbody></tbody>-->
 
-                    </table>
-                </div>
-                <button class="btn btn-success" id="processOrder" type="submit" style="margin-left: 20px;float: right;"
-                        onclick="return processOrder()">处理订单</button>
+                    <!--</table>-->
+                <!--</div>-->
+                <!--<button class="btn btn-success" id="processOrder" type="submit" style="margin-left: 20px;float: right;"-->
+                        <!--onclick="return processOrder()">处理订单</button>-->
             </div>
         </div>
     </div>
@@ -315,8 +276,8 @@
 
 <script type="text/javascript">
 
-    //获取用户套餐详情按钮连击
-    var userPackageDetailDoubleClick = 0;
+    //获取用户信息详情按钮连击
+    var userInfoDetailDoubleClick = 0;
 
     //下单按钮连击
     var saleOrderDoubleClick = 0;
@@ -324,50 +285,52 @@
     //处理订单按钮连击
     var processOrderDoubleClick = 0;
 
-    //获取套餐详情数据
-    function userPackageDetail() {
+    //获取用户信息详情数据
+    function userInfoDetail() {
 
-        var userMobile = $("[name='mobile_name']").val();
-        var userPasword = $("[name='password_name']").val();
+        var userMobile = $("[name='user_mobile']").val();
+//        var userPasword = $("[name='password_name']").val();
 
-        //获取用户套餐详情按钮连击
-        if (userPackageDetailDoubleClick == 0) {
+        //获取用户信息详情按钮连击
+        if (userInfoDetailDoubleClick == 0) {
 
-            userPackageDetailDoubleClick = 1;
+            userInfoDetailDoubleClick = 1;
 
-            $("#userPackageDetail").attr("disabled",true);
+            $("#userInfoDetail").attr("disabled",true);
 
             setTimeout(function () {
 
-                userPackageDetailDoubleClick = 0;
+                userInfoDetailDoubleClick = 0;
 
-              $("#userPackageDetail").attr("disabled",false);
+              $("#userInfoDetail").attr("disabled",false);
 
-            }, 20000);
+            }, 6000);
         }
 
-        //获取套餐详情接口
+        //获取用户信息详情接口
         $.ajax({
-        url:'/tool/sale_order/get_package_detail/',
+        url:'/tool/user_info/get_userinfo_detail/',
         type:'POST',
-        data:{'userMobile':userMobile,'userPasword':userPasword},
+        data:{'userMobile':userMobile},
         success:function (data) {
 
-            if (data.status_code === 10200){
+            if (data.status_code === 10200) {
 
-                console.log("data-->",data);
-                console.log("result-->",data.result);
+                console.log("data-->", data);
+                console.log("data-->result.user_list-->", data.result.user_list);
+                console.log("data-->result.wealth_list-->", data.result.wealth_list);
+//                console.log("data-->result-->",data.result.wealth_list);
 
                 alert(data.message);
 
                 //区域元素显示出来
-                document.getElementById('hide_cancle').style.display="inline";
+                document.getElementById('hide_cancle').style.display = "inline";
 //                document.getElementById('hide_cancle').style.display="block";
 //                document.getElementById('hide_cancle').removeAttribute('class');
 //                document.getElementById('hide_cancle').style.visibility="visible";
 
                 //释放处理订单按钮点击事件
-                $("#processOrder").attr("disabled",false);
+//                $("#processOrder").attr("disabled",false);
 //                $("#processOrder").removeAttr("disabled");
 //                window.document.getElementById('processOrder').removeAttribute('disabled');
 
@@ -391,36 +354,72 @@
 //                $(myTableGetOrderDetail).empty();
 
                 //清空tbody元素
-                var table1=document.getElementById("myTablePlaceOrder");
-                var table2=document.getElementById("myTableGetOrderDetail");
+                var table1 = document.getElementById("myTableUserInfo");
+//                var table2=document.getElementById("myTableGetOrderDetail");
 
-                var table1_tbody=table1.getElementsByTagName("tbody");
-                var table2_tbody=table2.getElementsByTagName("tbody");
+                var table1_tbody = table1.getElementsByTagName("tbody");
+//                var table2_tbody=table2.getElementsByTagName("tbody");
 
-                if (table1_tbody.length >0){
+                if (table1_tbody.length > 0) {
 
                     table1.removeChild(table1_tbody[0]);
 
-                };
-
-                if (table2_tbody.length >0){
-
-                    table2.removeChild(table2_tbody[0]);
-
-                };
-
-
-                var data = data.result;
-                for (var i=0; i < data.length; i++){
-
-                    var str = '<td>' +
-                              '<input type="radio" name="radio_status" id="radio_status" value=' + data[i].point_id + '>' +
-                              '</td>' +
-                              '<td>' + data[i].point_id + '</td>' + '<td>' + data[i].name + '</td>' +
-                              '<td>' + data[i].price + '</td>' + '<td>' + data[i].point_gift_package + '</td>' +
-                              '<td>' + data[i].point_press_book + '</td>' + '<td>' + data[i].point_type + '</td>';
-                    $("#myTablePlaceOrder").append('<tr>' + str + '</tr>');
                 }
+                ;
+
+//                if (table2_tbody.length >0){
+//
+//                    table2.removeChild(table2_tbody[0]);
+//
+//                };
+
+                var user_list_data = data.result.user_list;
+                var wealth_list_data = data.result.wealth_list;
+                var str1;
+                var str2;
+
+                for (var i = 0; i < user_list_data.length; i++) {
+
+                    str1 = '<td>' + user_list_data[i].id + '</td>' + '<td>' + user_list_data[i].real_name + '</td>' +
+                           '<td>' + user_list_data[i].nick_name + '</td>' + '<td>' + user_list_data[i].mobile + '</td>' +
+                           '<td>' + user_list_data[i].is_trail + '</td>' + '<td>' + user_list_data[i].is_buy + '</td>' +
+                           '<td>' + user_list_data[i].now_level + '</td>' + '<td>' + user_list_data[i].current_level + '</td>' +
+                           '<td>' + user_list_data[i].parent_id + '</td>' + '<td>' + user_list_data[i].city + '</td>';
+//                    $("#myTableUserInfo").append('<tr>' + str1 + '</tr>');
+
+                }
+
+                if (wealth_list_data.length > 0) {
+
+                    for (var y = 0; y < wealth_list_data.length; y++) {
+
+                        if (wealth_list_data[y].point === undefined) {
+
+                            str2 = str1 + '<td>' + '次卡：' + 0 + ',' + '课时：' + wealth_list_data[y].classtime + '</td>';
+
+                        }
+
+                        else if (wealth_list_data[y].classtime === undefined) {
+
+                            str2 = str1 + '<td>' + '次卡：' + wealth_list_data[y].point + ',' + '课时：' + 0 + '</td>';
+
+                        }
+
+                        else {
+
+                            str2 = str1 + '<td>' + '次卡：' + wealth_list_data[y].point + ',' + '课时：' + wealth_list_data[y].classtime + '</td>';
+
+                        }
+                    }
+
+                }
+                else {
+
+                    str2 = str1 + '<td>' + '次卡：' + 0 + ',' + '课时：' + 0 + '</td>';
+
+                }
+
+                $("#myTableUserInfo").append('<tr>' + str2 + '</tr>');
 
                 //释放获取用户套餐详情按钮点击事件
 //                $("#userPackageDetail").attr("disabled",false);

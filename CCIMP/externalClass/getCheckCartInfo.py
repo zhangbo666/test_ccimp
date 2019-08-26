@@ -6,7 +6,7 @@ def getCheckCartInfo(req,point_id):
     '''
     是否该套餐可以被下单
     :param pointId:套餐id
-    :return:req
+    :return:Tru/False
     '''
 
     #查看套餐是否可以被下单接口

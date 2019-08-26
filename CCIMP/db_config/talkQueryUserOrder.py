@@ -7,22 +7,22 @@ import operator
 
 
 #----------------------------------------------------------------------------------------------------------------------#
-    # 查询user表mobile,password
+    # 查询talk库-->user_order表mobile,password
 #----------------------------------------------------------------------------------------------------------------------#
 
 def talk_query_user_order_success(orderId):
 
     '''查询订单详情'''
 
-    return_value = []
-
     try:
 
         with conn_talk.cursor() as cursor:
 
             #查询
-            sql_query  = "select id,extend_id,order_money,pay_method,order_type from user_order where id = %s" % (orderId)
+            sql_query  = "select id,extend_id,order_money,pay_method,order_type from user_order " \
+                         "where id = %s" % (orderId)
 
+            #连接中断重连
             conn_talk.ping(reconnect=True)
 
             cursor.execute(sql_query)

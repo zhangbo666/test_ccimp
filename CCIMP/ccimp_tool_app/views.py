@@ -19,6 +19,9 @@ from externalClass.public_configure import global_configure
 from externalClass.getCheckCartInfo import getCheckCartInfo
 
 from db_config.talkQueryUserOrder import talk_query_user_order_success
+from db_config.talkQueryUserInfo import talk_query_user_info_detail_success
+from db_config.talkQueryUserInfo import talk_query_user_info_id_success
+from db_config.talkQueryUserWealth import talk_query_user_wealth_success
 from db_config.db_config import *
 
 import json
@@ -271,3 +274,119 @@ def process_order(request):
 
 
 '''###############################################################################'''
+#学员信息manage
+@auth
+def user_info(request):
+
+    get_username = request.session.get('user','')
+
+    users = User.objects.all()
+
+    if request.method == "GET":
+
+        for user in users:
+
+            if user.user_name == get_username:
+
+                if user.permission_options == 1:
+
+                    return render(request,"tool_user_info.html",
+                                  {"username":get_username,
+                                   "type_option_admin":"permission_sap"})
+
+                elif user.permission_options == 2:
+
+                    return render(request,"tool_user_info.html",
+                                  {"username":get_username})
+
+                elif user.permission_options == 3:
+
+                    return render(request,"tool_user_info.html",
+                                  {"username":get_username})
+
+
+
+'''###############################################################################'''
+#获取用户信息详情
+@auth
+def get_userinfo_detail(request):
+
+    if request.method == "POST":
+
+        user_detail_dict = {}
+
+        user_mobile = request.POST.get("userMobile","")
+
+        if user_mobile == "":
+
+            # return HttpResponse("用户手机号不能为空！")
+            return JsonResponse({"status_code":10101,
+                                 "message":"用户手机号不能为空！"})
+
+        elif len(user_mobile)< 11 or len(user_mobile)>11:
+
+            # return HttpResponse("用户手机号输入错误，请重新输入！")
+            return JsonResponse({"status_code":10102,
+                                 "message":"用户手机号输入错误，请重新输入！"})
+        else:
+
+            #获取用户信息详情
+            user_list_result = talk_query_user_info_detail_success(user_mobile)
+            # print ("user_list_result-->",user_list_result)
+            # print ("user_list_result-->",type(user_list_result))
+
+            # for i in user_list_result:
+            #
+            #     for key,values in i.items():
+            #
+            #         print (key,values)
+
+
+            # cursor_talk.close()
+            # conn_talk.close()
+
+            user_id = talk_query_user_info_id_success(user_mobile)
+            # print ("user_id-->",user_id)
+            # print ("user_id-->",type(user_id))
+
+            wealth_list_result = talk_query_user_wealth_success(user_id)
+            # print ("wealth_list_result-->",wealth_list_result)
+            # print ("wealth_list_result-->",type(wealth_list_result))
+
+            # cursor_point.close()
+            # conn_point.close()
+
+            user_detail_dict = {
+
+                "user_list":user_list_result,
+                "wealth_list":wealth_list_result
+            }
+
+            # print ("user_detail_dict-->",user_detail_dict)
+            # print ("type(user_detail_dict)-->",type(user_detail_dict))
+
+            #注释：or wealth_list_result == ()
+            if user_list_result == ():
+
+                return JsonResponse({"status_code":10103,
+                                     "message":"获取该用户信息或财富失败！！！"})
+            else:
+
+                return JsonResponse({"status_code":10200,
+                                     "message":"用户信息获取成功！！！",
+                                     "result":user_detail_dict})
+
+
+
+
+                # #转为dict格式
+                # point_detail_dict = json.loads(point_detail_dict_jsonStr)
+                # # print ("point_detail_dict-->",point_detail_dict)
+                # print ("point_detail_dict-->",type(point_detail_dict))
+                # print (" ")
+                #
+                # #转为list格式
+                # point_info = point_detail_dict['data']
+                # # print ("point_info-->",point_info)
+                # print ("point_info-->",type(point_info))
+                # print (" ")
