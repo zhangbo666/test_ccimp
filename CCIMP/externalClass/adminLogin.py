@@ -30,8 +30,6 @@ def adminLogin():
 
     aa = request.post(url=adminLoginUrl, data=data, headers=head)
 
-    print (aa)
-
     return request
 
 if __name__ == '__main__':

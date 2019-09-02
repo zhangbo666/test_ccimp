@@ -22,6 +22,8 @@ from db_config.talkQueryUserOrder import talk_query_user_order_success
 from db_config.talkQueryUserInfo import talk_query_user_info_detail_success
 from db_config.talkQueryUserInfo import talk_query_user_info_id_success
 from db_config.talkQueryUserWealth import talk_query_user_wealth_success
+from db_config.talkQueryUserOrder import talk_query_user_order2_success
+
 from db_config.db_config import *
 
 import json
@@ -108,12 +110,11 @@ def get_package_detail(request):
                 #转为dict格式
                 point_detail_dict = json.loads(point_detail_dict_jsonStr)
                 # print ("point_detail_dict-->",point_detail_dict)
-                print ("point_detail_dict-->",type(point_detail_dict))
-                print (" ")
+                # print ("point_detail_dict-->",type(point_detail_dict))
 
                 #转为list格式
                 point_info = point_detail_dict['data']
-                # print ("point_info-->",point_info)
+                print ("point_info-->",point_info)
                 print ("point_info-->",type(point_info))
                 print (" ")
 
@@ -166,9 +167,6 @@ def order_pay_success(request):
             #调用获取登录状态接口
             req = userLogin(user_mobile,pwd)
 
-            #调用获取套餐详情接口
-            # point_detail_list = getPackageDetail(req)
-
             #查看套餐是否可以被下单
             req_s = getCheckCartInfo(req,point_id)
 
@@ -203,23 +201,10 @@ def get_order_detail(request):
 
         order_id = request.POST.get("order_id","")
 
-        #调用获取加密密码接口
-        # pwd = publicKeyRsa(user_password)
-
-        #调用获取登录状态接口
-        # req = userLogin(user_mobile,pwd)
-
-        #调用获取套餐详情接口
-        # point_detail_list = getPackageDetail(req)
-
-        #获取用户下单详情
-        # status_flage = getOrderInfo(req,point_id)
-
         #获取订单详情
         order_detail = talk_query_user_order_success(order_id)
 
         # cursor_talk.close()
-        #
         # conn_talk.close()
 
         if order_detail == ():
@@ -243,9 +228,6 @@ def process_order(request):
 
         order_id = request.POST.get("order_id","")
 
-        # print ("order_id-->",type(order_id))
-
-
         if order_id == "":
 
             return JsonResponse({"status_code":10101,
@@ -258,7 +240,6 @@ def process_order(request):
 
             #调用admin后台处理订单接口
             responses_result = processOrder(req,order_id)
-
             # print ("responses_result-->",responses_result)
             # print ("responses_result-->",type(responses_result))
 
@@ -305,7 +286,6 @@ def user_info(request):
                                   {"username":get_username})
 
 
-
 '''###############################################################################'''
 #获取用户信息详情
 @auth
@@ -334,13 +314,6 @@ def get_userinfo_detail(request):
             user_list_result = talk_query_user_info_detail_success(user_mobile)
             # print ("user_list_result-->",user_list_result)
             # print ("user_list_result-->",type(user_list_result))
-
-            # for i in user_list_result:
-            #
-            #     for key,values in i.items():
-            #
-            #         print (key,values)
-
 
             # cursor_talk.close()
             # conn_talk.close()
@@ -377,16 +350,36 @@ def get_userinfo_detail(request):
                                      "result":user_detail_dict})
 
 
+'''###############################################################################'''
+#获取用户未处理的订单信息
+@auth
+def get_order_on_detail(request):
 
+    if request.method == "POST":
 
-                # #转为dict格式
-                # point_detail_dict = json.loads(point_detail_dict_jsonStr)
-                # # print ("point_detail_dict-->",point_detail_dict)
-                # print ("point_detail_dict-->",type(point_detail_dict))
-                # print (" ")
-                #
-                # #转为list格式
-                # point_info = point_detail_dict['data']
-                # # print ("point_info-->",point_info)
-                # print ("point_info-->",type(point_info))
-                # print (" ")
+        user_mobile = request.POST.get("userMobile","")
+
+        if user_mobile == "":
+
+            return JsonResponse({"status_code":10101,"message":"用户手机号不能为空！"})
+
+        elif len(user_mobile) < 11 or len(user_mobile) > 11:
+
+            return JsonResponse({"status_code":10102,
+                                 "message":"用户手机号输入错误，请重新输入！"})
+
+        else:
+
+            userId = talk_query_user_info_id_success(user_mobile)
+
+            status = 'on'
+
+            order_list_result = talk_query_user_order2_success(userId,status)
+
+            if order_list_result == ():
+
+                return JsonResponse({"status_code":10103,"message":"该用户还未下单！！！"})
+
+            else:
+
+                return JsonResponse({"status_code":10200,"message":"用户未完成订单获取成功！！！","result":order_list_result})

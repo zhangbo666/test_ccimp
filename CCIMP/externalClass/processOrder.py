@@ -17,7 +17,7 @@ if __name__ == '__main__':
     #调取后台登录接口
     admin_login = adminLogin()
 
-    order_id = "1801567807"
+    order_id = "1801568168"
 
     #调取后台处理订单接口
     processUrl = 'http://www.51talk.com/admin/order/do_deal_order.php?order_id=' + str(order_id)

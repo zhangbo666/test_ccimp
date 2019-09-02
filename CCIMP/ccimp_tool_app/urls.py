@@ -15,6 +15,7 @@ urlpatterns = [
     path('sale_order/order_pay_success/',views.order_pay_success),
     path('sale_order/get_order_detail/',views.get_order_detail),
     path('sale_order/process_order/',views.process_order),
+    path('sale_order/get_order_on_detail/',views.get_order_on_detail),
 
 
     #学员信息

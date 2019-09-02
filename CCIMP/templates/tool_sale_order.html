@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 {% block base %}
 
+<!--修改模态框 出现的位置-->
+<style type="text/css">
+    .modal.fade.in{
+        top:30px;
+    }
+</style>
+
 <nav class="navbar navbar-inverse navbar-fixed-top" xmlns="http://www.w3.org/1999/html">
     <div class="container-fluid_1">
         <div class="navbar-header">
@@ -9,7 +16,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
-          </button>
+            </button>
         <a class="navbar-brand" href="http://www.51talk.com">CCIMP--51Talk</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
@@ -188,78 +195,36 @@
 
 
 
-
-
-
-
-
-                <!--<li>-->
-                    <!--<a href="/project/">-->
-                        <!--<i class="glyphicon glyphicon-th-large"></i>&nbsp;&nbsp;项目管理-->
-                    <!--</a>-->
-                <!--</li>-->
-                <!--<li>-->
-                    <!--<a href="/module/">-->
-                        <!--<i class="glyphicon glyphicon-th"></i>&nbsp;&nbsp;模块管理-->
-                    <!--</a>-->
-                <!--</li>-->
-                <!--<li>-->
-                    <!--<a href="/testcase/">-->
-                       <!--<i class="glyphicon glyphicon-briefcase"></i>&nbsp;&nbsp;用例管理-->
-                    <!--</a>-->
-                <!--</li>-->
-                <!--<li>-->
-                    <!--<a href="/report/">-->
-                       <!--<i class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp;报告管理-->
-                    <!--</a>-->
-                <!--</li>-->
-
-                <!--{% if type_option_admin == "permission_sap" %}-->
-                <!--<li>-->
-                    <!--<li>-->
-                        <!--<a href="/permission/">-->
-                            <!--<i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;用户权限-->
-                        <!--</a>-->
-                    <!--</li>-->
-                    <!--<li>-->
-                        <!--<a href="/permission/class/">-->
-                            <!--<i class="glyphicon glyphicon-inbox"></i>&nbsp;&nbsp;权限分类-->
-                        <!--</a>-->
-                    <!--</li>-->
-                <!--</li>-->
-                <!--{% endif %}-->
-
-                <!--<li class="active">-->
-                    <!--<a href="/tool/sale_order/">-->
-                        <!--<i class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp;工具管理-->
-                    <!--</a>-->
-                <!--</li>-->
-                <!--<li>-->
-                    <!--<a href="">-->
-                        <!--<i class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp;系统设置-->
-                    <!--</a>-->
-                <!--</li>-->
-
-
            </ul>
         </div>
         <div style="margin-left: 135px;" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <h4 style="color: blue;">获取登录状态：
+            <h4 style="color: blue;">登录账户信息：
                 <!--<button class="btn btn-primary" name="submit" style="float:right;"-->
                         <!--onclick="location.href='/permission/add_permission/'">创建权限</button>-->
-            </h4><br>
+            </h4>
             <!--<form class="permission" method="post" name="permission-page" action="search">-->
             <label>请输入登录手机号：</label>
             <input type="text" name="mobile_name" placeholder="手机号码" id="mobile_name">
             <label style="margin-left: 20px;">请输入登录密码：</label>
             <input type="text" name="password_name" placeholder="用户密码" id="password_name">
             <button class="btn btn-success" type="submit" id="userPackageDetail" style="margin-left: 20px;"
-                    onclick="return userPackageDetail()">获取用户套餐详情</button>
+                    onclick="return userPackageDetail()">用户套餐详情</button>
+
+            <!--获取当前手机号下所有未完成的订单详情-->
+            <button class="btn btn-success" type="submit" id="userOnOrderDetail" data-keyboard="false"
+                    data-toggle="modal" data-target="#myModalUserOnOrderDetail"
+                    style="margin-left: 20px;"
+                    onclick="return userOnOrderDetail()">用户未完成订单</button>
             <!--</form>-->
             <br><br><br>
 
             <div id="hide_cancle" style="display: none">
+            <!--<div id="hide_cancle" class="hide">-->
+
                 <h4 style="color: blue;">获取用户套餐详情：</h4><br>
+
+                <button class="btn btn-success" type="submit" id="saleOrder" style="margin-left: 20px;float: right;"
+                        onclick="return saleOrder()">下单</button><br><br>
 
                 <div class="table-responsive">
                     <table class="table table-striped" id="myTablePlaceOrder">
@@ -281,8 +246,6 @@
 
                     </table>
                 </div>
-                <button class="btn btn-success" type="submit" id="saleOrder" style="margin-left: 20px;float: right;"
-                        onclick="return saleOrder()">下单</button>
                 <br><br><br>
 
                 <h4 style="color: blue;">读取订单数据：</h4><br>
@@ -309,6 +272,55 @@
                 <button class="btn btn-success" id="processOrder" type="submit" style="margin-left: 20px;float: right;"
                         onclick="return processOrder()">处理订单</button>
             </div>
+
+            <!--查看日志的模态框（Modal）-->
+            <div class="modal fade bs-example-modal-lg" id="myModalUserOnOrderDetail" tabindex="1"
+                 role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" style="overflow:scroll;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel" style="color:blue;">未完成订单：</h4>
+                        </div>
+                        <div class="modal-body" id="modalUserOnOrderDetail" style="height:450px;">
+
+                            <div class="table-responsive">
+                                <table class="table table-striped" data-toggle="table" data-height="100" id="myTableUserOnOrderDetail">
+                                    <thead>
+
+                                        <tr style="text-align: center">
+                                            <th>操作</th>
+                                            <th>订单编号</th>
+                                            <th>套餐编号</th>
+                                            <th>套餐价格</th>
+                                            <th>套餐类型</th>
+                                            <th>订单状态</th>
+                                        </tr>
+
+                                    </thead>
+
+                                    <tbody style="height:500px;"></tbody>
+
+                                </table>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+
+                            <button type="button" class="btn btn-primary"
+                                    id="processOnOrder" onclick="return processOnOrder()" >处理未完成订单</button>
+
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
         </div>
     </div>
 
@@ -316,6 +328,12 @@
 
 
 <script type="text/javascript">
+
+//    UserPackageDetailInIt();
+//    SaleOrderInIt();
+//    ProcessOrderInIt();
+//    UserOnOrderDetailInIt();
+
 
     //获取用户套餐详情按钮连击
     var userPackageDetailDoubleClick = 0;
@@ -337,15 +355,19 @@
 
             userPackageDetailDoubleClick = 1;
 
+            //用户套餐详情与用户未完成订单按钮置灰色状态不能点击
             $("#userPackageDetail").attr("disabled",true);
+            $("#userOnOrderDetail").attr("disabled",true);
 
             setTimeout(function () {
 
                 userPackageDetailDoubleClick = 0;
 
-              $("#userPackageDetail").attr("disabled",false);
+                //用户套餐详情与用户未完成订单按钮状态恢复为点击
+                $("#userPackageDetail").attr("disabled",false);
+                $("#userOnOrderDetail").attr("disabled",false);
 
-            }, 20000);
+            }, 8000);
         }
 
         //获取套餐详情接口
@@ -373,22 +395,7 @@
 //                $("#processOrder").removeAttr("disabled");
 //                window.document.getElementById('processOrder').removeAttribute('disabled');
 
-//                var obj = eval(data.result);
-//                var tbody =$('<tbody></tbody>');
-//
-//                $(obj).each(function (index){
-//
-//                    var val=obj[index];
-//                    var tr=$('<tr></tr>');
-//                    tr.append('<td>' +
-//                              '<input type="radio" name="radio_status" id="radio_status" value=' + val.point_id + '>' +
-//                              '</td>' +
-//                              '<td>' + val.point_id + '</td>' + '<td>' + val.name + '</td>' +
-//                              '<td>' + val.price + '</td>' + '<td>' + val.point_type + '</td>');
-//                    tbody.append(tr);
-//                });
-
-                //清空创建到元素内容
+                //清空该元素下面的所有元素内容
 //                $(myTablePlaceOrder).empty();
 //                $(myTableGetOrderDetail).empty();
 
@@ -734,6 +741,230 @@
 
 
     }
+
+    //获取用户未完成的订单
+    function userOnOrderDetail(){
+
+        var userMobile = $("[name='mobile_name']").val();
+
+        $.ajax({
+        url:'/tool/sale_order/get_order_on_detail/',
+        type:'POST',
+        data:{'userMobile':userMobile},
+        success:function(data){
+
+            if (data.status_code === 10200){
+
+                console.log("data-->",data);
+                console.log("result.result-->",data.result);
+
+                alert(data.message);
+
+                //区域元素显示出来
+//                document.getElementById('hide_cancle').style.display="inline";
+
+//                document.getElementById('hide_cancle').style.display="block";
+//                document.getElementById('hide_cancle').removeAttribute('class');
+//                document.getElementById('hide_cancle').style.visibility="visible";
+
+                //释放处理订单按钮点击事件
+//                $("#processOrder").attr("disabled",false);
+//
+//  $("#processOrder").removeAttr("disabled");
+//                window.document.getElementById('processOrder').removeAttribute('disabled');
+
+//                var obj = eval(data.result);
+//                var tbody =$('<tbody></tbody>');
+//
+//                $(obj).each(function (index){
+//
+//                    var val=obj[index];
+//                    var tr=$('<tr></tr>');
+//                    tr.append('<td>' +
+//                              '<input type="radio" name="radio_status" id="radio_status" value=' + val.point_id + '>' +
+//                              '</td>' +
+//                              '<td>' + val.point_id + '</td>' + '<td>' + val.name + '</td>' +
+//                              '<td>' + val.price + '</td>' + '<td>' + val.point_type + '</td>');
+//                    tbody.append(tr);
+//                });
+
+                //清空创建到元素内容
+//                $(myTablePlaceOrder).empty();
+//                $(myTableGetOrderDetail).empty();
+
+                //清空tbody元素
+                var table1=document.getElementById("myTableUserOnOrderDetail");
+//                var table2=document.getElementById("myTableGetOrderDetail");
+//
+                var table1_tbody=table1.getElementsByTagName("tbody");
+//                var table2_tbody=table2.getElementsByTagName("tbody");
+//
+                if (table1_tbody.length >0){
+
+                    table1.removeChild(table1_tbody[0]);
+
+                };
+//
+//                if (table2_tbody.length >0){
+//
+//                    table2.removeChild(table2_tbody[0]);
+//
+//                };
+//
+//
+                var data = data.result;
+                for (var i=0; i < data.length; i++){
+
+                    var str = '<td>' +
+                              '<input type="radio" name="radio_on_orders" id="radio_on_orders" value='+ data[i].id + '>' +
+                              '</td>' +
+                              '<td>' + data[i].id +
+                              '</td>' + '<td>' + data[i].extend_id +
+                              '</td>' + '<td>' + data[i].order_money +
+                              '</td>' + '<td>' + data[i].order_type +
+                              '</td>' + '<td>' + data[i].status + '</td>';
+                    $("#myTableUserOnOrderDetail").append('<tr>' + str + '</tr>');
+                }
+
+                //释放获取用户套餐详情按钮点击事件
+//                $("#userPackageDetail").attr("disabled",false);
+
+//                for (var i in data){
+//
+//                    var str = '<td>' +
+//                              '<input type="radio" name="radio_status" id="radio_status" value=' + data[i].point_id + '>' +
+//                              '</td>' +
+//                              '<td>' + data[i].point_id + '</td>' + '<td>' + data[i].name + '</td>' +
+//                              '<td>' + data[i].price + '</td>' + '<td>' + data[i].point_type + '</td>';
+//                    $("#myTablePlaceOrder").append('<tr>' + str + '</tr>');
+//                }
+
+//                $.each(data,function(index,item){
+//
+//                    var str = '<td>' +
+//                              '<input type="radio" name="radio_status" id="radio_status" value=' + item.point_id + '>' +
+//                              '</td>' +
+//                              '<td>' + item.point_id + '</td>' + '<td>' + item.name + '</td>' +
+//                              '<td>' + item.price + '</td>' + '<td>' + item.point_type + '</td>';
+//                    $("#myTablePlaceOrder").append('<tr>' + str + '</tr>');
+//                });
+
+                //释放处理未完成订单按钮点击事件
+                $("#processOnOrder").attr("disabled",false);
+//                $("#processOnOrder").removeAttr("disabled");
+//                window.document.getElementById('processOnOrder').removeAttribute('disabled');
+
+            }
+
+            else{
+
+                window.alert(data.message);
+
+                //手机号错误时，删除加载的模态框
+                $("#myModalUserOnOrderDetail").empty();
+
+                window.location.reload()
+
+            }
+        }
+
+        });
+    };
+
+    //处理当前账户下未完成的订单
+    function processOnOrder(){
+
+        var radio_on_order = document.getElementsByName('radio_on_orders');
+
+        var isCheck = false;
+
+        if (document.getElementsByName('radio_on_orders').length > 0) {
+
+            for (var i = 0; i < radio_on_order.length; i++) {
+
+//                if (radio_on_order[i].checked){
+//
+//                    userid = radio_on_order[i].value;
+//
+//                    isCheck = true;
+//
+//                }
+                var checkeds = document.querySelectorAll("[name=radio_on_orders]")[i].checked;
+
+                if (checkeds === true){
+
+                    var order_id = $("input[name=radio_on_orders]:checked").val();
+
+                    alert("订单处理开始，请等候...");
+
+                    isCheck = true;
+
+                    //处理订单按钮连击，暂不考虑
+//                    if (processOrderDoubleClick == 0) {
+//
+//                        processOrderDoubleClick = 1;
+//
+//                        $("#processOrder").attr("disabled",true);
+//
+//                        setTimeout(function () {
+//
+//                            processOrderDoubleClick = 0;
+//
+//                          $("#processOrder").attr("disabled",false);
+//
+//                        }, 20000);
+//                    }
+
+
+                    //处理订单接口
+                    $.ajax({
+                    url:'/tool/sale_order/process_order/',
+                    type:'POST',
+                    data:{'order_id':order_id},
+                    success:function(data){
+
+                        if (data.status_code === 10101 || data.status_code === 10102) {
+
+                            alert(data.message);
+
+                        }
+
+                        else if (data.status_code === 10200) {
+
+                            alert("该订单处理成功！");
+
+                            //禁用处理未完成订单按钮点击事件
+                            $("#processOnOrder").attr("disabled",true);
+//                            $("#processOnOrder").attr("disabled","disabled");
+//                            window.document.getElementById('processOnOrder').setAttribute("disabled",true);
+
+                        }
+
+                    }
+
+                    });
+
+                }
+            }
+
+            if (!isCheck){
+
+                alert("当前还未选择订单！！！");
+
+            }
+
+
+        }
+
+        else{
+
+            alert("当前订单数据列表为空！")
+        }
+
+
+    }
+
+
 </script>
 
 
