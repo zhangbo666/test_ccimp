@@ -4,7 +4,7 @@ __author__ = 'zhangbo'
 
 import json
 
-def getPackageDetail(req):
+def getPackageDetail(req,user_role):
 
     point_type_list = []
 
@@ -40,15 +40,27 @@ def getPackageDetail(req):
 
                 else:
 
-                    point_type_dict = {
+                    #获取orderDetailList的value属性
+                    data_json_list = data_json['data']
 
-                        'point_type':point_type,
-                        'point_info':data_json['data'],
+                    for point_id_info in data_json_list:
 
-                    }
+                        #获取套餐id为None
+                        if point_id_info['id'] != None:
 
-                    point_type_list.append(point_type_dict)
-                    # print ("point_type_list-->",point_type_list)
+                            # print ('该' + point_type + '套餐' + ',' + '获取接口数据错误')
+
+                            point_type_dict = {
+
+                                'point_type':point_type,
+                                'point_info':data_json['data'],
+
+                            }
+
+                            point_type_list.append(point_type_dict)
+                            # print ("point_type_list-->",point_type_list)
+
+                            break
 
             except:
 
@@ -66,8 +78,10 @@ def getPackageDetail(req):
         'point_type_json_dict':point_type_json_dict,
 
     }
+    # print ("order_info_dict-->",order_info_dict)
 
     # print ("order_detail_dict-->",order_detail_dict)
+    # print ("point_type_json_dict-->",point_type_json_dict)
 
     #返回list类型
     order_info = order_info_dict['order_detail_dict']['point_type_data']
@@ -86,29 +100,48 @@ def getPackageDetail(req):
 
         for p_info in point_info:
 
-            pointDetail = {
+            if p_info['point_type'] == "mix_point":
 
-                "point_id":p_info['id'],
-                "name":p_info['name'],
-                "price":p_info['price'],
-                "point_type":p_info['point_type'],
-                "point_gift_package":p_info['gift_package_title'],
-                "point_press_book":p_info['press_book']
-            }
+                pointDetail = {
+
+                    "point_id":p_info['id'],
+                    "name":p_info['name'],
+                    "price":p_info['price'],
+                    "point_type":p_info['point_type'],
+                    "point_value":p_info['point_value'],
+                    "class_time_value":p_info['class_time_num']
+
+                }
+
+            else:
+
+                pointDetail = {
+
+                    "point_id":p_info['id'],
+                    "name":p_info['name'],
+                    "price":p_info['price'],
+                    "point_type":p_info['point_type'],
+                    "point_gift_package":p_info['gift_package_title'],
+                    "point_press_book":p_info['press_book'],
+                    "point_value":p_info['point_value'],
+                    "class_time_value":p_info['class_time_num']
+
+                }
 
             point_detail_list.append(pointDetail)
-
 
     point_detail_dict = {
 
         "status":1,
-        "data":point_detail_list
+        "data":point_detail_list,
+        "userRole":user_role
+
     }
 
     #转为json格式(str)
     point_detail_dict_jsonStr = json.dumps(point_detail_dict)
     # print ("point_detail_dict_jsonStr-->",point_detail_dict_jsonStr)
-    print ("point_detail_dict_jsonStr-->",type(point_detail_dict_jsonStr))
+    # print ("point_detail_dict_jsonStr-->",type(point_detail_dict_jsonStr))
     print (" ")
 
     return point_detail_dict_jsonStr

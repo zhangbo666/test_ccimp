@@ -15,13 +15,14 @@ def adminLogin():
     后台登录
     使用：实例化后直接调请求方法
     '''
-    adminLoginUrl = 'http://crm.51talk.com/admin/login.php'
+    adminLoginUrl = 'http://www.51talk.com/admin/login.php'
     data = {
         'user_name': 'admin',
         'password': '123456',
         'ref': '',
         'user_type': 'admin',
-        'Submit': '登 录'
+        'Submit': '登 录',
+        'login_type':'tmp'
     }
     head = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.90 Safari/537.36'

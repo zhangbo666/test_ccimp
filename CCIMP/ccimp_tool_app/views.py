@@ -17,12 +17,18 @@ from externalClass.adminLogin import adminLogin
 from externalClass.processOrder import processOrder
 from externalClass.public_configure import global_configure
 from externalClass.getCheckCartInfo import getCheckCartInfo
+from externalClass.getUserRole import getUserRole
 
 from db_config.talkQueryUserOrder import talk_query_user_order_success
 from db_config.talkQueryUserInfo import talk_query_user_info_detail_success
 from db_config.talkQueryUserInfo import talk_query_user_info_id_success
-from db_config.talkQueryUserWealth import talk_query_user_wealth_success
+from db_config.talkQueryUserWealth import talk_query_stu_point_user_wealth_success
+from db_config.talkQueryUserWealth import talk_query_user_assets_enable_user_wealth_success
+from db_config.talkQueryUserWealth import talk_query_user_assets_disable_point_user_wealth_success
+from db_config.talkQueryUserWealth import talk_query_user_assets_disable_classtime_user_wealth_success
 from db_config.talkQueryUserOrder import talk_query_user_order2_success
+from db_config.talkQueryUserWealth import talk_query_user_assets_disable_na_pri_user_wealth_success
+from db_config.talkQueryUserWealth import talk_query_user_assets_disable_na_open_user_wealth_success
 
 from db_config.db_config import *
 
@@ -104,8 +110,23 @@ def get_package_detail(request):
 
             else:
 
+                #获取用户user_id
+                user_id = talk_query_user_info_id_success(user_mobile)
+
+                #获取用户身份
+                user_role_info = getUserRole(user_id)
+                # print (user_role_info)
+                # print (type(user_role_info))
+
+                if user_role_info == 12:
+
+                    # return HttpResponse("该账户为美小用户，暂不支持套餐查询！")
+                    return JsonResponse({"status_code":10105,
+                                     "message":"该账户为美小用户，暂不支持套餐查询！"})
+
+
                 #调用获取套餐详情接口
-                point_detail_dict_jsonStr = getPackageDetail(req)
+                point_detail_dict_jsonStr = getPackageDetail(req,user_role_info)
 
                 #转为dict格式
                 point_detail_dict = json.loads(point_detail_dict_jsonStr)
@@ -114,8 +135,13 @@ def get_package_detail(request):
 
                 #转为list格式
                 point_info = point_detail_dict['data']
-                print ("point_info-->",point_info)
-                print ("point_info-->",type(point_info))
+                # print ("point_info-->",point_info)
+                # print ("point_info-->",type(point_info))
+                # print (" ")
+
+                user_role_info = point_detail_dict['userRole']
+                print ("user_role_info-->",user_role_info)
+                # print ("user_role_info-->",type(user_role_info))
                 print (" ")
 
                 #获取套餐数据为空
@@ -123,12 +149,14 @@ def get_package_detail(request):
 
                     return JsonResponse({"status_code":10104,
                                          "message":"获取套餐数据为空，请查看原因！！！",
-                                         "result":point_info})
+                                         "result":point_info,
+                                         "user_role":user_role_info})
                 else:
 
                     return JsonResponse({"status_code":10200,
                                          "message":"获取套餐数据正确！！！",
-                                         "result":point_info})
+                                         "result":point_info,
+                                         "user_role":user_role_info})
 
 
 '''###############################################################################'''
@@ -295,6 +323,10 @@ def get_userinfo_detail(request):
 
         user_detail_dict = {}
 
+        disable_wealth_list_result = []
+
+        disable_wealth_dict_result = {}
+
         user_mobile = request.POST.get("userMobile","")
 
         if user_mobile == "":
@@ -318,32 +350,75 @@ def get_userinfo_detail(request):
             # cursor_talk.close()
             # conn_talk.close()
 
-            user_id = talk_query_user_info_id_success(user_mobile)
-            # print ("user_id-->",user_id)
-            # print ("user_id-->",type(user_id))
-
-            wealth_list_result = talk_query_user_wealth_success(user_id)
-            # print ("wealth_list_result-->",wealth_list_result)
-            # print ("wealth_list_result-->",type(wealth_list_result))
-
-            # cursor_point.close()
-            # conn_point.close()
-
-            user_detail_dict = {
-
-                "user_list":user_list_result,
-                "wealth_list":wealth_list_result
-            }
-
-            # print ("user_detail_dict-->",user_detail_dict)
-            # print ("type(user_detail_dict)-->",type(user_detail_dict))
-
-            #注释：or wealth_list_result == ()
             if user_list_result == ():
 
                 return JsonResponse({"status_code":10103,
-                                     "message":"获取该用户信息或财富失败！！！"})
+                                     "message":"获取该用户信息失败！！！"})
+
             else:
+
+                user_id = talk_query_user_info_id_success(user_mobile)
+                # print ("user_id-->",user_id)
+                # print ("user_id-->",type(user_id))
+
+                #获取用户身份
+                user_role_info = getUserRole(user_id)
+                # print (user_role_info)
+                # print (type(user_role_info))
+
+                #获取用户当前财富
+                enable_wealth_list_result = talk_query_user_assets_enable_user_wealth_success(user_id)
+                # print ("enable_wealth_list_result-->",enable_wealth_list_result)
+                # print ("enable_wealth_list_result-->",type(enable_wealth_list_result))
+
+                if (str(user_role_info) == "11" or str(user_role_info) == "14"):
+
+                    #获取用户未开启次卡财富
+                    disable_point_wealth_dict_result = talk_query_user_assets_disable_point_user_wealth_success(user_id)
+                    # print ("disable_point_wealth_dict_result-->",disable_point_wealth_dict_result)
+                    # print ("disable_point_wealth_dict_result-->",type(disable_point_wealth_dict_result))
+
+                    #获取用户未开启课时财富
+                    disable_classtime_wealth_dict_result = talk_query_user_assets_disable_classtime_user_wealth_success(user_id)
+                    # print ("disable_classtime_wealth_dict_result-->",disable_classtime_wealth_dict_result)
+                    # print ("disable_classtime_wealth_dict_result-->",type(disable_classtime_wealth_dict_result))
+
+                    #未开启财富dict类型合并为另外一个dict类型
+                    disable_wealth_dict_result = dict(list(disable_point_wealth_dict_result.items()) +
+                                                      list(disable_classtime_wealth_dict_result.items()))
+
+                elif (str(user_role_info) == "12"):
+
+                    #获取用户未开启北美课时
+                    disable_na_pri_wealth_dict_result = talk_query_user_assets_disable_na_pri_user_wealth_success(user_id)
+
+                    #获取用户未开启北美绘本课
+                    disable_na_open_wealth_dict_result = talk_query_user_assets_disable_na_open_user_wealth_success(user_id)
+
+                    #未开启财富dict类型合并为另外一个dict类型
+                    disable_wealth_dict_result = dict(list(disable_na_pri_wealth_dict_result.items()) +
+                                                      list(disable_na_open_wealth_dict_result.items()))
+
+                disable_wealth_list_result.append(disable_wealth_dict_result)
+                # print ("disable_wealth_list_result-->",disable_wealth_list_result)
+                # print ("disable_wealth_list_result-->",type(disable_wealth_list_result))
+
+                # cursor_point.close()
+                # conn_point.close()
+
+                user_detail_dict = {
+
+                    "user_list":user_list_result,
+                    "enable_wealth_list":enable_wealth_list_result,
+                    "disable_wealth_list":disable_wealth_list_result,
+                    "userRole":user_role_info
+                }
+
+                print ("user_detail_dict-->",user_detail_dict)
+                print ("type(user_detail_dict)-->",type(user_detail_dict))
+
+                #注释：or wealth_list_result == ()
+
 
                 return JsonResponse({"status_code":10200,
                                      "message":"用户信息获取成功！！！",

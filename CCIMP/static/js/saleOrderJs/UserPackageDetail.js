@@ -29,7 +29,7 @@ function userPackageDetail() {
             $("#userPackageDetail").attr("disabled", false);
             $("#userOnOrderDetail").attr("disabled", false);
 
-        }, 8000);
+        }, 10000);
     }
 
     //获取套餐详情接口
@@ -42,7 +42,8 @@ function userPackageDetail() {
             if (data.status_code === 10200) {
 
                 console.log("data-->", data);
-                console.log("result-->", data.result);
+                console.log("data.result-->", data.result);
+                console.log("data.user_role-->",data.user_role);
 
                 alert(data.message);
 
@@ -84,16 +85,37 @@ function userPackageDetail() {
 
 
                 var data = data.result;
+
                 for (var i = 0; i < data.length; i++) {
 
-                    var str = '<td>' +
+                    if (data[i].point_type === 'mix_point'){
+
+                        var str = '<td>' +
                         '<input type="radio" name="radio_status" id="radio_status" value=' + data[i].point_id + '>' +
                         '</td>' +
                         '<td>' + data[i].point_id + '</td>' + '<td>' + data[i].name + '</td>' +
-                        '<td>' + data[i].price + '</td>' + '<td>' + data[i].point_gift_package + '</td>' +
-                        '<td>' + data[i].point_press_book + '</td>' + '<td>' + data[i].point_type + '</td>';
+                        '<td>' + "" + '</td>' + '<td>' + "" + '</td>' +
+                        '<td>' + data[i].price + '</td>' + '<td>' + "" + '</td>' +
+                        '<td>' + "" + '</td>' + '<td>' + data[i].point_type + '</td>';
+
+                    }
+
+                    else {
+
+                        var str = '<td>' +
+                            '<input type="radio" name="radio_status" id="radio_status" value=' + data[i].point_id + '>' +
+                            '</td>' +
+                            '<td>' + data[i].point_id + '</td>' + '<td>' + data[i].name + '</td>' +
+                            '<td>' + data[i].point_value + '</td>' + '<td>' + data[i].class_time_value + '</td>' +
+                            '<td>' + data[i].price + '</td>' + '<td>' + data[i].point_gift_package + '</td>' +
+                            '<td>' + data[i].point_press_book + '</td>' + '<td>' + data[i].point_type + '</td>';
+                    }
+
                     $("#myTablePlaceOrder").append('<tr>' + str + '</tr>');
                 }
+
+
+
 
                 //释放获取用户套餐详情按钮点击事件
 //                $("#userPackageDetail").attr("disabled",false);
