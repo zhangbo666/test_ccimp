@@ -1,0 +1,71 @@
+{% extends "project_list.html"%}
+
+{% block projectAdd %}
+
+
+<h3>添加项目</h3>
+
+<form class="form-horizontal" method="post" action="/project/add_project/">
+    <fieldset>
+
+        <label class="control-label" style="margin-top: 5px;">项目名称：</label>
+        <div class="control-group">
+            <!--<div class="controls">-->
+                <input type="text" name='project_name' class="input-xlarge"
+                       style="width:300px;height:30px;margin-top: 5px;">
+                <span style="color:red">{{ project_name }}</span>
+            <!--</div>-->
+        </div>
+
+        <!--<label class="control-label" style="margin-top:20px;">项目状态：</label>-->
+        <!--<div class="control-group">-->
+            <!--&lt;!&ndash;<div class="controls">&ndash;&gt;-->
+                <!--<select type="text" name='project_status' class="input-xlarge"-->
+                        <!--style="width:200px;height:30px;margin-top: 5px;">-->
+                    <!--<option>请选择：</option>-->
+                    <!--<option>禁用</option>-->
+                    <!--<option>开启</option>-->
+                    <!--<option>进行中</option>-->
+                    <!--<option>已完成</option>-->
+                    <!--<option>暂停</option>-->
+                <!--</select>-->
+                <!--<span style="color:red">{{ project_status }}</span>-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+        <!--</div>-->
+
+        <label for="describe" class="control-label" style="margin-top:20px;">项目描述：</label>
+        <div class="control-group">
+            <!--<div class="controls">-->
+            <span class="textarea">
+                <textarea id= "describe" name="project_describe"
+                          style="width: 500px;height: 50px;margin-top: 10px;"></textarea>
+            </span>
+            <!--</div>-->
+        </div>
+
+        <!--<div class="control-group">-->
+            <!--<label class="control-label" style="margin-top:40px;">项目状态：</label>-->
+            <!--<div class="controls" style="height:30px;">-->
+            <!--<span>-->
+                <!--<label class="radio inline"style="left: 100px;height:10px;float: left;">-->
+                    <!--<input type="radio" value="1" checked="checked" name="status">开启-->
+                <!--</label>-->
+                <!--<label class="radio inline" style="left: 22px;float: left;">-->
+                    <!--<input type="radio" value="0" name="status"  style="margin-left: 10px;">关闭-->
+                <!--</label>-->
+            <!--</span>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <div class="control-group" style="margin-left:20px;margin-top:40px;float: left">
+            <div class="controls">
+                <button style="margin-left: 40px;" class="btn btn-success">保存</button>
+                <button style="margin-left: 20px;" onclick="javascript:this.form.action='/project/';"
+                        class="btn btn-info">返回</button>
+            </div>
+        </div>
+    </fieldset>
+</form>
+
+
+{% endblock %}

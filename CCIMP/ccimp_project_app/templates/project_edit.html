@@ -1,0 +1,162 @@
+{% extends "project_list.html"%}
+
+{% block projectEdit %}
+
+<h3>编辑项目</h3>
+
+<!--<form class="form-horizontal" method="post" action="/project/add_project/">-->
+<fieldset>
+
+    <label class="control-label" style="margin-top: 5px;">项目名称：</label>
+    <div class="control-group">
+        <!--<div class="controls">-->
+            <input type="text" name='project_name' class="input-xlarge"
+                   style="width:300px;height:30px;margin-top: 5px;">
+            <span style="color:red">{{ project_name }}</span>
+        <!--</div>-->
+    </div>
+
+    <label class="control-label" style="margin-top:20px;">项目状态：</label>
+    <div class="control-group">
+        <!--<div class="controls">-->
+            <select type="text" name='project_status' class="input-xlarge"
+                    style="width:200px;height:30px;margin-top: 5px;">
+                <option>请选择：</option>
+                <option>禁用</option>
+                <option>开启</option>
+                <option>进行中</option>
+                <option>已完成</option>
+                <option>暂停</option>
+            </select>
+            <span style="color:red">{{ project_status }}</span>
+        <!--</div>-->
+    </div>
+
+    <label for="describe" class="control-label" style="margin-top:20px;">项目描述：</label>
+    <div class="control-group">
+        <!--<div class="controls">-->
+        <span class="textarea">
+            <textarea id= "describe" name="project_describe"
+                      style="width: 500px;height: 50px;margin-top: 10px;"></textarea>
+        </span>
+        <!--</div>-->
+    </div>
+
+    <!--<div class="control-group">-->
+        <!--<label class="control-label" style="margin-top:40px;">项目状态：</label>-->
+        <!--<div class="controls" style="height:30px;">-->
+        <!--<span>-->
+            <!--<label class="radio inline"style="left: 100px;height:10px;float: left;">-->
+                <!--<input type="radio" value="1" checked="checked" name="status">开启-->
+            <!--</label>-->
+            <!--<label class="radio inline" style="left: 22px;float: left;">-->
+                <!--<input type="radio" value="0" name="status"  style="margin-left: 10px;">关闭-->
+            <!--</label>-->
+        <!--</span>-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <div class="control-group" style="margin-left:20px;margin-top:40px;float: left">
+        <div class="controls">
+            <button style="margin-left: 40px;" class="btn btn-success" onclick = projectEditSave()>修改</button>
+            <!--<button style="margin-left: 20px;" onclick="javascript:this.form.action='/project/';"-->
+                    <!--class="btn btn-info">返回</button>-->
+            <button style="margin-left: 20px;" onclick="location.href='/project/';"
+            class="btn btn-info">返回</button>
+
+        </div>
+    </div>
+</fieldset>
+<!--</form>-->
+
+
+<script type="text/javascript">
+
+    // 获取当前url地址
+    var url = document.location;
+
+    console.log("url",url.pathname.split("/")[3]);
+
+    var pclass_id = url.pathname.split("/")[3];
+
+    console.log("当前选中的项目id：",pclass_id);
+
+    if (pclass_id === ""){
+
+        alert("当前项目id为空，不能进行修改")
+    }
+
+    //调用api，获取编辑项目数据
+    $.post("/project/get_edit_project_data/",{
+
+        "pclass_id":pclass_id
+
+    },function (resp) {
+
+        if (resp.status === 10200 ) {
+
+            document.querySelector("[name=project_name]").value   = resp.data.p_name;
+            document.querySelector("[name=project_status]").value = resp.data.p_status;
+            document.querySelector("[name=project_describe]").value      = resp.data.p_describe;
+
+        }
+    });
+
+    //保存项目数据
+    function projectEditSave() {
+
+        var projectName = document.querySelector("[name=project_name]").value;
+        var projectStatus = document.querySelector("[name=project_status]").value;
+        var projectDescribe = document.querySelector("[name=project_describe]").value;
+
+        msg_1 = confirm("确定修改项目数据吗？");
+
+        if (msg_1 === true){
+
+            $.post("/project/edit_save_project/", {
+
+            "projectName": projectName,
+            "projectStatus": projectStatus,
+            "projectDescribe": projectDescribe,
+            "pclass_id":pclass_id
+
+            }, function (var_resp) {
+
+                if (var_resp.status === 10101 || var_resp.status === 10102) {
+
+                    alert(var_resp.message);
+                }
+                else {
+
+                    alert("修改成功!");
+
+                    window.location.replace("/project/");
+
+                }
+            });
+        }
+
+    }
+
+
+
+    // 项目编辑js判断
+//    function projectEdit(){
+//
+//        msg_ = confirm("确定要删除项目吗？");
+//
+//        if (msg_ == true){
+//
+//            return true;
+//
+//            }
+//
+//        else{
+//
+//            return false;
+//        }
+//    };
+
+</script>
+
+{% endblock %}
