@@ -323,7 +323,7 @@ def add_project(request):
         #
         #     return render(request, "permission_class_add.html", {"username": get_username,
         #                                                          "type": "add",
-        #                                                          "type_option": "permission_sap",
+        #                                                          "type_option_admin": "permission_sap",
         #                                                          "po_name": "权限类别数据错误，请查看原因！"})
 
 
@@ -505,9 +505,9 @@ def edit_save_project(request):
         #     now_date = now1.replace(hour=now_hour+8)
 
         getCurreryEditDate = datetime.utcfromtimestamp(time.time()+28800)
-        print ("getCurreryEditDate-->",getCurreryEditDate,type(getCurreryEditDate))
+        # print ("getCurreryEditDate-->",getCurreryEditDate,type(getCurreryEditDate))
         getCurreryEditDate_str = getCurreryEditDate.strftime('%Y-%m-%d %H:%M:%S')
-        print ("getCurreryEditDate_str-->",getCurreryEditDate_str,type(getCurreryEditDate_str))
+        # print ("getCurreryEditDate_str-->",getCurreryEditDate_str,type(getCurreryEditDate_str))
 
         project.name        = projectName
         project.status      = projectStatus

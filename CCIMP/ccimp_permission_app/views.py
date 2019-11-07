@@ -40,7 +40,7 @@ def permission_manage(request):
              return render(request, "permission.html",
                      {"username": get_username,
                       "type": "list",
-                      "type_option": "permission_sap",
+                      "type_option_admin": "permission_sap",
                       "error":"未找到数据，请查看原因！！！"})
 
         for user in users_all:
@@ -90,7 +90,7 @@ def permission_manage(request):
 
                     return render(request, "permission.html",
                                   {"type": "list",
-                                   "type_option": "permission_sap",
+                                   "type_option_admin": "permission_sap",
                                    "username": get_username,
                                    "users": contacts,
                                    "page_num":page_num,
@@ -118,7 +118,7 @@ def edit_permission(request,uid):
         return render(request,"permission_edit.html",
                   {"username":get_username,
                    "type": "edit",
-                   "type_option": "permission_sap",
+                   "type_option_admin": "permission_sap",
                    "permissionClasss": permission})
 
 
@@ -162,7 +162,7 @@ def permission_search(request):
         if (len(user_search_list) == 0):
 
             return render(request,"permission.html",{"type":"list",
-                                                     "type_option": "permission_sap",
+                                                     "type_option_admin": "permission_sap",
                                                      "username": get_username,
                                                      "users":user_search_list,
                                                      "search_error":"搜索查询结果为空，请重新查询！！！"})
@@ -191,7 +191,7 @@ def permission_search(request):
                 # print ("contacts---------->3",contacts)
 
             return render(request,"permission.html",{"type":"list",
-                                                     "type_option": "permission_sap",
+                                                     "type_option_admin": "permission_sap",
                                                      "username": get_username,
                                                      "users":contacts,
                                                      "page_num":page_num,
@@ -262,7 +262,7 @@ def permission_class(request):
              return render(request, "permission_class.html",
                      {"username": get_username,
                       "type": "list",
-                      "type_option": "permission_sap",
+                      "type_option_admin": "permission_sap",
                       "error":"未找到数据，请查看原因！！！"})
 
         for user in users_all:
@@ -274,7 +274,7 @@ def permission_class(request):
                     return render(request,"permission_class.html",
                                 {"username":get_username,
                                  "type":"list",
-                                 "type_option":"permission_sap",
+                                 "type_option_admin":"permission_sap",
                                  "permissionClasss":contacts,
                                  "page_num":page_num,
                                  "paginator_num_pages":paginator_num_pages,
@@ -290,7 +290,7 @@ def permission_class(request):
         return render(request,"permission_class.html",
                       {"username":get_username,
                        "type": "list",
-                       "type_option":"permission_sap",
+                       "type_option_admin":"permission_sap",
                        "permissionClasss": contacts,
                        "page_num":page_num,
                        "paginator_num_pages":paginator_num_pages,
@@ -318,7 +318,7 @@ def add_permissionClass(request):
                     return render(request,"permission_class_add.html",
                                   {"username":get_username,
                                    "type":"add",
-                                   "type_option":"permission_sap"})
+                                   "type_option_admin":"permission_sap"})
 
             else:
 
@@ -338,20 +338,20 @@ def add_permissionClass(request):
 
             return render(request, "permission_class_add.html", {"username": get_username,
                                                                  "type": "add",
-                                                                 "type_option": "permission_sap",
+                                                                 "type_option_admin": "permission_sap",
                                                                  "pc_name": "权限中文名称不能为空！"})
         elif pe_name == "":
 
             return render(request, "permission_class_add.html", {"username": get_username,
                                                                  "type": "add",
-                                                                 "type_option": "permission_sap",
+                                                                 "type_option_admin": "permission_sap",
                                                                  "pe_name": "权限英文名称不能为空！"})
 
         elif po_name == "":
 
             return render(request, "permission_class_add.html", {"username": get_username,
                                                                  "type": "add",
-                                                                 "type_option": "permission_sap",
+                                                                 "type_option_admin": "permission_sap",
                                                                  "po_name": "权限类别不能为空！"})
 
         if po_name == "项目管理员" or po_name == "普通管理员":
@@ -381,7 +381,7 @@ def add_permissionClass(request):
 
             return render(request, "permission_class_add.html", {"username": get_username,
                                                                  "type": "add",
-                                                                 "type_option": "permission_sap",
+                                                                 "type_option_admin": "permission_sap",
                                                                  "po_name": "权限类别数据错误，请查看原因！"})
 
 
@@ -399,7 +399,7 @@ def edit_permissionClass(request,pclass_id):
         return render(request,"permission_class_edit.html",
                       {"username":get_username,
                        "type": "edit",
-                       "type_option":"permission_sap"})
+                       "type_option_admin":"permission_sap"})
 
 
 '''###############################################################################'''
@@ -444,7 +444,7 @@ def permission_class_search(request):
 
             return render(request,"permission_class.html",
                                   {"type":"list",
-                                   "type_option": "permission_sap",
+                                   "type_option_admin": "permission_sap",
                                    "username": get_username,
                                    "permissionClasss":permission_class_search_list,
                                    "search_error":"搜索查询结果为空，请重新查询！！！"})
@@ -474,7 +474,7 @@ def permission_class_search(request):
 
             return render(request,"permission_class.html",
                                     {"type":"list",
-                                     "type_option": "permission_sap",
+                                     "type_option_admin": "permission_sap",
                                      "username": get_username,
                                      "permissionClasss":contacts,
                                      "page_num":page_num,
@@ -601,18 +601,18 @@ def get_edit_permissionClass(request):
     if request.method == "POST":
 
         pclass_id = request.POST.get("pclass_id","")
-        print ("权限id：",pclass_id)
+        # print ("权限id：",pclass_id)
 
         pclass_id = PermissionClass.objects.get(id=pclass_id)
 
         pcname = pclass_id.permission_chinese_name
-        print (pcname)
+        # print (pcname)
 
         pename = pclass_id.permission_english_name
-        print (pename)
+        # print (pename)
 
         poname = pclass_id.permission_options
-        print (poname)
+        # print (poname)
 
         if poname == 2:
 
@@ -640,21 +640,21 @@ def get_edit_permission(request):
     if request.method == "POST":
 
         pUser_id = request.POST.get("pUser_id","")
-        print ("用户id：",pUser_id)
+        # print ("用户id：",pUser_id)
 
         pUser_id = User.objects.get(id=pUser_id)
 
         pUser_name = pUser_id.user_name
-        print (pUser_name)
+        # print (pUser_name)
 
         pReal_name = pUser_id.real_name
-        print (pReal_name)
+        # print (pReal_name)
 
         pMail = pUser_id.mail
-        print (pMail)
+        # print (pMail)
 
         permission_option = pUser_id.permission_options
-        print (permission_option)
+        # print (permission_option)
 
 
         if permission_option == 2:
@@ -691,11 +691,11 @@ def save_permission(request):
         permission_options = request.POST.get("permission_options", "")
         pUser_id = request.POST.get("pUser_id","")
 
-        print ("用户id-->",pUser_id)
-        print ("user_name-->",user_name)
-        print ("real_name-->",real_name)
-        print ("mail-->",mail)
-        print ("permission_options-->",permission_options)
+        # print ("用户id-->",pUser_id)
+        # print ("user_name-->",user_name)
+        # print ("real_name-->",real_name)
+        # print ("mail-->",mail)
+        # print ("permission_options-->",permission_options)
 
 
         permission = User.objects.get(id=pUser_id)
@@ -775,9 +775,9 @@ def save_permission(request):
             #     now_date = now1.replace(hour=now_hour+8)
 
             getCurreryEditDate = datetime.utcfromtimestamp(time.time()+28800)
-            print ("getCurreryEditDate-->",getCurreryEditDate,type(getCurreryEditDate))
+            # print ("getCurreryEditDate-->",getCurreryEditDate,type(getCurreryEditDate))
             getCurreryEditDate_str = getCurreryEditDate.strftime('%Y-%m-%d %H:%M:%S')
-            print ("getCurreryEditDate_str-->",getCurreryEditDate_str,type(getCurreryEditDate_str))
+            # print ("getCurreryEditDate_str-->",getCurreryEditDate_str,type(getCurreryEditDate_str))
 
             permission.user_name = user_name
             permission.real_name = real_name

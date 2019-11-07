@@ -1,8 +1,12 @@
 __author__ = 'zhangbo'
 
 import re
+
 from externalClass.adminLogin import adminLogin
+from externalClass.public_configure import global_configure
+
 from db_config.talkQueryUserInfo import talk_query_user_info_id_success
+
 
 def getUserRole(user_id):
 
@@ -12,32 +16,54 @@ def getUserRole(user_id):
     admin_login = adminLogin()
 
     roleResult = admin_login.get(url=getrole_url)
+    # print ("roleResult.text-->",roleResult.text)
 
-    role_sso_text = re.findall(r'"data":"(.*)"', roleResult.text)[0]
+    try :
 
-    role_sso_text = role_sso_text.split(',')
+        role_sso_text = re.findall(r'"data":"(.*)"', roleResult.text)[0]
+        # print ("role_sso_text-->",role_sso_text)
 
-    # print (role_sso_text)
+        role_sso_text = role_sso_text.split(',')
 
-    #11 菲小, 12 美小, 13 B2S, 14 成人, 15 达拉斯, 16 B2B, 17 美小达拉斯, 18 一对多班课, 19 1+2项目
-    for user_role in role_sso_text:
+        # print (role_sso_text)
 
-        if user_role == '11':
+        #11 菲小, 12 美小, 13 B2S, 14 成人, 15 达拉斯, 16 B2B, 17 美小达拉斯, 18 一对多班课, 19 1+2项目
+        #新注册学员，还未选身份，sso返回为空，默认为成人（14）
+        for user_role in role_sso_text:
 
-                userRole = 11
+            if user_role == '11':
 
-        elif user_role == '12':
+                    userRole = 11
 
-                userRole = 12
+            elif user_role == '12':
 
-        elif user_role == '14':
+                    userRole = 12
 
-                userRole = 14
+            elif user_role == '14':
 
-        elif user_role == '19':
+                    userRole = 14
 
-                userRole = 19
+            elif user_role == '19':
 
+                    userRole = 19
+
+            elif user_role == '':
+
+                    userRole = 14
+
+    except:
+
+        error_text = "请重新登录4"
+
+        try:
+
+            for error_text in roleResult.text:
+
+                userRole = global_configure.login_error_message
+
+        except:
+
+                userRole = global_configure.query_role_message
 
     return userRole
 

@@ -30,6 +30,7 @@ def adminLogin():
     request = requests.Session()
 
     aa = request.post(url=adminLoginUrl, data=data, headers=head)
+    # print (aa)
 
     return request
 

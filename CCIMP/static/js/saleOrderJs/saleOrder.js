@@ -9,25 +9,28 @@ function saleOrder(){
     var userMobile = $("[name='mobile_name']").val();
     var userPasword = $("[name='password_name']").val();
 
-    var radio_statu = document.all('radio_status');
-
+    //单选钮为1个时，radio_statu.length，获取不到值
+    //只能选用这种方法获取：document.getElementsByName('radio_status')
+    //var radio_statu = document.all('radio_status');
     //下单按钮连击
     var saleOrderDoubleClick = 0;
 
-    //var radio_statu = document.getElementsByName('radio_status');
+    var radio_statu = document.getElementsByName('radio_status');
+
     var isCheck = false;
 
     if ($("#radio_status").length > 0) {
 
         for (var i = 0; i < radio_statu.length; i++) {
 
-//                if (radio_statu[i].checked){
-//
-//                    userid = radio_statu[i].value;
-//
-//                    isCheck = true;
-//
-//                }
+                //if (radio_statu[i].checked){
+
+                    //userid = radio_statu[i].value;
+
+                    //isCheck = true;
+
+                //}
+
             var checkeds = document.querySelectorAll("[name=radio_status]")[i].checked;
 
             if (checkeds === true){

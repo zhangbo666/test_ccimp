@@ -53,6 +53,32 @@ function userOnOrderDetail(){
 
         }
 
+        else if(data.status_code === 10103){
+
+            window.alert(data.message);
+
+            //该用户还未下单时，每次初始化加载模态框时默认删除该模态框
+            $("#myModalUserOnOrderDetail").empty();
+            
+            window.location.reload();
+
+            //模态框关闭提醒
+
+            //$('#myModalUserOnOrderDetail').modal('hide');
+
+            //$('#myModalUserOnOrderDetail').on('hide.bs.modal', function () {
+            //        alert('模态框关闭了');
+            //});
+
+            //$(function(){
+            //    $('#myModalUserOnOrderDetail').on('hide.bs.modal',
+            //    function(){
+            //        alert('退出了');
+            //    })
+            //});
+
+        }
+
         else{
 
             window.alert(data.message);

@@ -120,7 +120,7 @@ def smsLoginSmsContent(username,password,mobile_text):
 
 if __name__ == '__main__':
 
-    mobile = '19014000137'
+    mobile = '19014000157'
 
     # 用户登录，查询短信验证码
     sms_code = smsLoginCode('zhangbo','zhangbo2019',mobile)

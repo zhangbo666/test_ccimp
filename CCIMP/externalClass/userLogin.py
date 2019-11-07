@@ -56,7 +56,7 @@ def userLogin(mobile,password):
 
         except:
 
-            print(global_configure.login_error_message)
+            # print(global_configure.login_error_message)
 
             return global_configure.login_error_message
 

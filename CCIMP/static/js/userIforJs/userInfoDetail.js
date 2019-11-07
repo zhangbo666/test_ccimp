@@ -87,7 +87,6 @@ function userInfoDetail() {
                 table1.removeChild(table1_tbody[0]);
 
             }
-            ;
 
 //                if (table2_tbody.length >0){
 //
@@ -104,6 +103,7 @@ function userInfoDetail() {
 
             for (var i = 0; i < user_list_data.length; i++) {
 
+
                 str1 = '<td>' + user_list_data[i].id + '</td>' + '<td>' + user_list_data[i].real_name + '</td>' +
                        '<td>' + user_list_data[i].nick_name + '</td>' + '<td>' + user_list_data[i].mobile + '</td>' +
                        '<td>' + user_list_data[i].is_trail + '</td>' + '<td>' + user_list_data[i].is_buy + '</td>' +
@@ -112,7 +112,6 @@ function userInfoDetail() {
 //                    $("#myTableUserInfo").append('<tr>' + str1 + '</tr>');
 
             }
-
 
             //当前财富：成人与青少
             if (data.result.userRole === 14 || data.result.userRole === 11) {

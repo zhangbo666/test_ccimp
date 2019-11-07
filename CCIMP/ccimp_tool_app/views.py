@@ -140,9 +140,9 @@ def get_package_detail(request):
                 # print (" ")
 
                 user_role_info = point_detail_dict['userRole']
-                print ("user_role_info-->",user_role_info)
+                # print ("user_role_info-->",user_role_info)
                 # print ("user_role_info-->",type(user_role_info))
-                print (" ")
+                # print (" ")
 
                 #获取套餐数据为空
                 if (point_info == []):
@@ -365,6 +365,17 @@ def get_userinfo_detail(request):
                 user_role_info = getUserRole(user_id)
                 # print (user_role_info)
                 # print (type(user_role_info))
+
+				#获取用户身份失败或当前网络不是测试环境
+                if user_role_info == global_configure.login_error_message:
+
+                    return JsonResponse({"status_code":10104,
+                                         "message":user_role_info})
+
+                elif user_role_info == global_configure.query_role_message:
+
+                    return JsonResponse({"status_code":10105,
+                                         "message":user_role_info})
 
                 #获取用户当前财富
                 enable_wealth_list_result = talk_query_user_assets_enable_user_wealth_success(user_id)
