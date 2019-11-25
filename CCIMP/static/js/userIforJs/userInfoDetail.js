@@ -10,7 +10,7 @@ var userInfoDetailDoubleClick = 0;
 function userInfoDetail() {
 
     var userMobile = $("[name='user_mobile']").val();
-//        var userPasword = $("[name='password_name']").val();
+    //var userPasword = $("[name='password_name']").val();
 
     //获取用户信息详情按钮连击
     if (userInfoDetailDoubleClick == 0) {
@@ -23,7 +23,7 @@ function userInfoDetail() {
 
             userInfoDetailDoubleClick = 0;
 
-          $("#userInfoDetail").attr("disabled",false);
+            $("#userInfoDetail").attr("disabled",false);
 
         }, 6000);
     }
@@ -47,40 +47,40 @@ function userInfoDetail() {
 
             //区域元素显示出来
             document.getElementById('hide_cancle').style.display = "inline";
-//                document.getElementById('hide_cancle').style.display="block";
-//                document.getElementById('hide_cancle').removeAttribute('class');
-//                document.getElementById('hide_cancle').style.visibility="visible";
+            //document.getElementById('hide_cancle').style.display="block";
+            //document.getElementById('hide_cancle').removeAttribute('class');
+            //document.getElementById('hide_cancle').style.visibility="visible";
 
             //释放处理订单按钮点击事件
-//                $("#processOrder").attr("disabled",false);
-//                $("#processOrder").removeAttr("disabled");
-//                window.document.getElementById('processOrder').removeAttribute('disabled');
+            //$("#processOrder").attr("disabled",false);
+            //$("#processOrder").removeAttr("disabled");
+            //window.document.getElementById('processOrder').removeAttribute('disabled');
 
-//                var obj = eval(data.result);
-//                var tbody =$('<tbody></tbody>');
-//
-//                $(obj).each(function (index){
-//
-//                    var val=obj[index];
-//                    var tr=$('<tr></tr>');
-//                    tr.append('<td>' +
-//                              '<input type="radio" name="radio_status" id="radio_status" value=' + val.point_id + '>' +
-//                              '</td>' +
-//                              '<td>' + val.point_id + '</td>' + '<td>' + val.name + '</td>' +
-//                              '<td>' + val.price + '</td>' + '<td>' + val.point_type + '</td>');
-//                    tbody.append(tr);
-//                });
+            //var obj = eval(data.result);
+            //var tbody =$('<tbody></tbody>');
+
+            //$(obj).each(function (index){
+            //
+            //    var val=obj[index];
+            //    var tr=$('<tr></tr>');
+            //    tr.append('<td>' +
+            //              '<input type="radio" name="radio_status" id="radio_status" value=' + val.point_id + '>' +
+            //              '</td>' +
+            //              '<td>' + val.point_id + '</td>' + '<td>' + val.name + '</td>' +
+            //              '<td>' + val.price + '</td>' + '<td>' + val.point_type + '</td>');
+            //    tbody.append(tr);
+            //});
 
             //清空创建到元素内容
-//                $(myTablePlaceOrder).empty();
-//                $(myTableGetOrderDetail).empty();
+            //$(myTablePlaceOrder).empty();
+            //$(myTableGetOrderDetail).empty();
 
             //清空tbody元素
             var table1 = document.getElementById("myTableUserInfo");
-//                var table2=document.getElementById("myTableGetOrderDetail");
+            //var table2=document.getElementById("myTableGetOrderDetail");
 
             var table1_tbody = table1.getElementsByTagName("tbody");
-//                var table2_tbody=table2.getElementsByTagName("tbody");
+            //var table2_tbody=table2.getElementsByTagName("tbody");
 
             if (table1_tbody.length > 0) {
 
@@ -88,11 +88,11 @@ function userInfoDetail() {
 
             }
 
-//                if (table2_tbody.length >0){
-//
-//                    table2.removeChild(table2_tbody[0]);
-//
-//                };
+            //if (table2_tbody.length >0){
+            //
+            //    table2.removeChild(table2_tbody[0]);
+            //
+            //};
 
             var user_list_data = data.result.user_list;
             var enable_wealth_list_data = data.result.enable_wealth_list;
@@ -109,7 +109,7 @@ function userInfoDetail() {
                        '<td>' + user_list_data[i].is_trail + '</td>' + '<td>' + user_list_data[i].is_buy + '</td>' +
                        '<td>' + user_list_data[i].now_level + '</td>' + '<td>' + user_list_data[i].current_level + '</td>' +
                        '<td>' + user_list_data[i].parent_id + '</td>' + '<td>' + user_list_data[i].city + '</td>';
-//                    $("#myTableUserInfo").append('<tr>' + str1 + '</tr>');
+                //$("#myTableUserInfo").append('<tr>' + str1 + '</tr>');
 
             }
 
@@ -268,27 +268,27 @@ function userInfoDetail() {
             $("#myTableUserInfo").append('<tr>' + str3 + '</tr>');
 
             //释放获取用户套餐详情按钮点击事件
-//                $("#userPackageDetail").attr("disabled",false);
+            //$("#userPackageDetail").attr("disabled",false);
 
-//                for (var i in data){
-//
-//                    var str = '<td>' +
-//                              '<input type="radio" name="radio_status" id="radio_status" value=' + data[i].point_id + '>' +
-//                              '</td>' +
-//                              '<td>' + data[i].point_id + '</td>' + '<td>' + data[i].name + '</td>' +
-//                              '<td>' + data[i].price + '</td>' + '<td>' + data[i].point_type + '</td>';
-//                    $("#myTablePlaceOrder").append('<tr>' + str + '</tr>');
-//                }
+            //for (var i in data){
+            //
+            //    var str = '<td>' +
+            //              '<input type="radio" name="radio_status" id="radio_status" value=' + data[i].point_id + '>' +
+            //              '</td>' +
+            //              '<td>' + data[i].point_id + '</td>' + '<td>' + data[i].name + '</td>' +
+            //              '<td>' + data[i].price + '</td>' + '<td>' + data[i].point_type + '</td>';
+            //    $("#myTablePlaceOrder").append('<tr>' + str + '</tr>');
+            //}
 
-//                $.each(data,function(index,item){
-//
-//                    var str = '<td>' +
-//                              '<input type="radio" name="radio_status" id="radio_status" value=' + item.point_id + '>' +
-//                              '</td>' +
-//                              '<td>' + item.point_id + '</td>' + '<td>' + item.name + '</td>' +
-//                              '<td>' + item.price + '</td>' + '<td>' + item.point_type + '</td>';
-//                    $("#myTablePlaceOrder").append('<tr>' + str + '</tr>');
-//                });
+            //$.each(data,function(index,item){
+            //
+            //    var str = '<td>' +
+            //              '<input type="radio" name="radio_status" id="radio_status" value=' + item.point_id + '>' +
+            //              '</td>' +
+            //              '<td>' + item.point_id + '</td>' + '<td>' + item.name + '</td>' +
+            //              '<td>' + item.price + '</td>' + '<td>' + item.point_type + '</td>';
+            //    $("#myTablePlaceOrder").append('<tr>' + str + '</tr>');
+            //});
 
         }
 
@@ -299,7 +299,7 @@ function userInfoDetail() {
             window.location.reload()
 
         }
-//        $('#myTablePlaceOrder tbody').replaceWith(tbody);
+        //$('#myTablePlaceOrder tbody').replaceWith(tbody);
 
 
     }

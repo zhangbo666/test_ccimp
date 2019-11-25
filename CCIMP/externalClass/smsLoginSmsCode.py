@@ -3,6 +3,8 @@ __author__ = 'zhangbo'
 # -*- coding: utf-8 -*-：
 
 import requests,re
+from externalClass.smsLoginSmsContent import smsLoginSmsContent
+
 
 def smsLoginCode(username,password,mobile_text):
 
@@ -120,7 +122,7 @@ def smsLoginSmsContent(username,password,mobile_text):
 
 if __name__ == '__main__':
 
-    mobile = '19014000157'
+    mobile = '18611221831'
 
     # 用户登录，查询短信验证码
     sms_code = smsLoginCode('zhangbo','zhangbo2019',mobile)

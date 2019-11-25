@@ -5,217 +5,247 @@
     .op{
         text-align: center;
     }
+
+    .modal.fade.in{
+        top:15%;
+    }
 </style>
 
-<nav class="navbar navbar-inverse navbar-fixed-top" xmlns="http://www.w3.org/1999/html">
-    <div class="container-fluid_1">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-          </button>
-        <a class="navbar-brand" href="http://www.51talk.com">CCIMP--51Talk</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav navbar-right">
-                <!--<li><a href="#">Settings</a></li>-->
-                <li>
-                    <span class="loginWelcomeName">欢迎,{{ username }}同学！
-                        <a href="/logout/">
-                            <span>&nbsp;&nbsp;logout</span>
-                        </a>
-                    </span>
-                </li>
-            </ul>
-            <!--<form class="navbar-form navbar-right">-->
-                <!--<input type="text" class="form-control" placeholder="Search..." disabled="disabled">-->
-            <!--</form>-->
-        </div>
-    </div>
-</nav>
+
+{% include "common_top.html"%}
+
+<!--<nav class="navbar navbar-inverse navbar-fixed-top" xmlns="http://www.w3.org/1999/html">-->
+    <!--<div class="container-fluid_1">-->
+        <!--<div class="navbar-header">-->
+            <!--<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">-->
+                <!--<span class="sr-only">Toggle navigation</span>-->
+                <!--<span class="icon-bar"></span>-->
+                <!--<span class="icon-bar"></span>-->
+                <!--<span class="icon-bar"></span>-->
+          <!--</button>-->
+        <!--<a class="navbar-brand" href="http://www.51talk.com">CCIMP--51Talk</a>-->
+        <!--</div>-->
+        <!--<div id="navbar" class="navbar-collapse collapse">-->
+            <!--<ul class="nav navbar-nav navbar-right">-->
+                <!--&lt;!&ndash;<li><a href="#">Settings</a></li>&ndash;&gt;-->
+                <!--<li>-->
+                    <!--<span class="loginWelcomeName">欢迎,{{ username }}同学！-->
+                        <!--<a href="/logout/">-->
+                            <!--<span>&nbsp;&nbsp;logout</span>-->
+                        <!--</a>-->
+                    <!--</span>-->
+                <!--</li>-->
+            <!--</ul>-->
+            <!--&lt;!&ndash;<form class="navbar-form navbar-right">&ndash;&gt;-->
+                <!--&lt;!&ndash;<input type="text" class="form-control" placeholder="Search..." disabled="disabled">&ndash;&gt;-->
+            <!--&lt;!&ndash;</form>&ndash;&gt;-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</nav>-->
 
 <div class="container-fluid">
 
     <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar" style="width:150px;">
-            <ul class="nav nav-sidebar">
 
-                <div class="leftMenu">
-                    <!--<div class="topMenu" id="topMenu1">-->
-                        <!--<img class="banshi" src="img/banshidating.png" />-->
-                        <!--<p class="menuTitle">51TALK</p>-->
-                        <!--<img class="changeMenu" src="img/shouqicaidan.png" onClick="hidMenu()">-->
+        <!--包含common_left.html-->
+        {% include "common_left.html"%}
+
+        <!--<div class="col-sm-3 col-md-2 sidebar" style="width:150px;">-->
+            <!--<ul class="nav nav-sidebar">-->
+
+                <!--<div class="leftMenu">-->
+                    <!--&lt;!&ndash;<div class="topMenu" id="topMenu1">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<img class="banshi" src="img/banshidating.png" />&ndash;&gt;-->
+                        <!--&lt;!&ndash;<p class="menuTitle">51TALK</p>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<img class="changeMenu" src="img/shouqicaidan.png" onClick="hidMenu()">&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--<div class="menu_list">-->
+
+                        <!--<ul>-->
+
+                            <!--<li class="">-->
+                                <!--<p class="fuMenu">项目管理</p>-->
+                                <!--<img class="xiala" src="/static/image/xiala.png">-->
+                                <!--<div class="div1" id="div11">-->
+                                    <!--<a href="/project/">-->
+                                        <!--<p class="zcd" id="zcd1">-->
+                                            <!--<i class="glyphicon glyphicon-th-large"></i>-->
+                                            <!--<span>项目管理</span>-->
+                                        <!--</p>-->
+                                    <!--</a>-->
+                                <!--</div>-->
+                            <!--</li>-->
+
+                            <!--<li class="">-->
+								<!--<p class="fuMenu">模块管理</p>-->
+								<!--<img class="xiala" src="/static/image/xiala.png">-->
+								<!--<div class="div1" id="div12">-->
+									<!--<a href="/module/">-->
+                                        <!--<p class="zcd" id="zcd2">-->
+                                            <!--<i class="glyphicon glyphicon-th"></i>-->
+                                            <!--<span>模块管理</span>-->
+                                        <!--</p>-->
+                                    <!--</a>-->
+								<!--</div>-->
+							<!--</li>-->
+
+							<!--<li class="">-->
+								<!--<p class="fuMenu">用例管理</p>-->
+								<!--<img class="xiala" src="/static/image/xiala.png">-->
+								<!--<div class="div1" id="div13">-->
+									<!--<a href="/testcase/ui_function/">-->
+                                        <!--<p class="zcd" id="zcd3">-->
+                                            <!--<i class="glyphicon glyphicon-briefcase"></i>-->
+                                            <!--<span>UI自动化用例</span>-->
+                                        <!--</p>-->
+                                    <!--</a>-->
+									<!--<a href="/testcase/interface_case/">-->
+                                        <!--<p class="zcd" id="zcd4">-->
+                                            <!--<i class="glyphicon glyphicon-briefcase"></i>-->
+                                            <!--<span>接口用例</span>-->
+                                        <!--</p>-->
+                                    <!--</a>-->
+								<!--</div>-->
+							<!--</li>-->
+
+							<!--<li class="">-->
+								<!--<p class="fuMenu">报告管理</p>-->
+								<!--<img class="xiala" src="/static/image/xiala.png">-->
+								<!--<div class="div1" id="div14">-->
+									<!--<a href="/report/">-->
+                                        <!--<p class="zcd" id="zcd5">-->
+                                            <!--<i class="glyphicon glyphicon-th-list"></i>-->
+                                            <!--<span>报告管理</span>-->
+                                        <!--</p>-->
+                                    <!--</a>-->
+								<!--</div>-->
+							<!--</li>-->
+
+                            <!--{% if type_option_admin == "permission_sap" %}-->
+
+                                <!--<li class="">-->
+                                    <!--<p class="fuMenu">权限管理</p>-->
+                                    <!--<img class="xiala" src="/static/image/xiala.png">-->
+                                    <!--<div class="div1" id="div15">-->
+                                        <!--<a href="/permission/">-->
+                                            <!--<p class="zcd" id="zcd6" >-->
+                                                <!--<i class="glyphicon glyphicon-user"></i>-->
+                                                <!--<span>用户权限</span>-->
+                                            <!--</p>-->
+                                        <!--</a>-->
+                                        <!--<a href="/permission/class/">-->
+                                            <!--<p class="zcd" id="zcd7">-->
+                                                <!--<i class="glyphicon glyphicon-inbox"></i>-->
+                                                <!--<span>权限分类</span>-->
+                                            <!--</p>-->
+                                        <!--</a>-->
+                                    <!--</div>-->
+                                <!--</li>-->
+
+                            <!--{% endif %}-->
+
+                            <!--<li class="">-->
+								<!--<p class="fuMenu">工具管理</p>-->
+								<!--<img class="xiala" src="/static/image/xiala.png">-->
+								<!--<div class="div1" id="div16" style="display: block;">-->
+									<!--<a href="#">-->
+                                        <!--<p class="zcd" id="zcd8">-->
+                                            <!--<i class="glyphicon glyphicon-th-list"></i>-->
+                                            <!--<span>老师开课</span>-->
+                                        <!--</p>-->
+                                    <!--</a>-->
+
+                                    <!--<a href="#">-->
+                                        <!--<p class="zcd" id="zcd9">-->
+                                            <!--<i class="glyphicon glyphicon-th-list"></i>-->
+                                            <!--<span>学员约课</span>-->
+                                        <!--</p>-->
+                                    <!--</a>-->
+
+                                    <!--<a href="#">-->
+                                        <!--<p class="zcd" id="zcd14">-->
+                                            <!--<i class="glyphicon glyphicon-th-list"></i>-->
+                                            <!--<span>用例生成</span>-->
+                                        <!--</p>-->
+                                    <!--</a>-->
+
+
+                                    <!--<a href="/tool/sale_order/">-->
+                                        <!--<p class="zcd" id="zcd10">-->
+                                            <!--<i class="glyphicon glyphicon-shopping-cart"></i>-->
+                                            <!--<span>售卖下单</span>-->
+                                        <!--</p>-->
+                                    <!--</a>-->
+
+									<!--<a href="#">-->
+                                        <!--<p class="zcd" id="zcd11">-->
+                                            <!--<i class="glyphicon glyphicon-th-list"></i>-->
+                                            <!--<span>订单退款</span>-->
+                                        <!--</p>-->
+                                    <!--</a>-->
+                                    <!--<a href="/tool/user_info/">-->
+                                        <!--<p class="zcd" id="zcd12">-->
+                                            <!--<i class="glyphicon glyphicon-user"></i>-->
+                                            <!--<span>学员信息</span>-->
+                                        <!--</p>-->
+                                    <!--</a>-->
+
+								<!--</div>-->
+							<!--</li>-->
+
+							<!--<li class="">-->
+								<!--<p class="fuMenu">系统设置</p>-->
+								<!--<img class="xiala" src="/static/image/xiala.png">-->
+								<!--<div class="div1" id="div17">-->
+									<!--<a href="#">-->
+                                        <!--<p class="zcd" id="zcd13">-->
+                                            <!--<i class="glyphicon glyphicon-cog"></i>-->
+                                            <!--<span>系统设置</span>-->
+                                        <!--</p>-->
+                                    <!--</a>-->
+								<!--</div>-->
+							<!--</li>-->
+
+                        <!--</ul>-->
+
                     <!--</div>-->
-                    <div class="menu_list">
+                <!--</div>-->
 
-                        <ul>
+           <!--</ul>-->
+        <!--</div>-->
 
-                            <li class="">
-                                <p class="fuMenu">项目管理</p>
-                                <img class="xiala" src="/static/image/xiala.png">
-                                <div class="div1" id="div11">
-                                    <a href="/project/">
-                                        <p class="zcd" id="zcd1">
-                                            <i class="glyphicon glyphicon-th-large"></i>
-                                            <span>项目管理</span>
-                                        </p>
-                                    </a>
-                                </div>
-                            </li>
-
-                            <li class="">
-								<p class="fuMenu">模块管理</p>
-								<img class="xiala" src="/static/image/xiala.png">
-								<div class="div1" id="div12">
-									<a href="/module/">
-                                        <p class="zcd" id="zcd2">
-                                            <i class="glyphicon glyphicon-th"></i>
-                                            <span>模块管理</span>
-                                        </p>
-                                    </a>
-								</div>
-							</li>
-
-							<li class="">
-								<p class="fuMenu">用例管理</p>
-								<img class="xiala" src="/static/image/xiala.png">
-								<div class="div1" id="div13">
-									<a href="/testcase/ui_function/">
-                                        <p class="zcd" id="zcd3">
-                                            <i class="glyphicon glyphicon-briefcase"></i>
-                                            <span>UI自动化用例</span>
-                                        </p>
-                                    </a>
-									<a href="/testcase/interface_case/">
-                                        <p class="zcd" id="zcd4">
-                                            <i class="glyphicon glyphicon-briefcase"></i>
-                                            <span>接口用例</span>
-                                        </p>
-                                    </a>
-								</div>
-							</li>
-
-							<li class="">
-								<p class="fuMenu">报告管理</p>
-								<img class="xiala" src="/static/image/xiala.png">
-								<div class="div1" id="div14">
-									<a href="/report/">
-                                        <p class="zcd" id="zcd5">
-                                            <i class="glyphicon glyphicon-th-list"></i>
-                                            <span>报告管理</span>
-                                        </p>
-                                    </a>
-								</div>
-							</li>
-
-                            {% if type_option_admin == "permission_sap" %}
-
-                                <li class="">
-                                    <p class="fuMenu">权限管理</p>
-                                    <img class="xiala" src="/static/image/xiala.png">
-                                    <div class="div1" id="div15">
-                                        <a href="/permission/">
-                                            <p class="zcd" id="zcd6" >
-                                                <i class="glyphicon glyphicon-user"></i>
-                                                <span>用户权限</span>
-                                            </p>
-                                        </a>
-                                        <a href="/permission/class/">
-                                            <p class="zcd" id="zcd7">
-                                                <i class="glyphicon glyphicon-inbox"></i>
-                                                <span>权限分类</span>
-                                            </p>
-                                        </a>
-                                    </div>
-                                </li>
-
-                            {% endif %}
-
-                            <li class="">
-								<p class="fuMenu">工具管理</p>
-								<img class="xiala" src="/static/image/xiala.png">
-								<div class="div1" id="div16" style="display: block;">
-									<a href="#">
-                                        <p class="zcd" id="zcd8">
-                                            <i class="glyphicon glyphicon-th-list"></i>
-                                            <span>老师开课</span>
-                                        </p>
-                                    </a>
-
-                                    <a href="#">
-                                        <p class="zcd" id="zcd9">
-                                            <i class="glyphicon glyphicon-th-list"></i>
-                                            <span>学员约课</span>
-                                        </p>
-                                    </a>
-
-                                    <a href="#">
-                                        <p class="zcd" id="zcd14">
-                                            <i class="glyphicon glyphicon-th-list"></i>
-                                            <span>用例生成</span>
-                                        </p>
-                                    </a>
-
-
-                                    <a href="/tool/sale_order/">
-                                        <p class="zcd" id="zcd10">
-                                            <i class="glyphicon glyphicon-shopping-cart"></i>
-                                            <span>售卖下单</span>
-                                        </p>
-                                    </a>
-
-									<a href="#">
-                                        <p class="zcd" id="zcd11">
-                                            <i class="glyphicon glyphicon-th-list"></i>
-                                            <span>订单退款</span>
-                                        </p>
-                                    </a>
-                                    <a href="/tool/user_info/">
-                                        <p class="zcd" id="zcd12">
-                                            <i class="glyphicon glyphicon-user"></i>
-                                            <span>学员信息</span>
-                                        </p>
-                                    </a>
-
-								</div>
-							</li>
-
-							<li class="">
-								<p class="fuMenu">系统设置</p>
-								<img class="xiala" src="/static/image/xiala.png">
-								<div class="div1" id="div17">
-									<a href="#">
-                                        <p class="zcd" id="zcd13">
-                                            <i class="glyphicon glyphicon-cog"></i>
-                                            <span>系统设置</span>
-                                        </p>
-                                    </a>
-								</div>
-							</li>
-
-                        </ul>
-
-                    </div>
-                </div>
-
-           </ul>
-        </div>
         <div style="margin-left: 135px;" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <h4 style="color: blue;">51Talk用户信息查询：
                 <!--<button class="btn btn-primary" name="submit" style="float:right;"-->
                         <!--onclick="location.href='/permission/add_permission/'">创建权限</button>-->
             </h4><br>
+
             <!--<form class="permission" method="post" name="permission-page" action="search">-->
-            <label>请输入用户手机号：</label>
-            <input type="text" name="user_mobile" placeholder="手机号码" id="user_mobile">
-            <!--<label style="margin-left: 20px;">请输入登录密码：</label>-->
+
+            <button class="btn btn-success" type="submit" id="userInfoDetail"
+                    onclick="return userInfoDetail()">获取用户信息</button>
+
+            <button class="btn btn-success" type="submit" id="userSmsConnent" data-keyboard="false"
+                    data-toggle="modal" data-target="#myModalUserSmsContent"
+                    style="margin-left: 20px;"
+                    onclick="userSmsConnent()">获取用户手机短信内容</button>
+
+            <br><br>
+
+            <div style="margin-top: 20px;">
+                <label>用户手机号：</label>
+                <input type="text" name="user_mobile" placeholder="手机号码" id="user_mobile">
+            </div>
+
+
+            <br><br>
+
+            <!--<label style="margin-left: 20px;">用户登录密码：</label>-->
             <!--<input type="text" name="password_name" placeholder="用户密码" id="password_name">-->
-            <button class="btn btn-success" type="submit" id="userInfoDetail" style="margin-left: 20px;"
-                    onclick="return userInfoDetail()">获取用户信息详情</button>
+
             <!--</form>-->
-            <br><br><br>
+
+            <br><br>
 
             <div id="hide_cancle" style="display: none">
                 <h4 style="color: blue;">获取用户信息：</h4><br>
@@ -248,34 +278,53 @@
 
                     </table>
                 </div>
-                <!--<button class="btn btn-success" type="submit" id="saleOrder" style="margin-left: 20px;float: right;"-->
-                        <!--onclick="return saleOrder()">下单</button>-->
-                <!--<br><br><br>-->
 
-                <!--<h4 style="color: blue;">读取订单数据：</h4><br>-->
-
-                <!--<div class="table-responsive">-->
-                    <!--<table class="table table-striped" id="myTableGetOrderDetail">-->
-                        <!--<thead>-->
-
-                            <!--<tr style="text-align: center">-->
-                                <!--<th>序号</th>-->
-                                <!--<th>订单编号</th>-->
-                                <!--<th>套餐编号</th>-->
-                                <!--<th>订单金额</th>-->
-                                <!--<th>付款方式</th>-->
-                                <!--<th>订单类型</th>-->
-                            <!--</tr>-->
-
-                        <!--</thead>-->
-
-                        <!--<tbody></tbody>-->
-
-                    <!--</table>-->
-                <!--</div>-->
-                <!--<button class="btn btn-success" id="processOrder" type="submit" style="margin-left: 20px;float: right;"-->
-                        <!--onclick="return processOrder()">处理订单</button>-->
             </div>
+
+
+            <!--查看日志的模态框（Modal）-->
+            <div class="modal fade bs-example-modal-lg" id="myModalUserSmsContent" tabindex="1"
+                 role="dialog" aria-labelledby="myModalUserSms" aria-hidden="true">
+                <div class="modal-dialog modal-lg" style="overflow:scroll;width:800px;">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title" id="myModalSmsLabel" style="color:blue;">短信内容：</h4>
+
+                        </div>
+
+                        <div class="modal-body" id="modalUserSmsContent" style="height:200px;">
+
+                            <div class="table-responsive">
+
+                                <p style="color:blue">短信验证码：</p>
+                                <textarea class="smsCode" id="sms_code" name="sms_code" style="width: 400px;"></textarea>
+
+                                <br><br>
+
+                                <p style="color:blue">注册后短信内容：</p>
+                                <textarea class="smsContent" rows="3" id="sms_content" name="sms_content" style="width: 700px;"></textarea>
+
+                            </div>
+
+                        </div>
+
+                        <div class="modal-footer">
+
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
         </div>
     </div>
 
@@ -284,280 +333,6 @@
 
 <script type="text/javascript">
 
-//    //下单按钮连击
-//    var saleOrderDoubleClick = 0;
-//
-//    //处理订单按钮连击
-//    var processOrderDoubleClick = 0;
-//
-//    //下单
-//    function saleOrder(){
-//
-//        var userMobile = $("[name='mobile_name']").val();
-//        var userPasword = $("[name='password_name']").val();
-//
-//        var radio_statu = document.all('radio_status');
-//
-//        //var radio_statu = document.getElementsByName('radio_status');
-//        var isCheck = false;
-//
-//        if ($("#radio_status").length > 0) {
-//
-//            for (var i = 0; i < radio_statu.length; i++) {
-//
-////                if (radio_statu[i].checked){
-////
-////                    userid = radio_statu[i].value;
-////
-////                    isCheck = true;
-////
-////                }
-//                var checkeds = document.querySelectorAll("[name=radio_status]")[i].checked;
-//
-//                if (checkeds === true){
-//
-//                    var point_id = $("input[name=radio_status]:checked").val();
-//
-////                    alert("获取到单选钮的value值为：" + point_id);
-//
-//                    isCheck = true;
-//
-//                    //下单按钮连击
-//                    if (saleOrderDoubleClick == 0) {
-//
-//                        saleOrderDoubleClick = 1;
-//
-//                        $("#saleOrder").attr("disabled",true);
-//
-//                        setTimeout(function () {
-//
-//                            saleOrderDoubleClick = 0;
-//
-//                          $("#saleOrder").attr("disabled",false);
-//
-//                        }, 20000);
-//                    }
-//
-//
-//                    //下单接口
-//                    $.ajax({
-//                    url:'/tool/sale_order/order_pay_success/',
-//                    type:'POST',
-//                    data:{'userMobile':userMobile,'userPasword':userPasword,'point_id':point_id},
-//                    success:function(data){
-//
-//                        if (
-//                                data.status_code === 10101 ||
-//                                data.status_code === 10102 ||
-//                                data.status_code === 10103 ||
-//                                data.status_code === 10104 ||
-//                                data.status_code === 10105
-//                            ) {
-//
-//                            alert(data.message);
-//
-//                        }
-//
-//                        else if (data.status_code === 10200) {
-//
-////                            alert(data.message);
-//
-//                            alert("下单成功，生成的订单号为：" + data.result);
-//
-//                            //释放按钮点击事件
-//                            //$("#processOrder").attr("disabled",false);
-////                            $("#processOrder").removeAttr("disabled");
-//                            window.document.getElementById("processOrder").removeAttribute("disabled");
-//
-//                            //读取订单数据
-//                            $.ajax({
-//                            url:'/tool/sale_order/get_order_detail/',
-//                            type:'POST',
-//                            data:{'order_id':data.result},
-//                            success:function(data){
-//
-//                                console.log("data-->",data);
-//                                console.log("data-->",data.result);
-//
-//                                if (data.status_code === 10101) {
-//
-//                                    alert(data.message);
-//
-//                                }
-//
-//                                else if (data.status_code === 10200) {
-//
-//                                    alert(data.message);
-//
-//                                    var table2=document.getElementById("myTableGetOrderDetail");
-//
-//                                    var table2_tbody=table2.getElementsByTagName("tbody");
-//
-//                                    if (table2_tbody.length >0){
-//
-//                                        table2.removeChild(table2_tbody[0]);
-//
-//                                    };
-//
-//                                    var data = data.result;
-//
-//                                    for (var i=0; i<data.length; i++){
-//
-//                                        var str ='<td>' +
-//                                                 '<input type="radio" name="radio_orders" id="radio_orders" value=' + data[i].id + '>' +
-//                                                 '</td>' +
-//                                                 '<td>' + data[i].id + '</td>' +
-//                                                 '<td>' + data[i].extend_id + '</td>' +
-//                                                 '<td>' + data[i].order_money + '</td>' +
-//                                                 '<td>' + data[i].pay_method + '</td>' +
-//                                                 '<td>' + data[i].order_type + '</td>';
-//
-//                                        console.log(data[i].id,data[i].extend_id,data[i].order_money,data[i].pay_method,data[i].order_type);
-//
-//                                        $("#myTableGetOrderDetail").append('<tr>' + str + '</tr>');
-//                                    }
-//
-//
-////                                    var obj = eval(date.result);
-////                                    var tbody =$('<tbody></tbody>');
-////
-////                                    $(obj).each(function (index){
-////
-////                                        var val=obj[index];
-////                                        var tr=$('<tr></tr>');
-////                                        tr.append('<td>' + val.id + '</td>' + '<td>' + val.order_money + '</td>' +
-////                                                  '<td>' + val.pay_method + '</td>' + '<td>' + val.order_type + '</td>');
-////                                        tbody.append(tr);
-////                                    });
-//
-//                                }
-////                            $('#myTableGetOrderDetail tbody').replaceWith(tbody);
-//
-//                            }
-//
-//                            });
-//
-//                        }
-//
-//                    }
-//
-//                    });
-//
-//                }
-//            }
-//
-//            if (!isCheck){
-//
-//                alert("还未选择套餐！");
-//
-//            }
-//
-////            else {
-////
-////                alert("获取到单选钮到value值为：" + checked_value);
-////            }
-//
-//        }
-//
-//        else{
-//
-//            alert("当前没有套餐数据，不能下单！")
-//        }
-//
-//    }
-//
-//    //处理订单
-//    function processOrder(){
-//
-//        var radio_order = document.getElementsByName('radio_orders');
-//
-//        var isCheck = false;
-//
-//        if ($("#radio_orders").length > 0) {
-//
-//            for (var i = 0; i < radio_order.length; i++) {
-//
-////                if (radio_order[i].checked){
-////
-////                    userid = radio_order[i].value;
-////
-////                    isCheck = true;
-////
-////                }
-//                var checkeds = document.querySelectorAll("[name=radio_orders]")[i].checked;
-//
-//                if (checkeds === true){
-//
-//                    var order_id = $("input[name=radio_orders]:checked").val();
-//
-//                    alert("订单处理开始，请等候...");
-//
-//                    isCheck = true;
-//
-//                    //处理订单按钮连击，暂不考虑
-////                    if (processOrderDoubleClick == 0) {
-////
-////                        processOrderDoubleClick = 1;
-////
-////                        $("#processOrder").attr("disabled",true);
-//
-////                        setTimeout(function () {
-////
-////                            processOrderDoubleClick = 0;
-////
-////                          $("#processOrder").attr("disabled",false);
-////
-////                        }, 20000);
-////                    }
-//
-//
-//                    //处理订单接口
-//                    $.ajax({
-//                    url:'/tool/sale_order/process_order/',
-//                    type:'POST',
-//                    data:{'order_id':order_id},
-//                    success:function(data){
-//
-//                        if (data.status_code === 10101 || data.status_code === 10102) {
-//
-//                            alert(data.message);
-//
-//                        }
-//
-//                        else if (data.status_code === 10200) {
-//
-//                            alert("该订单处理成功！");
-//
-//                            //禁用按钮点击事件
-//                            $("#processOrder").attr("disabled",true);
-//                            //$("#processOrder").attr("disabled","disabled");
-//                            //window.document.getElementById('processOrder').setAttribute("disabled",true);
-//
-//                        }
-//
-//                    }
-//
-//                    });
-//
-//                }
-//            }
-//
-//            if (!isCheck){
-//
-//                alert("当前还未选择订单！！！");
-//
-//            }
-//
-//
-//        }
-//
-//        else{
-//
-//            alert("当前订单数据列表为空！")
-//        }
-//
-//
-//    }
 </script>
 
 

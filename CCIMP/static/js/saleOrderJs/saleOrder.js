@@ -9,9 +9,11 @@ function saleOrder(){
     var userMobile = $("[name='mobile_name']").val();
     var userPasword = $("[name='password_name']").val();
 
+    //选用这种方式获取单选钮集合，var radio_statu = document.all('radio_status');
     //单选钮为1个时，radio_statu.length，获取不到值
+
     //只能选用这种方法获取：document.getElementsByName('radio_status')
-    //var radio_statu = document.all('radio_status');
+
     //下单按钮连击
     var saleOrderDoubleClick = 0;
 
@@ -80,9 +82,7 @@ function saleOrder(){
 
                     else if (data.status_code === 10200) {
 
-//                            alert(data.message);
-
-                        alert("下单成功，生成的订单号为：" + data.result);
+                        alert(data.message + "，生成的订单号为：" + data.result);
 
                         //释放按钮点击事件
                         //$("#processOrder").attr("disabled",false);
@@ -107,7 +107,7 @@ function saleOrder(){
 
                             else if (data.status_code === 10200) {
 
-                                alert(data.message);
+                                //alert(data.message);
 
                                 var table2=document.getElementById("myTableGetOrderDetail");
 

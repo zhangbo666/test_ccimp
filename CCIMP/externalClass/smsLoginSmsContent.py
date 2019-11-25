@@ -38,7 +38,13 @@ def smsLoginSmsContent(username,password,mobile_text):
 
             if '系统已自动给您分配51talk账号' in search_text:
 
-                print ("sms_content-->",search_text)
+                # print ("sms_content-->",search_text)
+                return search_text
+
+            elif '亲爱的学员感谢注册51Talk！' in search_text:
+
+                # print ("sms_content-->",search_text)
+                return search_text
 
     except BaseException as e:
 
@@ -47,7 +53,7 @@ def smsLoginSmsContent(username,password,mobile_text):
 
 if __name__ == '__main__':
 
-    mobile = '19014000114'
+    mobile = '18611221832'
 
     # 用户登录，查询该手机的账户与密码内容
     smsLoginSmsContent('zhangbo','zhangbo2019',mobile)

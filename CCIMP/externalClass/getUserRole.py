@@ -24,7 +24,6 @@ def getUserRole(user_id):
         # print ("role_sso_text-->",role_sso_text)
 
         role_sso_text = role_sso_text.split(',')
-
         # print (role_sso_text)
 
         #11 菲小, 12 美小, 13 B2S, 14 成人, 15 达拉斯, 16 B2B, 17 美小达拉斯, 18 一对多班课, 19 1+2项目

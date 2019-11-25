@@ -63,7 +63,7 @@ function processOnOrder(){
 
                     else if (data.status_code === 10200) {
 
-                        alert("该订单处理成功！");
+                        alert(data.message);
 
                     }
 

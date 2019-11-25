@@ -41,6 +41,7 @@ def permission_manage(request):
                      {"username": get_username,
                       "type": "list",
                       "type_option_admin": "permission_sap",
+                      "aTag_":"0",
                       "error":"未找到数据，请查看原因！！！"})
 
         for user in users_all:
@@ -91,6 +92,7 @@ def permission_manage(request):
                     return render(request, "permission.html",
                                   {"type": "list",
                                    "type_option_admin": "permission_sap",
+                                   "aTag_":"0",
                                    "username": get_username,
                                    "users": contacts,
                                    "page_num":page_num,
@@ -119,6 +121,7 @@ def edit_permission(request,uid):
                   {"username":get_username,
                    "type": "edit",
                    "type_option_admin": "permission_sap",
+                   "aTag_":"0",
                    "permissionClasss": permission})
 
 
@@ -163,6 +166,7 @@ def permission_search(request):
 
             return render(request,"permission.html",{"type":"list",
                                                      "type_option_admin": "permission_sap",
+                                                     "aTag_":"0",
                                                      "username": get_username,
                                                      "users":user_search_list,
                                                      "search_error":"搜索查询结果为空，请重新查询！！！"})
@@ -192,6 +196,7 @@ def permission_search(request):
 
             return render(request,"permission.html",{"type":"list",
                                                      "type_option_admin": "permission_sap",
+                                                     "aTag_":"0",
                                                      "username": get_username,
                                                      "users":contacts,
                                                      "page_num":page_num,
@@ -263,6 +268,7 @@ def permission_class(request):
                      {"username": get_username,
                       "type": "list",
                       "type_option_admin": "permission_sap",
+                      "aTag_":"0",
                       "error":"未找到数据，请查看原因！！！"})
 
         for user in users_all:
@@ -275,6 +281,7 @@ def permission_class(request):
                                 {"username":get_username,
                                  "type":"list",
                                  "type_option_admin":"permission_sap",
+                                 "aTag_":"0",
                                  "permissionClasss":contacts,
                                  "page_num":page_num,
                                  "paginator_num_pages":paginator_num_pages,
@@ -291,6 +298,7 @@ def permission_class(request):
                       {"username":get_username,
                        "type": "list",
                        "type_option_admin":"permission_sap",
+                       "aTag_":"0",
                        "permissionClasss": contacts,
                        "page_num":page_num,
                        "paginator_num_pages":paginator_num_pages,
@@ -318,7 +326,8 @@ def add_permissionClass(request):
                     return render(request,"permission_class_add.html",
                                   {"username":get_username,
                                    "type":"add",
-                                   "type_option_admin":"permission_sap"})
+                                   "type_option_admin":"permission_sap",
+                                   "aTag_":"0"})
 
             else:
 
@@ -339,12 +348,14 @@ def add_permissionClass(request):
             return render(request, "permission_class_add.html", {"username": get_username,
                                                                  "type": "add",
                                                                  "type_option_admin": "permission_sap",
+                                                                 "aTag_":"0",
                                                                  "pc_name": "权限中文名称不能为空！"})
         elif pe_name == "":
 
             return render(request, "permission_class_add.html", {"username": get_username,
                                                                  "type": "add",
                                                                  "type_option_admin": "permission_sap",
+                                                                 "aTag_":"0",
                                                                  "pe_name": "权限英文名称不能为空！"})
 
         elif po_name == "":
@@ -352,6 +363,7 @@ def add_permissionClass(request):
             return render(request, "permission_class_add.html", {"username": get_username,
                                                                  "type": "add",
                                                                  "type_option_admin": "permission_sap",
+                                                                 "aTag_":"0",
                                                                  "po_name": "权限类别不能为空！"})
 
         if po_name == "项目管理员" or po_name == "普通管理员":
@@ -382,6 +394,7 @@ def add_permissionClass(request):
             return render(request, "permission_class_add.html", {"username": get_username,
                                                                  "type": "add",
                                                                  "type_option_admin": "permission_sap",
+                                                                 "aTag_":"0",
                                                                  "po_name": "权限类别数据错误，请查看原因！"})
 
 
@@ -399,7 +412,8 @@ def edit_permissionClass(request,pclass_id):
         return render(request,"permission_class_edit.html",
                       {"username":get_username,
                        "type": "edit",
-                       "type_option_admin":"permission_sap"})
+                       "type_option_admin":"permission_sap",
+                       "aTag_":"0"})
 
 
 '''###############################################################################'''
@@ -445,6 +459,7 @@ def permission_class_search(request):
             return render(request,"permission_class.html",
                                   {"type":"list",
                                    "type_option_admin": "permission_sap",
+                                   "aTag_":"0",
                                    "username": get_username,
                                    "permissionClasss":permission_class_search_list,
                                    "search_error":"搜索查询结果为空，请重新查询！！！"})
@@ -475,6 +490,7 @@ def permission_class_search(request):
             return render(request,"permission_class.html",
                                     {"type":"list",
                                      "type_option_admin": "permission_sap",
+                                     "aTag_":"0",
                                      "username": get_username,
                                      "permissionClasss":contacts,
                                      "page_num":page_num,

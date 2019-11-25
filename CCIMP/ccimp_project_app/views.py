@@ -89,6 +89,7 @@ def project_manage(request):
                                "type":"list",
                                "type_option_admin":"permission_sap",
                                "type_option_project":"permission_sap_pp",
+                               "aTag_":"1",
                                "not_projects_data":"当前账户未创建项目！"})
 
                 else:
@@ -98,6 +99,7 @@ def project_manage(request):
                                    "type":"list",
                                    "type_option_admin":"permission_sap",
                                    "type_option_project":"permission_sap_pp",
+                                   "aTag_":"1",
                                    "projects":contacts,
                                    "page_num":page_num,
                                    "paginator_num_pages":paginator_num_pages,
@@ -112,6 +114,7 @@ def project_manage(request):
                                   {"username":get_username,
                                    "type":"list",
                                    "type_option_project":"permission_sap_pp",
+                                   "aTag_":"1",
                                    "not_projects_data":"当前账户未创建项目！"})
 
                 else:
@@ -120,6 +123,7 @@ def project_manage(request):
                                   {"username":get_username,
                                    "type":"list",
                                    "type_option_project":"permission_sap_pp",
+                                   "aTag_":"1",
                                    "projects":contacts,
                                    "page_num":page_num,
                                    "paginator_num_pages":paginator_num_pages,
@@ -214,14 +218,16 @@ def add_project(request):
                                   {"username":get_username,
                                    "type":"add",
                                    "type_option_admin":"permission_sap",
-                                   "type_option_project":"permission_sap_pp",})
+                                   "type_option_project":"permission_sap_pp",
+                                   "aTag_":"1"})
 
             elif user.permission_options == 2:
 
                     return render(request,"project_add.html",
                                   {"username":get_username,
                                    "type":"add",
-                                   "type_option_project":"permission_sap_pp"})
+                                   "type_option_project":"permission_sap_pp",
+                                   "aTag_":"1"})
 
             else:
 
@@ -251,6 +257,7 @@ def add_project(request):
                                    "type":"add",
                                    "type_option_admin":"permission_sap",
                                    "type_option_project":"permission_sap_pp",
+                                   "aTag_":"1",
                                    "project_name": "项目名称不能为空！"})
 
                 # elif project_status == "请选择：":
@@ -270,6 +277,7 @@ def add_project(request):
                                   {"username":get_username,
                                    "type":"add",
                                    "type_option_project":"permission_sap_pp",
+                                   "aTag_":"1",
                                    "project_name": "项目名称不能为空！"})
 
                 # elif project_status == "请选择：":
@@ -347,14 +355,16 @@ def edit_project(request,pid):
                               {"username":get_username,
                                "type":"edit",
                                "type_option_admin":"permission_sap",
-                               "type_option_project":"permission_sap_pp"})
+                               "type_option_project":"permission_sap_pp",
+                               "aTag_":"1"})
 
             elif user.permission_options == 2:
 
                 return render(request,"project_edit.html",
                               {"username":get_username,
                                "type":"edit",
-                               "type_option_project":"permission_sap_pp"})
+                               "type_option_project":"permission_sap_pp",
+                               "aTag_":"1"})
 
 
 '''###############################################################################'''
@@ -614,6 +624,7 @@ def project_search(request):
                                    "type":"list",
                                    "type_option_admin":"permission_sap",
                                    "type_option_project":"permission_sap_pp",
+                                   "aTag_":"1",
                                    "not_projects_data":"搜索项目查询结果为空，请重新查询！"})
 
                     else:
@@ -623,6 +634,7 @@ def project_search(request):
                                        "type":"list",
                                        "type_option_admin":"permission_sap",
                                        "type_option_project":"permission_sap_pp",
+                                       "aTag_":"1",
                                        "projects":contacts,
                                        "page_num":page_num,
                                        "paginator_num_pages":paginator_num_pages,
@@ -637,6 +649,7 @@ def project_search(request):
                                       {"username":get_username,
                                        "type":"list",
                                        "type_option_project":"permission_sap_pp",
+                                       "aTag_":"1",
                                        "not_projects_data":"搜索项目查询结果为空，请重新查询！！"})
 
                     else:
@@ -645,6 +658,7 @@ def project_search(request):
                                       {"username":get_username,
                                        "type":"list",
                                        "type_option_project":"permission_sap_pp",
+                                       "aTag_":"1",
                                        "projects":contacts,
                                        "page_num":page_num,
                                        "paginator_num_pages":paginator_num_pages,

@@ -1,256 +1,206 @@
 {% extends "base.html" %}
 {% block base %}
+{% include "common_top.html"%}
 
-<nav class="navbar navbar-inverse navbar-fixed-top" xmlns="http://www.w3.org/1999/html">
-    <div class="container-fluid_1">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-          </button>
-        <a class="navbar-brand" href="http://www.51talk.com">CCIMP--51Talk</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav navbar-right">
-                <!--<li><a href="#">Settings</a></li>-->
-                <li>
-                    <span class="loginWelcomeName">欢迎,{{ username }}同学！
-                        <a href="/logout/">
-                            <span>&nbsp;&nbsp;logout</span>
-                        </a>
-                    </span>
-                </li>
-            </ul>
-            <!--<form class="navbar-form navbar-right">-->
-                <!--<input type="text" class="form-control" placeholder="Search..." disabled="disabled">-->
-            <!--</form>-->
-        </div>
-    </div>
-</nav>
+<!--<nav class="navbar navbar-inverse navbar-fixed-top" xmlns="http://www.w3.org/1999/html">-->
+    <!--<div class="container-fluid_1">-->
+        <!--<div class="navbar-header">-->
+            <!--<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">-->
+                <!--<span class="sr-only">Toggle navigation</span>-->
+                <!--<span class="icon-bar"></span>-->
+                <!--<span class="icon-bar"></span>-->
+                <!--<span class="icon-bar"></span>-->
+          <!--</button>-->
+        <!--<a class="navbar-brand" href="http://www.51talk.com">CCIMP--51Talk</a>-->
+        <!--</div>-->
+        <!--<div id="navbar" class="navbar-collapse collapse">-->
+            <!--<ul class="nav navbar-nav navbar-right">-->
+                <!--&lt;!&ndash;<li><a href="#">Settings</a></li>&ndash;&gt;-->
+                <!--<li>-->
+                    <!--<span class="loginWelcomeName">欢迎,{{ username }}同学！-->
+                        <!--<a href="/logout/">-->
+                            <!--<span>&nbsp;&nbsp;logout</span>-->
+                        <!--</a>-->
+                    <!--</span>-->
+                <!--</li>-->
+            <!--</ul>-->
+            <!--&lt;!&ndash;<form class="navbar-form navbar-right">&ndash;&gt;-->
+                <!--&lt;!&ndash;<input type="text" class="form-control" placeholder="Search..." disabled="disabled">&ndash;&gt;-->
+            <!--&lt;!&ndash;</form>&ndash;&gt;-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</nav>-->
 
 
  <div class="container-fluid">
 
     <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar" style="width:150px;">
-            <ul class="nav nav-sidebar">
 
-                <div class="leftMenu">
-                    <!--<div class="topMenu" id="topMenu1">-->
-                        <!--<img class="banshi" src="img/banshidating.png" />-->
-                        <!--<p class="menuTitle">51TALK</p>-->
-                        <!--<img class="changeMenu" src="img/shouqicaidan.png" onClick="hidMenu()">-->
+        <!--包含common_left.html-->
+        {% include "common_left.html"%}
+
+        <!--<div class="col-sm-3 col-md-2 sidebar" style="width:150px;">-->
+            <!--<ul class="nav nav-sidebar">-->
+
+                <!--<div class="leftMenu">-->
+                    <!--&lt;!&ndash;<div class="topMenu" id="topMenu1">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<img class="banshi" src="img/banshidating.png" />&ndash;&gt;-->
+                        <!--&lt;!&ndash;<p class="menuTitle">51TALK</p>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<img class="changeMenu" src="img/shouqicaidan.png" onClick="hidMenu()">&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--<div class="menu_list">-->
+
+                        <!--<ul>-->
+
+                            <!--<li class="">-->
+                                <!--<p class="fuMenu">项目管理</p>-->
+                                <!--<img class="xiala" src="/static/image/xiala.png">-->
+                                <!--<div class="div1" id="div11">-->
+                                    <!--<a href="/project/">-->
+                                        <!--<p class="zcd" id="zcd1">-->
+                                            <!--<i class="glyphicon glyphicon-th-large"></i>-->
+                                            <!--<span>项目管理</span>-->
+                                        <!--</p>-->
+                                    <!--</a>-->
+                                <!--</div>-->
+                            <!--</li>-->
+
+                            <!--<li class="">-->
+								<!--<p class="fuMenu">模块管理</p>-->
+								<!--<img class="xiala" src="/static/image/xiala.png">-->
+								<!--<div class="div1" id="div12">-->
+									<!--<a href="/module/">-->
+                                        <!--<p class="zcd" id="zcd2">-->
+                                            <!--<i class="glyphicon glyphicon-th"></i>-->
+                                            <!--<span>模块管理</span>-->
+                                        <!--</p>-->
+                                    <!--</a>-->
+								<!--</div>-->
+							<!--</li>-->
+
+							<!--<li class="">-->
+								<!--<p class="fuMenu">用例管理</p>-->
+								<!--<img class="xiala" src="/static/image/xiala.png">-->
+								<!--<div class="div1" id="div13">-->
+									<!--<a href="/testcase/ui_function/">-->
+                                        <!--<p class="zcd" id="zcd3">-->
+                                            <!--<i class="glyphicon glyphicon-briefcase"></i>-->
+                                            <!--<span>UI自动化用例</span>-->
+                                        <!--</p>-->
+                                    <!--</a>-->
+									<!--<a href="/testcase/interface_case/">-->
+                                        <!--<p class="zcd" id="zcd4">-->
+                                            <!--<i class="glyphicon glyphicon-briefcase"></i>-->
+                                            <!--<span>接口用例</span>-->
+                                        <!--</p>-->
+                                    <!--</a>-->
+								<!--</div>-->
+							<!--</li>-->
+
+							<!--<li class="">-->
+								<!--<p class="fuMenu">报告管理</p>-->
+								<!--<img class="xiala" src="/static/image/xiala.png">-->
+								<!--<div class="div1" id="div14">-->
+									<!--<a href="/report/">-->
+                                        <!--<p class="zcd" id="zcd5">-->
+                                            <!--<i class="glyphicon glyphicon-th-list"></i>-->
+                                            <!--<span>报告管理</span>-->
+                                        <!--</p>-->
+                                    <!--</a>-->
+								<!--</div>-->
+							<!--</li>-->
+
+                            <!--{% if type_option_admin == "permission_sap" %}-->
+
+                                <!--<li class="">-->
+                                    <!--<p class="fuMenu">权限管理</p>-->
+                                    <!--<img class="xiala" src="/static/image/xiala.png">-->
+                                    <!--<div class="div1" id="div15" style="display: block;">-->
+                                        <!--<a href="/permission/">-->
+                                            <!--<p class="zcd" id="zcd6" >-->
+                                                <!--<i class="glyphicon glyphicon-user"></i>-->
+                                                <!--<span>用户权限</span>-->
+                                            <!--</p>-->
+                                        <!--</a>-->
+                                        <!--<a href="/permission/class/">-->
+                                            <!--<p class="zcd" id="zcd7">-->
+                                                <!--<i class="glyphicon glyphicon-inbox"></i>-->
+                                                <!--<span>权限分类</span>-->
+                                            <!--</p>-->
+                                        <!--</a>-->
+                                    <!--</div>-->
+                                <!--</li>-->
+
+                            <!--{% endif %}-->
+
+                            <!--<li class="">-->
+								<!--<p class="fuMenu">工具管理</p>-->
+								<!--<img class="xiala" src="/static/image/xiala.png">-->
+								<!--<div class="div1" id="div16">-->
+									<!--<a href="#">-->
+                                        <!--<p class="zcd" id="zcd8">-->
+                                            <!--<i class="glyphicon glyphicon-th-list"></i>-->
+                                            <!--<span>老师开课</span>-->
+                                        <!--</p>-->
+                                    <!--</a>-->
+
+                                    <!--<a href="#">-->
+                                        <!--<p class="zcd" id="zcd9">-->
+                                            <!--<i class="glyphicon glyphicon-th-list"></i>-->
+                                            <!--<span>学员约课</span>-->
+                                        <!--</p>-->
+                                    <!--</a>-->
+
+                                    <!--<a href="#">-->
+                                        <!--<p class="zcd" id="zcd14">-->
+                                            <!--<i class="glyphicon glyphicon-th-list"></i>-->
+                                            <!--<span>用例生成</span>-->
+                                        <!--</p>-->
+                                    <!--</a>-->
+
+                                    <!--<a href="/tool/sale_order/">-->
+                                        <!--<p class="zcd" id="zcd10">-->
+                                            <!--<i class="glyphicon glyphicon-shopping-cart"></i>-->
+                                            <!--<span>售卖下单</span>-->
+                                        <!--</p>-->
+                                    <!--</a>-->
+
+									<!--<a href="#">-->
+                                        <!--<p class="zcd" id="zcd11">-->
+                                            <!--<i class="glyphicon glyphicon-th-list"></i>-->
+                                            <!--<span>订单退款</span>-->
+                                        <!--</p>-->
+                                    <!--</a>-->
+
+                                    <!--<a href="/tool/user_info/">-->
+                                        <!--<p class="zcd" id="zcd12">-->
+                                            <!--<i class="glyphicon glyphicon-user"></i>-->
+                                            <!--<span>学员信息</span>-->
+                                        <!--</p>-->
+                                    <!--</a>-->
+								<!--</div>-->
+							<!--</li>-->
+
+							<!--<li class="">-->
+								<!--<p class="fuMenu">系统设置</p>-->
+								<!--<img class="xiala" src="/static/image/xiala.png">-->
+								<!--<div class="div1" id="div17">-->
+									<!--<a href="#">-->
+                                        <!--<p class="zcd" id="zcd13">-->
+                                            <!--<i class="glyphicon glyphicon-cog"></i>-->
+                                            <!--<span>系统设置</span>-->
+                                        <!--</p>-->
+                                    <!--</a>-->
+								<!--</div>-->
+							<!--</li>-->
+
+                        <!--</ul>-->
                     <!--</div>-->
-                    <div class="menu_list">
+                <!--</div>-->
+                <!---->
+           <!--</ul>-->
+        <!--</div>-->
 
-                        <ul>
-
-                            <li class="">
-                                <p class="fuMenu">项目管理</p>
-                                <img class="xiala" src="/static/image/xiala.png">
-                                <div class="div1" id="div11">
-                                    <a href="/project/">
-                                        <p class="zcd" id="zcd1">
-                                            <i class="glyphicon glyphicon-th-large"></i>
-                                            <span>项目管理</span>
-                                        </p>
-                                    </a>
-                                </div>
-                            </li>
-
-                            <li class="">
-								<p class="fuMenu">模块管理</p>
-								<img class="xiala" src="/static/image/xiala.png">
-								<div class="div1" id="div12">
-									<a href="/module/">
-                                        <p class="zcd" id="zcd2">
-                                            <i class="glyphicon glyphicon-th"></i>
-                                            <span>模块管理</span>
-                                        </p>
-                                    </a>
-								</div>
-							</li>
-
-							<li class="">
-								<p class="fuMenu">用例管理</p>
-								<img class="xiala" src="/static/image/xiala.png">
-								<div class="div1" id="div13">
-									<a href="/testcase/ui_function/">
-                                        <p class="zcd" id="zcd3">
-                                            <i class="glyphicon glyphicon-briefcase"></i>
-                                            <span>UI自动化用例</span>
-                                        </p>
-                                    </a>
-									<a href="/testcase/interface_case/">
-                                        <p class="zcd" id="zcd4">
-                                            <i class="glyphicon glyphicon-briefcase"></i>
-                                            <span>接口用例</span>
-                                        </p>
-                                    </a>
-								</div>
-							</li>
-
-							<li class="">
-								<p class="fuMenu">报告管理</p>
-								<img class="xiala" src="/static/image/xiala.png">
-								<div class="div1" id="div14">
-									<a href="/report/">
-                                        <p class="zcd" id="zcd5">
-                                            <i class="glyphicon glyphicon-th-list"></i>
-                                            <span>报告管理</span>
-                                        </p>
-                                    </a>
-								</div>
-							</li>
-
-                            {% if type_option_admin == "permission_sap" %}
-
-                                <li class="">
-                                    <p class="fuMenu">权限管理</p>
-                                    <img class="xiala" src="/static/image/xiala.png">
-                                    <div class="div1" id="div15" style="display: block;">
-                                        <a href="/permission/">
-                                            <p class="zcd" id="zcd6" >
-                                                <i class="glyphicon glyphicon-user"></i>
-                                                <span>用户权限</span>
-                                            </p>
-                                        </a>
-                                        <a href="/permission/class/">
-                                            <p class="zcd" id="zcd7">
-                                                <i class="glyphicon glyphicon-inbox"></i>
-                                                <span>权限分类</span>
-                                            </p>
-                                        </a>
-                                    </div>
-                                </li>
-
-                            {% endif %}
-
-                            <li class="">
-								<p class="fuMenu">工具管理</p>
-								<img class="xiala" src="/static/image/xiala.png">
-								<div class="div1" id="div16">
-									<a href="#">
-                                        <p class="zcd" id="zcd8">
-                                            <i class="glyphicon glyphicon-th-list"></i>
-                                            <span>老师开课</span>
-                                        </p>
-                                    </a>
-
-                                    <a href="#">
-                                        <p class="zcd" id="zcd9">
-                                            <i class="glyphicon glyphicon-th-list"></i>
-                                            <span>学员约课</span>
-                                        </p>
-                                    </a>
-
-                                    <a href="#">
-                                        <p class="zcd" id="zcd14">
-                                            <i class="glyphicon glyphicon-th-list"></i>
-                                            <span>用例生成</span>
-                                        </p>
-                                    </a>
-
-                                    <a href="/tool/sale_order/">
-                                        <p class="zcd" id="zcd10">
-                                            <i class="glyphicon glyphicon-shopping-cart"></i>
-                                            <span>售卖下单</span>
-                                        </p>
-                                    </a>
-
-									<a href="#">
-                                        <p class="zcd" id="zcd11">
-                                            <i class="glyphicon glyphicon-th-list"></i>
-                                            <span>订单退款</span>
-                                        </p>
-                                    </a>
-
-                                    <a href="/tool/user_info/">
-                                        <p class="zcd" id="zcd12">
-                                            <i class="glyphicon glyphicon-user"></i>
-                                            <span>学员信息</span>
-                                        </p>
-                                    </a>
-								</div>
-							</li>
-
-							<li class="">
-								<p class="fuMenu">系统设置</p>
-								<img class="xiala" src="/static/image/xiala.png">
-								<div class="div1" id="div17">
-									<a href="#">
-                                        <p class="zcd" id="zcd13">
-                                            <i class="glyphicon glyphicon-cog"></i>
-                                            <span>系统设置</span>
-                                        </p>
-                                    </a>
-								</div>
-							</li>
-
-                        </ul>
-                    </div>
-                </div>
-
-
-
-
-
-
-
-
-
-
-
-                <!--<li>-->
-                    <!--<a href="/project/">-->
-                        <!--<i class="glyphicon glyphicon-th-large"></i>&nbsp;&nbsp;项目管理-->
-                    <!--</a>-->
-                <!--</li>-->
-                <!--<li>-->
-                    <!--<a href="/module/">-->
-                        <!--<i class="glyphicon glyphicon-th"></i>&nbsp;&nbsp;模块管理-->
-                    <!--</a>-->
-                <!--</li>-->
-                <!--<li>-->
-                    <!--<a href="/testcase/">-->
-                       <!--<i class="glyphicon glyphicon-briefcase"></i>&nbsp;&nbsp;用例管理-->
-                    <!--</a>-->
-                <!--</li>-->
-                <!--<li>-->
-                    <!--<a href="/report/">-->
-                       <!--<i class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp;报告管理-->
-                    <!--</a>-->
-                <!--</li>-->
-
-                <!--{% if type_option == "permission_sap" %}-->
-                <!--<li>-->
-                    <!--<li>-->
-                        <!--<a href="/permission/">-->
-                            <!--<i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;用户权限-->
-                        <!--</a>-->
-                    <!--</li>-->
-                    <!--<li  class="active">-->
-                        <!--<a href="/permission/class/">-->
-                            <!--<i class="glyphicon glyphicon-inbox"></i>&nbsp;&nbsp;权限分类-->
-                        <!--</a>-->
-                    <!--</li>-->
-                <!--</li>-->
-                <!--{% endif %}-->
-
-                <!--<li>-->
-                    <!--<a href="/tool/sale_order/">-->
-                        <!--<i class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp;工具管理-->
-                    <!--</a>-->
-                <!--</li>-->
-                <!--<li>-->
-                    <!--<a href="">-->
-                        <!--<i class="glyphicon glyphicon-th-list"></i>&nbsp;&nbsp;系统设置-->
-                    <!--</a>-->
-                <!--</li>-->
-           </ul>
-        </div>
         <div style="margin-left: 135px;" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
             {% if type == "list" %}

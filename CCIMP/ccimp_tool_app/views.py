@@ -18,6 +18,8 @@ from externalClass.processOrder import processOrder
 from externalClass.public_configure import global_configure
 from externalClass.getCheckCartInfo import getCheckCartInfo
 from externalClass.getUserRole import getUserRole
+from externalClass.smsLoginSmsCode import smsLoginCode
+from externalClass.smsLoginSmsContent import smsLoginSmsContent
 
 from db_config.talkQueryUserOrder import talk_query_user_order_success
 from db_config.talkQueryUserInfo import talk_query_user_info_detail_success
@@ -54,17 +56,20 @@ def sale_order(request):
 
                     return render(request,"tool_sale_order.html",
                                   {"username":get_username,
-                                   "type_option_admin":"permission_sap"})
+                                   "type_option_admin":"permission_sap",
+                                   "aTag_":"2"})
 
                 elif user.permission_options == 2:
 
                     return render(request,"tool_sale_order.html",
-                                  {"username":get_username})
+                                  {"username":get_username,
+                                   "aTag_":"2"})
 
                 elif user.permission_options == 3:
 
                     return render(request,"tool_sale_order.html",
-                                  {"username":get_username})
+                                  {"username":get_username,
+                                   "aTag_":"2"})
 
 
 '''###############################################################################'''
@@ -94,6 +99,12 @@ def get_package_detail(request):
             # return HttpResponse("用户手机号输入错误，请重新输入！")
             return JsonResponse({"status_code":10103,
                                  "message":"用户手机号输入错误，请重新输入！"})
+
+        elif len(user_password)< 6 or len(user_password)>20:
+
+            # return HttpResponse("用户密码输入错误，请重新输入！")
+            return JsonResponse({"status_code":10106,
+                                 "message":"用户密码输入错误，请重新输入！"})
         else:
 
             #调用获取加密密码接口
@@ -148,13 +159,13 @@ def get_package_detail(request):
                 if (point_info == []):
 
                     return JsonResponse({"status_code":10104,
-                                         "message":"获取套餐数据为空，请查看原因！！！",
+                                         "message":"获取所有套餐数据为空，请查看原因！！！",
                                          "result":point_info,
                                          "user_role":user_role_info})
                 else:
 
                     return JsonResponse({"status_code":10200,
-                                         "message":"获取套餐数据正确！！！",
+                                         "message":"获取套餐数据成功！！！",
                                          "result":point_info,
                                          "user_role":user_role_info})
 
@@ -216,7 +227,7 @@ def order_pay_success(request):
                 else:
 
                     return JsonResponse({"status_code":10200,
-                                         "message":"下单成功，数据返回正确！！！",
+                                         "message":"下单成功",
                                          "result":status_flage})
 
 
@@ -238,12 +249,12 @@ def get_order_detail(request):
         if order_detail == ():
 
             return JsonResponse({"status_code":10101,
-                                 "message":"订单获取失败，无法读取该订单数据！！！"})
+                                 "message":"订单获取失败，无法读取新创建的订单数据！！！"})
 
         else:
 
             return JsonResponse({"status_code":10200,
-                                 "message":"订单获取正常！！！",
+                                 "message":"订单获取成功！！！",
                                  "result":order_detail})
 
 
@@ -274,12 +285,72 @@ def process_order(request):
             if responses_result.text == '订单处理成功':
 
                 return JsonResponse({"status_code":10200,
-                                     "message":responses_result.text})
+                                     "message":"订单处理成功！！！"})
 
             else:
 
                 return JsonResponse({"status_code":10102,
-                                     "message":"订单处理失败！"})
+                                     "message":"订单处理失败！！！"})
+
+
+'''###############################################################################'''
+#获取用户未处理的订单信息
+@auth
+def get_order_on_detail(request):
+
+    if request.method == "POST":
+
+        user_mobile = request.POST.get("userMobile","")
+        user_password = request.POST.get("userPasword","")
+
+        if user_mobile == "":
+
+            return JsonResponse({"status_code":10101,"message":"用户手机号不能为空！"})
+
+        elif user_password == "":
+
+            # return HttpResponse("用户密码不能为空！")
+            return JsonResponse({"status_code":10104,"message":"用户密码不能为空！"})
+
+        elif len(user_mobile) < 11 or len(user_mobile) > 11:
+
+            return JsonResponse({"status_code":10102,"message":"用户手机号输入错误，请重新输入！"})
+
+        elif len(user_password)< 6 or len(user_password)>20:
+
+            # return HttpResponse("用户手机号输入错误，请重新输入！")
+            return JsonResponse({"status_code":10105,
+                                 "message":"用户密码输入错误，请重新输入！"})
+
+        else:
+
+            #调用获取加密密码接口
+            pwd = publicKeyRsa(user_password)
+
+            #调用获取登录状态接口
+            req = userLogin(user_mobile,pwd)
+
+            #登录错误或者不是内部网络
+            if req == global_configure.login_error_message:
+
+                return JsonResponse({"status_code":10100,"message":req})
+            #     return HttpResponse("用户密码不能为空！")
+
+            else:
+
+                userId = talk_query_user_info_id_success(user_mobile)
+
+                status = 'on'
+
+                order_list_result = talk_query_user_order2_success(userId,status)
+
+                if order_list_result == ():
+
+                    return JsonResponse({"status_code":10103,"message":"该用户还未下单！！！"})
+
+                else:
+
+                    return JsonResponse({"status_code":10200,"message":"用户未完成订单获取成功！！！","result":order_list_result})
 
 
 '''###############################################################################'''
@@ -301,17 +372,20 @@ def user_info(request):
 
                     return render(request,"tool_user_info.html",
                                   {"username":get_username,
-                                   "type_option_admin":"permission_sap"})
+                                   "type_option_admin":"permission_sap",
+                                   "aTag_":"2"})
 
                 elif user.permission_options == 2:
 
                     return render(request,"tool_user_info.html",
-                                  {"username":get_username})
+                                  {"username":get_username,
+                                   "aTag_":"2"})
 
                 elif user.permission_options == 3:
 
                     return render(request,"tool_user_info.html",
-                                  {"username":get_username})
+                                  {"username":get_username,
+                                   "aTag_":"2"})
 
 
 '''###############################################################################'''
@@ -353,7 +427,7 @@ def get_userinfo_detail(request):
             if user_list_result == ():
 
                 return JsonResponse({"status_code":10103,
-                                     "message":"获取该用户信息失败！！！"})
+                                     "message":"无法获取该用户信息！！！"})
 
             else:
 
@@ -437,9 +511,9 @@ def get_userinfo_detail(request):
 
 
 '''###############################################################################'''
-#获取用户未处理的订单信息
+#获取学员手机短信内容
 @auth
-def get_order_on_detail(request):
+def get_user_sms_connent(request):
 
     if request.method == "POST":
 
@@ -447,25 +521,39 @@ def get_order_on_detail(request):
 
         if user_mobile == "":
 
-            return JsonResponse({"status_code":10101,"message":"用户手机号不能为空！"})
+            return JsonResponse({"status_code":10100,"message":"用户手机号不能为空！"})
 
         elif len(user_mobile) < 11 or len(user_mobile) > 11:
 
-            return JsonResponse({"status_code":10102,
-                                 "message":"用户手机号输入错误，请重新输入！"})
+            return JsonResponse({"status_code":10101,"message":"用户手机号输入错误，请重新输入！"})
 
         else:
 
-            userId = talk_query_user_info_id_success(user_mobile)
+            sms_code = smsLoginCode('zhangbo','zhangbo2019',user_mobile)
+            sms_content = smsLoginSmsContent('zhangbo','zhangbo2019',user_mobile)
 
-            status = 'on'
+            if sms_code == None and sms_content == None:
 
-            order_list_result = talk_query_user_order2_success(userId,status)
+                return JsonResponse({"status_code":10300,
+                                     "message":"未找到该手机的短信信息！！！"})
 
-            if order_list_result == ():
+            elif sms_code != None and sms_content != None:
 
-                return JsonResponse({"status_code":10103,"message":"该用户还未下单！！！"})
+                return JsonResponse({"status_code":10200,
+                                     "message":"手机的短信信息获取成功！！！",
+                                     "result_sms_code":sms_code,
+                                     "result_sms_content":sms_content})
 
-            else:
+            elif sms_code != None and sms_content == None:
 
-                return JsonResponse({"status_code":10200,"message":"用户未完成订单获取成功！！！","result":order_list_result})
+                return JsonResponse({"status_code":10200,
+                                     "message":"手机验证码获取成功！！！",
+                                     "result_sms_code":sms_code,
+                                     "result_sms_content":""})
+
+            elif sms_code == None and sms_content != None:
+
+                return JsonResponse({"status_code":10200,
+                                     "message":"注册后手机短信获取成功！！！",
+                                     "result_sms_code":"",
+                                     "result_sms_content":sms_content})

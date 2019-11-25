@@ -7,11 +7,12 @@
 function userOnOrderDetail(){
 
     var userMobile = $("[name='mobile_name']").val();
+    var userPasword = $("[name='password_name']").val();
 
     $.ajax({
     url:'/tool/sale_order/get_order_on_detail/',
     type:'POST',
-    data:{'userMobile':userMobile},
+    data:{'userMobile':userMobile,'userPasword':userPasword},
     success:function(data){
 
         if (data.status_code === 10200){
@@ -19,7 +20,7 @@ function userOnOrderDetail(){
             console.log("data-->",data);
             console.log("result.result-->",data.result);
 
-            window.alert("获取成功！！！");
+            window.alert(data.message);
 
             //每次初始化加载模态框时，清空模态框中的tbody元素
             var table1=document.getElementById("myTableUserOnOrderDetail");
@@ -48,8 +49,8 @@ function userOnOrderDetail(){
 
             //释放处理未完成订单按钮点击事件
             $("#processOnOrder").attr("disabled",false);
-//                $("#processOnOrder").removeAttr("disabled");
-//                window.document.getElementById('processOnOrder').removeAttribute('disabled');
+            //$("#processOnOrder").removeAttr("disabled");
+            //window.document.getElementById('processOnOrder').removeAttribute('disabled');
 
         }
 
@@ -57,25 +58,19 @@ function userOnOrderDetail(){
 
             window.alert(data.message);
 
-            //该用户还未下单时，每次初始化加载模态框时默认删除该模态框
-            $("#myModalUserOnOrderDetail").empty();
-            
-            window.location.reload();
+            //每次初始化加载模态框时，清空模态框中的tbody元素
+            var table1=document.getElementById("myTableUserOnOrderDetail");
 
-            //模态框关闭提醒
+            var table1_tbody=table1.getElementsByTagName("tbody");
 
-            //$('#myModalUserOnOrderDetail').modal('hide');
+            if (table1_tbody.length >0){
 
-            //$('#myModalUserOnOrderDetail').on('hide.bs.modal', function () {
-            //        alert('模态框关闭了');
-            //});
+                table1.removeChild(table1_tbody[0]);
 
-            //$(function(){
-            //    $('#myModalUserOnOrderDetail').on('hide.bs.modal',
-            //    function(){
-            //        alert('退出了');
-            //    })
-            //});
+            };
+
+            //模态框延迟600毫秒后，自动关闭模态框
+            setTimeout("$('#myModalUserOnOrderDetail').modal('hide')",600);
 
         }
 
@@ -83,7 +78,7 @@ function userOnOrderDetail(){
 
             window.alert(data.message);
 
-            //手机号错误时，每次初始化加载模态框时默认删除该模态框
+            //手机号或密码错误时，每次初始化加载模态框时默认删除该模态框
             $("#myModalUserOnOrderDetail").empty();
 
             window.location.reload()

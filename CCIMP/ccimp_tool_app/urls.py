@@ -23,8 +23,11 @@ urlpatterns = [
 
 
     #学员信息接口
-    path('user_info/get_userinfo_detail/',views.get_userinfo_detail)
+    path('user_info/get_userinfo_detail/',views.get_userinfo_detail),
 
+
+    #手机短信内容接口
+    path('user_info/get_user_sms_connent/',views.get_user_sms_connent)
 
 
 ]
