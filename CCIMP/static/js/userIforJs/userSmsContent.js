@@ -87,7 +87,7 @@ function userSmsConnent(){
             //},5000);
 
             //模态框延迟500毫秒后，自动关闭模态框
-            setTimeout("$('#myModalUserSmsContent').modal('hide')",1000);
+            setTimeout("$('#myModalUserSmsContent').modal('hide')",2000);
 
         }
     }

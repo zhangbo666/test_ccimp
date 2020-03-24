@@ -36,12 +36,17 @@ def adminLogin():
 
 if __name__ == '__main__':
 
-    url = 'http://crm.51talk.com/admin/user/stu_list.php?is_buy=All&user_id=' + \
+    url = 'http://crm.51talk.com/Stu_List/index?is_buy=All&user_id=' + \
           str(800003511) + \
           '&student_id=&email=&skype_id=&qq=&mobile=&agent=&submit=Search'
 
+    url1 = 'http://crm.51talk.com/Stu_List/index?is_buy=All&user_id=&student_id=&email=&skype_id=&qq=&mobile=' + \
+          str(18611220000) + \
+          '&agent=&submit=Search'
+
     test = adminLogin()
 
-    info = test.get(url=url)
+    # info = test.get(url=url)
 
-    print(info.text,info.status_code)
+    # print(info.text,info.status_code)
+    print(test)

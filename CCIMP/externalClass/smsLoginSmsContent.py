@@ -53,7 +53,7 @@ def smsLoginSmsContent(username,password,mobile_text):
 
 if __name__ == '__main__':
 
-    mobile = '18611221832'
+    mobile = '15102700011'
 
     # 用户登录，查询该手机的账户与密码内容
     smsLoginSmsContent('zhangbo','zhangbo2019',mobile)

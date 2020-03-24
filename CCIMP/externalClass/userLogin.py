@@ -39,6 +39,7 @@ def userLogin(mobile,password):
         #调用登录接口
         ajax_login = request.post(url=ajax_login_url,data=ajax_data)
         print ("ajax_login-->",ajax_login.json())
+
         try:
             form_url = ajax_login.json()['res']['from_url']
             # print ("form_url-->",form_url)

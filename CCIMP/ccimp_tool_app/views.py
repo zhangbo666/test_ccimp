@@ -124,6 +124,8 @@ def get_package_detail(request):
                 #获取用户user_id
                 user_id = talk_query_user_info_id_success(user_mobile)
 
+                print (user_id)
+
                 #获取用户身份
                 user_role_info = getUserRole(user_id)
                 # print (user_role_info)

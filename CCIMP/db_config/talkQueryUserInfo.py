@@ -56,7 +56,7 @@ def talk_query_user_info_id_success(user_mobile):
         with conn_talk.cursor() as cursor:
 
             #查询
-            sql_query  = "SELECT id from user where mobile = '"+str(user_mobile)+"'"
+            sql_query  = "SELECT id from user where mobile = '%s' and status = '%s'" % (user_mobile,'on')
 
             #连接中断重连
             conn_talk.ping(reconnect=True)
