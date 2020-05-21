@@ -12,8 +12,8 @@ def nickName(nick_name_data,user_id):
     :return:返回用户昵称nickName获取的状态数据
     '''
 
-    print (nick_name_data)
-    print (user_id)
+    # print (nick_name_data)
+    # print (user_id)
 
     nickNameUrl = 'http://crm.51talk.com/admin/user/do_update_email.php'
 
@@ -30,7 +30,7 @@ def nickName(nick_name_data,user_id):
 
     nickname = admin_login.post(url=nickNameUrl,data=nickNameTata)
 
-    print ("返回-->",nickname.text)
+    # print ("返回-->",nickname.text)
 
     return nickname.text
 

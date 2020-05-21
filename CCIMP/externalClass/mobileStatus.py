@@ -12,8 +12,8 @@ def mobileStatus(mobile_status_data,user_id):
     :return:返回手机号验证后状态数据
     '''
 
-    print (mobile_status_data)
-    print (user_id)
+    # print (mobile_status_data)
+    # print (user_id)
 
     mobileStatusUrl = 'http://crm.51talk.com/admin/user/do_update_email.php'
 

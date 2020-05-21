@@ -12,8 +12,8 @@ def accountStatus(account_status_data,user_id):
     :return:返回账号状态数据
     '''
 
-    print ("account_status_data-->",account_status_data)
-    print ("user_id-->",user_id)
+    # print ("account_status_data-->",account_status_data)
+    # print ("user_id-->",user_id)
 
     accountStatusUrl = "http://crm.51talk.com/admin/user/freezeUser.php?user_id=" \
                        + str(user_id) + "&type=" + str(account_status_data)

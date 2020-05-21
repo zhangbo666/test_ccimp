@@ -141,16 +141,17 @@
                 </button>
             </div>
 
+            <p style="color:red;margin-top: 50px;">以下功能暂未开放，敬请期待。。。</p>
             <div style="margin-top: 30px;">
                 <label style="color: blue;">定级设置：</label>
-                <select class="grading_setting" name="grading_setting">
+                <select class="grade_setting" name="grade_setting" id="grade_setting">
                     <option value="0">请选择</option>
                     <option value="1">初始等级</option>
                     <option value="2">当前等级</option>
                 </select>
 
                 <label style="margin-left:30px;color: blue;">角色类型：</label>
-                <select name="role_type" id="level_type">
+                <select class="role_type" name="role_type" id="level_type">
                     <option value="0">请选择角色类型</option>
                     <option value="11">菲小</option>
                     <option value="14">成人</option>
@@ -158,7 +159,7 @@
                 </select>
 
                 <label style="margin-left:30px;color: blue;">账户水平分类：</label>
-                <select name="top_level" id="top_level">
+                <select class="top_level" name="top_level" id="top_level">
                     <option value="0">请选择分类</option>
                     <option value="Beginner">Beginner</option>
                     <option value="Elementary">Elementary</option>
@@ -171,8 +172,9 @@
 
                 <button class="btn btn-success" type="submit"
                         style="margin-left: 30px;"
+                        name="accountLevel"
                         id="accountLevel"
-                        onclick="return userInfoDetail()">修改账户等级
+                        onclick="return userLevel()">修改账户等级
                 </button>
             </div>
 
