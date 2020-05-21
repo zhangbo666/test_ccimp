@@ -20,6 +20,12 @@ from externalClass.getCheckCartInfo import getCheckCartInfo
 from externalClass.getUserRole import getUserRole
 from externalClass.smsLoginSmsCode import smsLoginCode
 from externalClass.smsLoginSmsContent import smsLoginSmsContent
+from externalClass.mobileNumberFormatValidity import mobileNumberFormatValidity
+from externalClass.nickName import nickName
+from externalClass.accountStatus import accountStatus
+from externalClass.mobileStatus import mobileStatus
+from externalClass.userIdentity import userIdentity
+
 
 from db_config.talkQueryUserOrder import talk_query_user_order_success
 from db_config.talkQueryUserInfo import talk_query_user_info_detail_success
@@ -31,6 +37,8 @@ from db_config.talkQueryUserWealth import talk_query_user_assets_disable_classti
 from db_config.talkQueryUserOrder import talk_query_user_order2_success
 from db_config.talkQueryUserWealth import talk_query_user_assets_disable_na_pri_user_wealth_success
 from db_config.talkQueryUserWealth import talk_query_user_assets_disable_na_open_user_wealth_success
+from db_config.talkQueryUserInfo import talk_query_user_info_id_account_status_success
+
 
 from db_config.db_config import *
 
@@ -405,18 +413,29 @@ def get_userinfo_detail(request):
 
         user_mobile = request.POST.get("userMobile","")
 
-        if user_mobile == "":
+        #1:用户手机号不能为空！;2:手机号位数输入错误，请重新输入！;3:手机号格式输入错误，请重新输入！;4:正常
+        mobile_result_tag = mobileNumberFormatValidity(user_mobile)
+        # print ("mobile_result_tag",mobile_result_tag)
+
+        if mobile_result_tag == 1:
 
             # return HttpResponse("用户手机号不能为空！")
             return JsonResponse({"status_code":10101,
-                                 "message":"用户手机号不能为空！"})
+                                 "message":"手机号不能为空！"})
 
-        elif len(user_mobile)< 11 or len(user_mobile)>11:
+        elif mobile_result_tag == 2:
 
-            # return HttpResponse("用户手机号输入错误，请重新输入！")
+            # return HttpResponse("手机号位数输入错误，请重新输入！")
             return JsonResponse({"status_code":10102,
-                                 "message":"用户手机号输入错误，请重新输入！"})
-        else:
+                                 "message":"手机号位数输入错误，请重新输入！"})
+
+        elif mobile_result_tag == 3:
+
+            # return HttpResponse("手机号格式输入错误，请重新输入！")
+            return JsonResponse({"status_code":10106,
+                                 "message":"手机号格式输入错误，请重新输入！"})
+
+        elif mobile_result_tag == 4:
 
             #获取用户信息详情
             user_list_result = talk_query_user_info_detail_success(user_mobile)
@@ -429,7 +448,7 @@ def get_userinfo_detail(request):
             if user_list_result == ():
 
                 return JsonResponse({"status_code":10103,
-                                     "message":"无法获取该用户信息！！！"})
+                                     "message":"无法获取该用户信息或该用户为冻结状态！！！"})
 
             else:
 
@@ -442,7 +461,7 @@ def get_userinfo_detail(request):
                 # print (user_role_info)
                 # print (type(user_role_info))
 
-				#获取用户身份失败或当前网络不是测试环境
+                # 获取用户身份失败或当前网络不是测试环境
                 if user_role_info == global_configure.login_error_message:
 
                     return JsonResponse({"status_code":10104,
@@ -521,15 +540,29 @@ def get_user_sms_connent(request):
 
         user_mobile = request.POST.get("userMobile","")
 
-        if user_mobile == "":
+        #1:用户手机号不能为空！;2:手机号位数输入错误，请重新输入！;3:手机号格式输入错误，请重新输入！;4:正常
+        mobile_result_tag = mobileNumberFormatValidity(user_mobile)
+        print ("mobile_result_tag",mobile_result_tag)
 
-            return JsonResponse({"status_code":10100,"message":"用户手机号不能为空！"})
+        if mobile_result_tag == 1:
 
-        elif len(user_mobile) < 11 or len(user_mobile) > 11:
+            # return HttpResponse("用户手机号不能为空！")
+            return JsonResponse({"status_code":10101,
+                                 "message":"手机号不能为空！"})
 
-            return JsonResponse({"status_code":10101,"message":"用户手机号输入错误，请重新输入！"})
+        elif mobile_result_tag == 2:
 
-        else:
+            # return HttpResponse("手机号位数输入错误，请重新输入！")
+            return JsonResponse({"status_code":10102,
+                                 "message":"手机号位数输入错误，请重新输入！"})
+
+        elif mobile_result_tag == 3:
+
+            # return HttpResponse("手机号格式输入错误，请重新输入！")
+            return JsonResponse({"status_code":10106,
+                                 "message":"手机号格式输入错误，请重新输入！"})
+
+        elif mobile_result_tag == 4:
 
             sms_code = smsLoginCode('zhangbo','zhangbo2019',user_mobile)
             sms_content = smsLoginSmsContent('zhangbo','zhangbo2019',user_mobile)
@@ -559,3 +592,270 @@ def get_user_sms_connent(request):
                                      "message":"注册后手机短信获取成功！！！",
                                      "result_sms_code":"",
                                      "result_sms_content":sms_content})
+
+
+'''###############################################################################'''
+#用户昵称修改
+@auth
+def user_nick_name(request):
+
+    if request.method == "POST":
+
+        user_nickName = request.POST.get("nickName","")
+
+        user_mobile = request.POST.get("userMobile","")
+
+        # print (user_nickName)
+        # print (user_mobile)
+
+        #1:用户手机号不能为空！;2:手机号位数输入错误，请重新输入！;3:手机号格式输入错误，请重新输入！;4:正常
+        mobile_result_tag = mobileNumberFormatValidity(user_mobile)
+        # print ("mobile_result_tag",mobile_result_tag)
+
+        if mobile_result_tag == 1:
+
+            # return HttpResponse("用户手机号不能为空！")
+            return JsonResponse({"status_code":10101,
+                                 "message":"手机号不能为空！"})
+
+        elif mobile_result_tag == 2:
+
+            # return HttpResponse("手机号位数输入错误，请重新输入！")
+            return JsonResponse({"status_code":10102,
+                                 "message":"手机号位数输入错误，请重新输入！"})
+
+        elif mobile_result_tag == 3:
+
+            # return HttpResponse("手机号格式输入错误，请重新输入！")
+            return JsonResponse({"status_code":10103,
+                                 "message":"手机号格式输入错误，请重新输入！"})
+
+        elif mobile_result_tag == 4:
+
+            if user_nickName == "":
+
+                return JsonResponse({"status_code":10104,
+                                     "message":"用户昵称为空"})
+
+            l_user_nick_name = len(user_nickName)
+
+            if l_user_nick_name > 16:
+
+                return JsonResponse({"status_code":10105,
+                                     "message":"用户昵称过长，你重新输入"})
+
+            userId = talk_query_user_info_id_success(user_mobile)
+
+            nickname_result = nickName(user_nickName,userId)
+            # print (type(nickname_result))
+
+            if nickname_result == '1':
+
+                return JsonResponse({"status_code": 10200,"message":"用户昵称修改成功"})
+
+            elif nickname_result == '修改失败':
+
+                return JsonResponse({"status_code": 10106,
+                                     "message": "昵称数据异常，昵称不能是中文字符"})
+
+            elif nickname_result == '学员已冻结，不能修改信息':
+
+                return JsonResponse({"status_code": 10107,
+                                     "message": "学员已冻结，不能修改信息"})
+
+
+'''###############################################################################'''
+#账号状态修改
+@auth
+def account_status(request):
+
+    if request.method == "GET":
+
+        user_mobile = request.GET.get("userMobile","")
+        account_status = request.GET.get("accountStatus","")
+
+        print ("user_mobile-->",user_mobile)
+        print ("account_status-->",account_status)
+
+        #1:用户手机号不能为空！;2:手机号位数输入错误，请重新输入！;3:手机号格式输入错误，请重新输入！;4:正常
+        mobile_result_tag = mobileNumberFormatValidity(user_mobile)
+        # print ("mobile_result_tag",mobile_result_tag)
+
+        if mobile_result_tag == 1:
+
+            # return HttpResponse("用户手机号不能为空！")
+            return JsonResponse({"status_code":10101,
+                                 "message":"手机号不能为空！"})
+
+        elif mobile_result_tag == 2:
+
+            # return HttpResponse("手机号位数输入错误，请重新输入！")
+            return JsonResponse({"status_code":10102,
+                                 "message":"手机号位数输入错误，请重新输入！"})
+
+        elif mobile_result_tag == 3:
+
+            # return HttpResponse("手机号格式输入错误，请重新输入！")
+            return JsonResponse({"status_code":10103,
+                                 "message":"手机号格式输入错误，请重新输入！"})
+
+        elif mobile_result_tag == 4:
+
+            if account_status == "freeze":
+
+                account_status = account_status
+
+            elif account_status == "on":
+
+                account_status = account_status
+
+            #查询账号状态返回用户id
+            userId = talk_query_user_info_id_account_status_success(user_mobile)
+
+            accountstatus_result = accountStatus(account_status,userId)
+
+            if accountstatus_result == True:
+
+                return JsonResponse({"status_code": 10200,"message":"账号状态修改成功"})
+
+            elif accountstatus_result == False:
+
+                return JsonResponse({"status_code": 10104,
+                                     "message": "账号状态修改失败"})
+
+
+'''###############################################################################'''
+#手机号状态修改
+@auth
+def mobile_status(request):
+
+    if request.method == "POST":
+
+        is_check = request.POST.get("isCheck","")
+
+        user_mobile = request.POST.get("userMobile","")
+
+        # print (is_check)
+        # print (user_mobile)
+
+        #1:用户手机号不能为空！;2:手机号位数输入错误，请重新输入！;3:手机号格式输入错误，请重新输入！;4:正常
+        mobile_result_tag = mobileNumberFormatValidity(user_mobile)
+        # print ("mobile_result_tag",mobile_result_tag)
+
+        if mobile_result_tag == 1:
+
+            # return HttpResponse("用户手机号不能为空！")
+            return JsonResponse({"status_code":10101,
+                                 "message":"手机号不能为空！"})
+
+        elif mobile_result_tag == 2:
+
+            # return HttpResponse("手机号位数输入错误，请重新输入！")
+            return JsonResponse({"status_code":10102,
+                                 "message":"手机号位数输入错误，请重新输入！"})
+
+        elif mobile_result_tag == 3:
+
+            # return HttpResponse("手机号格式输入错误，请重新输入！")
+            return JsonResponse({"status_code":10103,
+                                 "message":"手机号格式输入错误，请重新输入！"})
+
+        elif mobile_result_tag == 4:
+
+            if is_check == "y":
+
+                is_check = is_check
+
+            elif is_check == "n":
+
+                is_check = is_check
+
+
+            userId = talk_query_user_info_id_success(user_mobile)
+
+            if userId == ():
+
+                return JsonResponse({"status_code": 10104,"message":"该学员对应的userid为空"})
+
+
+            mobilestatus_result = mobileStatus(is_check,userId)
+            # print (type(mobilestatus_result))
+
+            if mobilestatus_result == '1':
+
+                return JsonResponse({"status_code": 10200,"message":"手机号状态已修改"})
+
+            elif mobilestatus_result == '修改失败':
+
+                return JsonResponse({"status_code": 10105,
+                                     "message": "手机号状态修改失败"})
+
+
+'''###############################################################################'''
+#用户身份状态修改
+@auth
+def user_identity(request):
+
+    if request.method == "POST":
+
+        is_buy = request.POST.get("isBuy","")
+
+        user_mobile = request.POST.get("userMobile","")
+
+        # print (is_buy)
+        # print (user_mobile)
+
+        #1:用户手机号不能为空！;2:手机号位数输入错误，请重新输入！;3:手机号格式输入错误，请重新输入！;4:正常
+        mobile_result_tag = mobileNumberFormatValidity(user_mobile)
+        # print ("mobile_result_tag",mobile_result_tag)
+
+        if mobile_result_tag == 1:
+
+            # return HttpResponse("用户手机号不能为空！")
+            return JsonResponse({"status_code":10101,
+                                 "message":"手机号不能为空！"})
+
+        elif mobile_result_tag == 2:
+
+            # return HttpResponse("手机号位数输入错误，请重新输入！")
+            return JsonResponse({"status_code":10102,
+                                 "message":"手机号位数输入错误，请重新输入！"})
+
+        elif mobile_result_tag == 3:
+
+            # return HttpResponse("手机号格式输入错误，请重新输入！")
+            return JsonResponse({"status_code":10103,
+                                 "message":"手机号格式输入错误，请重新输入！"})
+
+        elif mobile_result_tag == 4:
+
+            if is_buy == "free":
+
+                is_buy = is_buy
+
+            elif is_buy == "buy":
+
+                is_buy = is_buy
+
+
+            userId = talk_query_user_info_id_success(user_mobile)
+
+            if userId == ():
+
+                return JsonResponse({"status_code": 10104,"message":"该学员对应的userid为空"})
+
+            useridentity_result = userIdentity(is_buy,userId)
+            # print (type(useridentity_result))
+
+            if useridentity_result == '1':
+
+                return JsonResponse({"status_code": 10200,"message":"用户身份已修改"})
+
+            elif useridentity_result == '修改失败':
+
+                return JsonResponse({"status_code": 10105,
+                                     "message": "用户身份修改失败"})
+
+
+
+

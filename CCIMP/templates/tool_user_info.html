@@ -4,6 +4,8 @@
 <style>
     .op{
         text-align: center;
+        width:25px;
+
     }
 
     .modal.fade.in{
@@ -12,36 +14,7 @@
 </style>
 
 
-{% include "common_top.html"%}
-
-<!--<nav class="navbar navbar-inverse navbar-fixed-top" xmlns="http://www.w3.org/1999/html">-->
-    <!--<div class="container-fluid_1">-->
-        <!--<div class="navbar-header">-->
-            <!--<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">-->
-                <!--<span class="sr-only">Toggle navigation</span>-->
-                <!--<span class="icon-bar"></span>-->
-                <!--<span class="icon-bar"></span>-->
-                <!--<span class="icon-bar"></span>-->
-          <!--</button>-->
-        <!--<a class="navbar-brand" href="http://www.51talk.com">CCIMP--51Talk</a>-->
-        <!--</div>-->
-        <!--<div id="navbar" class="navbar-collapse collapse">-->
-            <!--<ul class="nav navbar-nav navbar-right">-->
-                <!--&lt;!&ndash;<li><a href="#">Settings</a></li>&ndash;&gt;-->
-                <!--<li>-->
-                    <!--<span class="loginWelcomeName">欢迎,{{ username }}同学！-->
-                        <!--<a href="/logout/">-->
-                            <!--<span>&nbsp;&nbsp;logout</span>-->
-                        <!--</a>-->
-                    <!--</span>-->
-                <!--</li>-->
-            <!--</ul>-->
-            <!--&lt;!&ndash;<form class="navbar-form navbar-right">&ndash;&gt;-->
-                <!--&lt;!&ndash;<input type="text" class="form-control" placeholder="Search..." disabled="disabled">&ndash;&gt;-->
-            <!--&lt;!&ndash;</form>&ndash;&gt;-->
-        <!--</div>-->
-    <!--</div>-->
-<!--</nav>-->
+{% include "common_top.html" %}
 
 <div class="container-fluid">
 
@@ -50,226 +23,50 @@
         <!--包含common_left.html-->
         {% include "common_left.html"%}
 
-        <!--<div class="col-sm-3 col-md-2 sidebar" style="width:150px;">-->
-            <!--<ul class="nav nav-sidebar">-->
-
-                <!--<div class="leftMenu">-->
-                    <!--&lt;!&ndash;<div class="topMenu" id="topMenu1">&ndash;&gt;-->
-                        <!--&lt;!&ndash;<img class="banshi" src="img/banshidating.png" />&ndash;&gt;-->
-                        <!--&lt;!&ndash;<p class="menuTitle">51TALK</p>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<img class="changeMenu" src="img/shouqicaidan.png" onClick="hidMenu()">&ndash;&gt;-->
-                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                    <!--<div class="menu_list">-->
-
-                        <!--<ul>-->
-
-                            <!--<li class="">-->
-                                <!--<p class="fuMenu">项目管理</p>-->
-                                <!--<img class="xiala" src="/static/image/xiala.png">-->
-                                <!--<div class="div1" id="div11">-->
-                                    <!--<a href="/project/">-->
-                                        <!--<p class="zcd" id="zcd1">-->
-                                            <!--<i class="glyphicon glyphicon-th-large"></i>-->
-                                            <!--<span>项目管理</span>-->
-                                        <!--</p>-->
-                                    <!--</a>-->
-                                <!--</div>-->
-                            <!--</li>-->
-
-                            <!--<li class="">-->
-								<!--<p class="fuMenu">模块管理</p>-->
-								<!--<img class="xiala" src="/static/image/xiala.png">-->
-								<!--<div class="div1" id="div12">-->
-									<!--<a href="/module/">-->
-                                        <!--<p class="zcd" id="zcd2">-->
-                                            <!--<i class="glyphicon glyphicon-th"></i>-->
-                                            <!--<span>模块管理</span>-->
-                                        <!--</p>-->
-                                    <!--</a>-->
-								<!--</div>-->
-							<!--</li>-->
-
-							<!--<li class="">-->
-								<!--<p class="fuMenu">用例管理</p>-->
-								<!--<img class="xiala" src="/static/image/xiala.png">-->
-								<!--<div class="div1" id="div13">-->
-									<!--<a href="/testcase/ui_function/">-->
-                                        <!--<p class="zcd" id="zcd3">-->
-                                            <!--<i class="glyphicon glyphicon-briefcase"></i>-->
-                                            <!--<span>UI自动化用例</span>-->
-                                        <!--</p>-->
-                                    <!--</a>-->
-									<!--<a href="/testcase/interface_case/">-->
-                                        <!--<p class="zcd" id="zcd4">-->
-                                            <!--<i class="glyphicon glyphicon-briefcase"></i>-->
-                                            <!--<span>接口用例</span>-->
-                                        <!--</p>-->
-                                    <!--</a>-->
-								<!--</div>-->
-							<!--</li>-->
-
-							<!--<li class="">-->
-								<!--<p class="fuMenu">报告管理</p>-->
-								<!--<img class="xiala" src="/static/image/xiala.png">-->
-								<!--<div class="div1" id="div14">-->
-									<!--<a href="/report/">-->
-                                        <!--<p class="zcd" id="zcd5">-->
-                                            <!--<i class="glyphicon glyphicon-th-list"></i>-->
-                                            <!--<span>报告管理</span>-->
-                                        <!--</p>-->
-                                    <!--</a>-->
-								<!--</div>-->
-							<!--</li>-->
-
-                            <!--{% if type_option_admin == "permission_sap" %}-->
-
-                                <!--<li class="">-->
-                                    <!--<p class="fuMenu">权限管理</p>-->
-                                    <!--<img class="xiala" src="/static/image/xiala.png">-->
-                                    <!--<div class="div1" id="div15">-->
-                                        <!--<a href="/permission/">-->
-                                            <!--<p class="zcd" id="zcd6" >-->
-                                                <!--<i class="glyphicon glyphicon-user"></i>-->
-                                                <!--<span>用户权限</span>-->
-                                            <!--</p>-->
-                                        <!--</a>-->
-                                        <!--<a href="/permission/class/">-->
-                                            <!--<p class="zcd" id="zcd7">-->
-                                                <!--<i class="glyphicon glyphicon-inbox"></i>-->
-                                                <!--<span>权限分类</span>-->
-                                            <!--</p>-->
-                                        <!--</a>-->
-                                    <!--</div>-->
-                                <!--</li>-->
-
-                            <!--{% endif %}-->
-
-                            <!--<li class="">-->
-								<!--<p class="fuMenu">工具管理</p>-->
-								<!--<img class="xiala" src="/static/image/xiala.png">-->
-								<!--<div class="div1" id="div16" style="display: block;">-->
-									<!--<a href="#">-->
-                                        <!--<p class="zcd" id="zcd8">-->
-                                            <!--<i class="glyphicon glyphicon-th-list"></i>-->
-                                            <!--<span>老师开课</span>-->
-                                        <!--</p>-->
-                                    <!--</a>-->
-
-                                    <!--<a href="#">-->
-                                        <!--<p class="zcd" id="zcd9">-->
-                                            <!--<i class="glyphicon glyphicon-th-list"></i>-->
-                                            <!--<span>学员约课</span>-->
-                                        <!--</p>-->
-                                    <!--</a>-->
-
-                                    <!--<a href="#">-->
-                                        <!--<p class="zcd" id="zcd14">-->
-                                            <!--<i class="glyphicon glyphicon-th-list"></i>-->
-                                            <!--<span>用例生成</span>-->
-                                        <!--</p>-->
-                                    <!--</a>-->
-
-
-                                    <!--<a href="/tool/sale_order/">-->
-                                        <!--<p class="zcd" id="zcd10">-->
-                                            <!--<i class="glyphicon glyphicon-shopping-cart"></i>-->
-                                            <!--<span>售卖下单</span>-->
-                                        <!--</p>-->
-                                    <!--</a>-->
-
-									<!--<a href="#">-->
-                                        <!--<p class="zcd" id="zcd11">-->
-                                            <!--<i class="glyphicon glyphicon-th-list"></i>-->
-                                            <!--<span>订单退款</span>-->
-                                        <!--</p>-->
-                                    <!--</a>-->
-                                    <!--<a href="/tool/user_info/">-->
-                                        <!--<p class="zcd" id="zcd12">-->
-                                            <!--<i class="glyphicon glyphicon-user"></i>-->
-                                            <!--<span>学员信息</span>-->
-                                        <!--</p>-->
-                                    <!--</a>-->
-
-								<!--</div>-->
-							<!--</li>-->
-
-							<!--<li class="">-->
-								<!--<p class="fuMenu">系统设置</p>-->
-								<!--<img class="xiala" src="/static/image/xiala.png">-->
-								<!--<div class="div1" id="div17">-->
-									<!--<a href="#">-->
-                                        <!--<p class="zcd" id="zcd13">-->
-                                            <!--<i class="glyphicon glyphicon-cog"></i>-->
-                                            <!--<span>系统设置</span>-->
-                                        <!--</p>-->
-                                    <!--</a>-->
-								<!--</div>-->
-							<!--</li>-->
-
-                        <!--</ul>-->
-
-                    <!--</div>-->
-                <!--</div>-->
-
-           <!--</ul>-->
-        <!--</div>-->
-
-        <div style="margin-left: 135px;" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <h4 style="color: blue;">51Talk用户信息查询：
-                <!--<button class="btn btn-primary" name="submit" style="float:right;"-->
-                        <!--onclick="location.href='/permission/add_permission/'">创建权限</button>-->
-            </h4><br>
-
-            <!--<form class="permission" method="post" name="permission-page" action="search">-->
+        <div style="margin-left: 135px;width: 1500px;" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h4 style="color: blue;">51Talk用户信息查询：</h4>
+            <br>
 
             <button class="btn btn-success" type="submit" id="userInfoDetail"
-                    onclick="return userInfoDetail()">获取用户信息</button>
+                    onclick="return userInfoDetail()">用户账户查询</button>
 
             <button class="btn btn-success" type="submit" id="userSmsConnent" data-keyboard="false"
                     data-toggle="modal" data-target="#myModalUserSmsContent"
                     style="margin-left: 20px;"
-                    onclick="userSmsConnent()">获取用户手机短信内容</button>
+                    onclick="userSmsConnent()">手机短信查询</button>
 
-            <br><br>
 
-            <div style="margin-top: 20px;">
-                <label>用户手机号：</label>
+
+            <br>
+
+            <div style="margin-top: 30px;">
+                <label style="color: blue;">用户手机号：</label>
                 <input type="text" name="user_mobile" placeholder="手机号码" id="user_mobile">
             </div>
 
+            <div id="hide_cancle" style="display: none;">
 
-            <br><br>
-
-            <!--<label style="margin-left: 20px;">用户登录密码：</label>-->
-            <!--<input type="text" name="password_name" placeholder="用户密码" id="password_name">-->
-
-            <!--</form>-->
-
-            <br><br>
-
-            <div id="hide_cancle" style="display: none">
-                <h4 style="color: blue;">获取用户信息：</h4><br>
+                <br>
 
                 <div class="table-responsive" style="font-size:14px;">
-                    <table class="table table-striped table-bo" id="myTableUserInfo"
-                           style="width:1250px;
+                    <table class="table table-striped table-hover table-condensed table-bo" id="myTableUserInfo"
+                           style="
                            table-layout: fixed;word-break: break-all;word-wrap: break-word;
                            vertical-align: middle;text-align:center;">
                         <thead>
-
                             <tr>
-                                <th>id</th>
-                                <th>姓名</th>
-                                <th>别名</th>
-                                <th>手机号</th>
-                                <th>体验课状态</th>
-                                <th>付费状态</th>
-                                <th>初始等级</th>
-                                <th>当前等级</th>
-                                <th>推荐人</th>
-                                <th>城市</th>
-                                <th>当前财富</th>
-                                <th>未开启财富</th>
+                                <th class="op">id</th>
+                                <th class="op">姓名</th>
+                                <th class="op">别名</th>
+                                <th class="op">手机号</th>
+                                <th class="op">体验课状态</th>
+                                <th class="op">付费状态</th>
+                                <th class="op">初始等级</th>
+                                <th class="op">当前等级</th>
+                                <th class="op">推荐人</th>
+                                <th class="op">城市</th>
+                                <th class="op" style="width: 50px;">当前财富</th>
+                                <th class="op" style="width: 50px;">未开启财富</th>
                             </tr>
 
                         </thead>
@@ -277,10 +74,109 @@
                         <tbody></tbody>
 
                     </table>
+
                 </div>
 
             </div>
 
+            <div style="margin-top: 30px;">
+                <label style="color: blue;">用户昵称：</label>
+                <input type="text" name="nick_name" id="nick_name">
+                <button class="btn btn-success" type="submit"
+                        style="margin-left: 18px;"
+                        id="userNickName"
+                        onclick="return userNickName()">修改用户昵称
+                </button>
+            <div>
+
+            <div>
+                <label style="margin-top: 30px;color: blue;">账户状态：</label>
+                <select class="account_status" name="account_status" id="account_status"
+                        style="width: 100px;">
+                    <option value="0">请选择</option>
+                    <option value="Freeze">Freeze</option>
+                    <option value="on">on</option>
+                </select>
+
+                <button class="btn btn-success" type="submit"
+                        style="margin-left: 30px;"
+                        name="accountStatus"
+                        id="accountStatus"
+                        onclick="return accountStatus()">修改账户状态
+                </button>
+
+            </div>
+
+            <div style="margin-top: 30px;">
+                <label style="color: blue;">手机验证：</label>
+                <select class="is_check" name="is_check" id="is_check"
+                        style="width: 100px;">
+                    <option value="0">请选择</option>
+                    <option value="y">已验证</option>
+                    <option value="n">未验证</option>
+                </select>
+
+                <button class="btn btn-success" type="submit"
+                        style="margin-left: 30px;"
+                        name="mobileStatus"
+                        id="mobileStatus"
+                        onclick="return mobileStatus()">修改手机验证
+                </button>
+            </div>
+
+            <div style="margin-top: 30px;">
+                <label style="color: blue;">用户身份：</label>
+                <select class="is_check" name="is_buy" id="is_buy"
+                        style="width: 100px;">
+                    <option value="0">请选择</option>
+                    <option value="free">体验用户</option>
+                    <option value="buy">付费用户</option>
+                </select>
+
+                <button class="btn btn-success" type="submit"
+                        style="margin-left: 30px;"
+                        name="userIdentity"
+                        id="userIdentity"
+                        onclick="return userIdentity()">修改用户身份
+                </button>
+            </div>
+
+            <div style="margin-top: 30px;">
+                <label style="color: blue;">定级设置：</label>
+                <select class="grading_setting" name="grading_setting">
+                    <option value="0">请选择</option>
+                    <option value="1">初始等级</option>
+                    <option value="2">当前等级</option>
+                </select>
+
+                <label style="margin-left:30px;color: blue;">角色类型：</label>
+                <select name="role_type" id="level_type">
+                    <option value="0">请选择角色类型</option>
+                    <option value="11">菲小</option>
+                    <option value="14">成人</option>
+                    <option value="12">美小</option>
+                </select>
+
+                <label style="margin-left:30px;color: blue;">账户水平分类：</label>
+                <select name="top_level" id="top_level">
+                    <option value="0">请选择分类</option>
+                    <option value="Beginner">Beginner</option>
+                    <option value="Elementary">Elementary</option>
+                    <option value="Intermediate">Intermediate</option>
+                </select>
+
+                <select style = "margin-left:10px;" class="level" name="level" id="level" style="display:inline">
+                    <option value="0">请选择等级</option>
+                </select>
+
+                <button class="btn btn-success" type="submit"
+                        style="margin-left: 30px;"
+                        id="accountLevel"
+                        onclick="return userInfoDetail()">修改账户等级
+                </button>
+            </div>
+
+            <br>
 
             <!--查看日志的模态框（Modal）-->
             <div class="modal fade bs-example-modal-lg" id="myModalUserSmsContent" tabindex="1"
@@ -289,14 +185,13 @@
                     <div class="modal-content">
 
                         <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                                &times;
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
                             </button>
                             <h4 class="modal-title" id="myModalSmsLabel" style="color:blue;">短信内容：</h4>
 
                         </div>
 
-                        <div class="modal-body" id="modalUserSmsContent" style="height:200px;">
+                        <div class="modal-body" id="modalUserSmsContent" style="height:300px;">
 
                             <div class="table-responsive">
 
@@ -321,10 +216,6 @@
                     </div>
                 </div>
             </div>
-
-
-
-
         </div>
     </div>
 
@@ -332,6 +223,7 @@
 
 
 <script type="text/javascript">
+
 
 </script>
 

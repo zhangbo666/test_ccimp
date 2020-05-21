@@ -27,7 +27,23 @@ urlpatterns = [
 
 
     #手机短信内容接口
-    path('user_info/get_user_sms_connent/',views.get_user_sms_connent)
+    path('user_info/get_user_sms_connent/',views.get_user_sms_connent),
+
+
+    #修改用户昵称
+    path('user_info/user_nick_name/', views.user_nick_name),
+
+
+    #修改账号状态
+    path('user_info/account_status/', views.account_status),
+
+
+    #修改手机号状态
+    path('user_info/mobile_status/', views.mobile_status),
+
+
+    #修改用户身份状态
+    path('user_info/user_identity/', views.user_identity),
 
 
 ]

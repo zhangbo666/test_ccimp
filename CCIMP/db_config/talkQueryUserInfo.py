@@ -20,7 +20,7 @@ def talk_query_user_info_detail_success(user_mobile):
 
             #查询
             sql_query  = "select id,real_name,nick_name,mobile,is_trail,is_buy,current_level,now_level,city," \
-                         "parent_id from user where mobile = '"+str(user_mobile)+"'"
+                         "parent_id from user where mobile = '"+str(user_mobile)+"' and status = 'on'"
 
             #连接中断重连
             conn_talk.ping(reconnect=True)
@@ -57,6 +57,53 @@ def talk_query_user_info_id_success(user_mobile):
 
             #查询
             sql_query  = "SELECT id from user where mobile = '%s' and status = '%s'" % (user_mobile,'on')
+
+            #连接中断重连
+            conn_talk.ping(reconnect=True)
+
+            cursor.execute(sql_query)
+
+            user_id_result = cursor.fetchall()
+
+            # print ("user_id-->",user_id_result)
+            # print ("user_id-->",type(user_id_result))
+
+            if user_id_result == ():
+
+                return user_id_result
+
+            else:
+
+                for userid in user_id_result:
+
+                    for key,valuse in userid.items():
+
+                        if key == "id":
+
+                            return  valuse
+
+    except Exception as e:
+
+        conn_talk.rollback()
+
+        print ("e-->",e)
+
+
+#----------------------------------------------------------------------------------------------------------------------#
+    # 查询talk库-->user表id字段的冻结状态
+#----------------------------------------------------------------------------------------------------------------------#
+def talk_query_user_info_id_account_status_success(user_mobile):
+
+    '''查询用户userID的冻结状态'''
+
+    return_value = []
+
+    try:
+
+        with conn_talk.cursor() as cursor:
+
+            #查询
+            sql_query  = "SELECT id from user where mobile = '%s'" % (user_mobile)
 
             #连接中断重连
             conn_talk.ping(reconnect=True)

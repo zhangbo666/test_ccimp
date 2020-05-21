@@ -15,7 +15,7 @@ def adminLogin():
     后台登录
     使用：实例化后直接调请求方法
     '''
-    adminLoginUrl = 'http://www.51talk.com/admin/login.php'
+    adminLoginUrl = 'http://crm.51talk.com/admin/login.php'
     data = {
         'user_name': 'admin',
         'password': '123456',
@@ -30,7 +30,7 @@ def adminLogin():
     request = requests.Session()
 
     aa = request.post(url=adminLoginUrl, data=data, headers=head)
-    # print (aa)
+    # print ("aa-->",aa)
 
     return request
 
