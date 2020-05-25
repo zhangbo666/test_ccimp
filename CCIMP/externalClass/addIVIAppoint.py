@@ -6,9 +6,9 @@ import json
 
 
 '''
-@method:addAppoint
+@method:addIVIAppoint
 '''
-def addAppoint():
+def addIVIAppoint():
 
     '''
     获取约课自增ID
