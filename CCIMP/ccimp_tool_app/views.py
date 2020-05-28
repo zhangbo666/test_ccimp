@@ -540,6 +540,10 @@ def get_user_sms_connent(request):
 
         user_mobile = request.POST.get("userMobile","")
 
+        #获取短信搜索内容
+        search_content = request.POST.get("searchContent", "")
+        print ("search_content",search_content)
+
         #1:用户手机号不能为空！;2:手机号位数输入错误，请重新输入！;3:手机号格式输入错误，请重新输入！;4:正常
         mobile_result_tag = mobileNumberFormatValidity(user_mobile)
         print ("mobile_result_tag",mobile_result_tag)
@@ -565,7 +569,9 @@ def get_user_sms_connent(request):
         elif mobile_result_tag == 4:
 
             sms_code = smsLoginCode('zhangbo','zhangbo2019',user_mobile)
-            sms_content = smsLoginSmsContent('zhangbo','zhangbo2019',user_mobile)
+
+            #添加了搜索内容字段
+            sms_content = smsLoginSmsContent('zhangbo','zhangbo2019',user_mobile,search_content)
 
             if sms_code == None and sms_content == None:
 

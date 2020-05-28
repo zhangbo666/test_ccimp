@@ -40,8 +40,19 @@
             <br>
 
             <div style="margin-top: 30px;">
+
                 <label style="color: blue;">用户手机号：</label>
                 <input type="text" name="user_mobile" placeholder="手机号码" id="user_mobile">
+
+                <!--郭靖-->
+                <label>要获取的信息：</label>
+                <select id ="contentType" name="content_mode">
+                    <option value='message'> 短信验证码 </option>
+                    <option value='allContent'> 短信内容 </option>
+                </select>
+                <label style="display: none;" id="search_infoTitle">搜索内容：</label>
+                <input style="display: none;" id="search_infoContent" type="text" name="search_content" placeholder="搜索内容" >
+
             </div>
 
             <div id="hide_cancle" style="display: none;">
@@ -203,7 +214,7 @@
                                 <br><br>
 
                                 <p style="color:blue">注册后短信内容：</p>
-                                <textarea class="smsContent" rows="3" id="sms_content" name="sms_content" style="width: 700px;"></textarea>
+                                <textarea class="smsContent" rows="3" id="sms_content" name="sms_content" style="width: 700px;height: 180px;"></textarea>
 
                             </div>
 
