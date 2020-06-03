@@ -1,0 +1,51 @@
+<head>
+    <meta charset="UTF-8">
+{#    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>#}
+    <script src="/static/js/tool51/open_lesson.js"></script>
+    <script src="/static/js/tool51/WebCalendar.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/css/loading.css"/>
+</head>
+{% extends "base.html" %}
+{% block base %}
+{% include 'common_top.html' %}
+<div class="container-fluid">
+    {% include 'common_left.html' %}
+    <div style="padding-left: 160px;padding-top: 50px;">
+        <p class="text-primary"><b>次卡有效期说明：</b>每次最多添加50次次卡；正常学员每添加一节次卡，有效期加1天</p>
+		<p class="text-primary">如果学员有多个套餐，次卡加到未启用财富</p>
+        <br>
+        <form role="form" class="form-inline" method="post">
+                <div class="input-group input-group-sm">
+                    <span class="input-group-addon">用户userID</span>
+                    <input name="userid" id="userid" value="{{ request.POST.userid }}"
+                           required class="form-control" placeholder="输入用户userid">
+                </div>
+                <br><br>
+                <div class="input-group input-group-sm">
+                    <span class="input-group-addon">添加次卡数</span>
+                    <input id="point" name="point" class="form-control" placeholder="输入要添加次卡数"
+                           value="{{ request.POST.point }}"
+                           required >
+                </div>
+                <br><br><br>
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" id="modify_btn">添加</button>
+                    </span>
+                </div>
+                <label style="color: #c75522">{{ message }}</label>
+	        </form>
+    </div>
+
+    {% include 'loading.html' %}
+</div>
+
+<script>
+$('#modify_btn').click(function(){
+    if ($('#userid').val() && $('#point').val())
+        $(this).button('loading').delay(1000).queue(function() {
+    });
+});
+</script>
+
+{% endblock %}

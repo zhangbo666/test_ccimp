@@ -13,7 +13,7 @@ function userInfoDetail() {
     //var userPasword = $("[name='password_name']").val();
 
     //获取用户信息详情按钮连击
-    if (userInfoDetailDoubleClick == 0) {
+    if (userInfoDetailDoubleClick === 0) {
 
         userInfoDetailDoubleClick = 1;
 

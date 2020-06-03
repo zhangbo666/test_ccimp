@@ -14,14 +14,17 @@ class UserLoginForm(forms.Form):
 
       user_name = fields.CharField(min_length=5,max_length=50)
 
-      password = fields.CharField(min_length=6,max_length=50)
-
+      # password = fields.CharField(min_length=6,max_length=50)
+      # 密码密文*输出
+      password = fields.Field(widget=widgets.PasswordInput())
 
 class UserRegisterForm(forms.Form):
 
       user_name = fields.CharField(min_length=5, max_length=50)
 
-      password = fields.CharField(min_length=6, max_length=50)
+      # password = fields.CharField(min_length=6, max_length=50)
+      # 密码密文*输出
+      password = fields.Field(widget=widgets.PasswordInput())
 
       real_name = fields.CharField(min_length=2,max_length=50)
 

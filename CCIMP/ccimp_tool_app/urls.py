@@ -30,6 +30,10 @@ urlpatterns = [
     path('user_info/get_user_sms_connent/',views.get_user_sms_connent),
 
 
+    # 给学员添加次卡
+    path('user_addpoint/', views.add_user_point),
+
+
     #修改用户昵称
     path('user_info/user_nick_name/', views.user_nick_name),
 
@@ -45,5 +49,8 @@ urlpatterns = [
     #修改用户身份状态
     path('user_info/user_identity/', views.user_identity),
 
+
+    #修改课程状态
+    path('user_info/course_status/', views.course_status),
 
 ]

@@ -35,8 +35,6 @@
                     style="margin-left: 20px;"
                     onclick="userSmsConnent()">手机短信查询</button>
 
-
-
             <br>
 
             <div style="margin-top: 30px;">
@@ -152,6 +150,23 @@
                 </button>
             </div>
 
+            <div style="margin-top: 30px;">
+                <label style="color: blue;">课程状态：</label>
+                <select class="course_status" name="course_status" id="course_status" style="width: 100px;">
+                    <option value="0">请选择</option>
+                    <option value="end">已完成</option>
+                    <option value="s_absent">学员缺席</option>
+                    <option value="t_absent">老师缺席</option>
+                </select>
+
+                <button class="btn btn-success" type="submit"
+                        style="margin-left: 30px;"
+                        name="courseStatus"
+                        id="courseStatus"
+                        onclick="return courseStatus()">修改课程状态
+                </button>
+            </div>
+
             <p style="color:red;margin-top: 50px;">以下功能暂未开放，敬请期待。。。</p>
             <div style="margin-top: 30px;">
                 <label style="color: blue;">定级设置：</label>
@@ -230,6 +245,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 
 </div>

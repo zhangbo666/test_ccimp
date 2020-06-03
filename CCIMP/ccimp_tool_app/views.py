@@ -25,7 +25,9 @@ from externalClass.nickName import nickName
 from externalClass.accountStatus import accountStatus
 from externalClass.mobileStatus import mobileStatus
 from externalClass.userIdentity import userIdentity
+from externalClass.getSessionUser import getSessionUser
 
+from externalClass.courseStatus import courseStatus
 
 from db_config.talkQueryUserOrder import talk_query_user_order_success
 from db_config.talkQueryUserInfo import talk_query_user_info_detail_success
@@ -38,6 +40,9 @@ from db_config.talkQueryUserOrder import talk_query_user_order2_success
 from db_config.talkQueryUserWealth import talk_query_user_assets_disable_na_pri_user_wealth_success
 from db_config.talkQueryUserWealth import talk_query_user_assets_disable_na_open_user_wealth_success
 from db_config.talkQueryUserInfo import talk_query_user_info_id_account_status_success
+
+from db_config.talkQueryAppointInfo import talk_query_appoint_info_detail_success
+from db_config.talkQueryAppointInfo import talk_query_appoint_info_id_success
 
 
 from db_config.db_config import *
@@ -601,6 +606,63 @@ def get_user_sms_connent(request):
 
 
 '''###############################################################################'''
+# 给用户添加次卡
+@auth
+def add_user_point(request):
+
+    message = ""
+
+    get_username = getSessionUser(request)
+
+    users = User.objects.all()
+
+    if request.method == "POST":
+        userid = request.POST.get("userid")
+        points = request.POST.get("point")
+
+        interfeceurl = "http://172.16.16.97/talkplatform_point_consumer/v2/user_asset/add_gift_asset_last_order"
+        postdata = {
+            'sn': 'web',
+            'sku_type_name': 'point',
+            'count': '%s' % points,
+            'days': '%s' % points,
+            'transaction_type_code': 'add_gift_asset',
+            'stu_id': '%s' % userid,
+            'remark': '测试添加次卡数',
+            'operator_id': '0',
+            'timestamp': '1111',
+            'sub_gift_code': 'add_gift_asset_crm_web_award',
+            'appkey': '11'
+        }
+
+        try:
+            req = adminLogin()
+            addrequest = req.post(interfeceurl, postdata)
+            message = addrequest.text
+        except BaseException as msg:
+            message = msg
+        if "success" in message:
+            message = "次卡添加成功"
+        elif message == '1':
+            message = "体验课次卡添加成功"
+
+    for user in users:
+
+        if user.user_name == get_username:
+
+            if user.permission_options == 1:
+
+                return render(request, "tool_adduserpoint.html", {"message": message,"username": get_username,
+                                                                  "type_option_admin": "permission_sap",
+                                                                  "aTag_":"2"})
+
+            else:
+
+                return render(request, "tool_adduserpoint.html", {"message": message,"username": get_username,
+                                                                  "aTag_":"2"})
+
+
+'''###############################################################################'''
 #用户昵称修改
 @auth
 def user_nick_name(request):
@@ -863,5 +925,83 @@ def user_identity(request):
                                      "message": "用户身份修改失败"})
 
 
+'''###############################################################################'''
+#课程状态修改
+@auth
+def course_status(request):
 
+    if request.method == "GET":
+
+        course_status = request.GET.get("courseStatus","")
+
+        user_mobile = request.GET.get("userMobile","")
+
+        print (course_status)
+        print (user_mobile)
+
+        # 1:用户手机号不能为空！;2:手机号位数输入错误，请重新输入！;3:手机号格式输入错误，请重新输入！;4:正常
+        mobile_result_tag = mobileNumberFormatValidity(user_mobile)
+        # print ("mobile_result_tag",mobile_result_tag)
+
+        if mobile_result_tag == 1:
+
+            # return HttpResponse("用户手机号不能为空！")
+            return JsonResponse({"status_code": 10101,
+                                 "message": "手机号不能为空！"})
+
+        elif mobile_result_tag == 2:
+
+            # return HttpResponse("手机号位数输入错误，请重新输入！")
+            return JsonResponse({"status_code": 10102,
+                                 "message": "手机号位数输入错误，请重新输入！"})
+
+        elif mobile_result_tag == 3:
+
+            # return HttpResponse("手机号格式输入错误，请重新输入！")
+            return JsonResponse({"status_code": 10103,
+                                 "message": "手机号格式输入错误，请重新输入！"})
+
+        elif mobile_result_tag == 4:
+
+            if course_status == "end":
+
+                course_status = course_status
+
+            elif course_status == "s_absent":
+
+                course_status = course_status
+
+            elif course_status == "t_absent":
+
+                course_status = course_status
+
+            userId = talk_query_user_info_id_success(user_mobile)
+            print ("用户id：",userId)
+            print (type(userId))
+
+            if userId == ():
+
+                return JsonResponse({"status_code": 10104,"message":"该学员对应的userid为空"})
+
+            #约课数据
+            # appoint_id_data = talk_query_appoint_info_detail_success(userId)
+            appoint_id_data = talk_query_appoint_info_id_success(userId)
+            print ("约课数据：",appoint_id_data)
+            print ("约课数据类型：",type(appoint_id_data))
+
+            if appoint_id_data == ():
+
+                return JsonResponse({"status_code": 10105,"message":"该学员对应的appointid为空"})
+
+            course_status_result = courseStatus(course_status,appoint_id_data)
+            print (type(course_status_result))
+
+            if course_status_result == True:
+
+                return JsonResponse({"status_code": 10200,"message":"课程状态已修改"})
+
+            elif course_status_result == False:
+
+                return JsonResponse({"status_code": 10106,
+                                     "message": "课程状态修改失败"})
 
