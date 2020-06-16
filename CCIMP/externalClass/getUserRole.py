@@ -28,7 +28,7 @@ def getUserRole(user_id):
         # print ("role_sso_text-->",role_sso_text)
 
         role_sso_text = role_sso_text.split(',')
-        print ("用户角色为：",role_sso_text)
+        # print ("用户角色为：",role_sso_text)
 
         #11 菲小, 12 美小, 13 B2S, 14 成人, 15 达拉斯, 16 B2B, 17 美小达拉斯, 18 一对多班课, 19 1+2项目
         #新注册学员，还未选身份，sso返回为空，默认为成人（14）
@@ -72,7 +72,7 @@ def getUserRole(user_id):
 
 if __name__ == '__main__':
 
-    mobile = '18611220000'
+    mobile = '18611222585'
 
     userId = talk_query_user_info_id_success(mobile)
 
@@ -82,7 +82,6 @@ if __name__ == '__main__':
     admin_login = adminLogin()
 
     roleResult = admin_login.get(url=getrole_url)
-
     # print (roleResult.text)
 
     role_sso_text = re.findall(r'"data":"(.*)"', roleResult.text)[0]
@@ -91,4 +90,4 @@ if __name__ == '__main__':
 
     role_sso_text = role_sso_text.split(',')
 
-    print (role_sso_text)
+    # print (role_sso_text)

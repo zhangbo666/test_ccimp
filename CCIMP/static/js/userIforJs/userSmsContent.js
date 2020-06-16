@@ -9,11 +9,11 @@ var userSmsContentDoubleClike = 0;
  //监听是否显示搜素内容输入框
    $("#contentType").change(function(){
        var selected=$("[name='content_mode']").val();
-       if(selected=="message"){
+       if(selected==="message"){
            //document.getElementById("search_content_id").
            $("#search_infoTitle")[0].style.display = 'none';
            $("#search_infoContent")[0].style.display = 'none';
-       }else if(selected=="allContent"){
+       }else if(selected==="allContent"){
            $("#search_infoTitle")[0].style.display = 'inline';
            $("#search_infoContent")[0].style.display = 'inline';
        }
@@ -54,7 +54,8 @@ function userSmsConnent(){
             data:{'userMobile':userMobile,'searchContent':searchContent},
             success:function (data){
 
-                if (data.status_code === 10100 || data.status_code === 10101){
+                if (data.status_code === 10100 || data.status_code === 10101 ||
+                    data.status_code === 10102 || data.status_code === 10103){
 
                     window.alert(data.message);
 
@@ -87,18 +88,18 @@ function userSmsConnent(){
 
                 }
 
-                else if (data.status_code === 10300){
+                // else if (data.status_code === 103001){
 
-                    $('#myModalUserSmsContent').modal('show');
+                    // $('#myModalUserSmsContent').modal('show');
 
-                    $("[name='sms_code']").val("");
-                    $("[name='sms_content']").val("");
+                    // $("[name='sms_code']").val("");
+                    // $("[name='sms_content']").val("");
 
-                    setTimeout(function(){
+                    // setTimeout(function(){
 
-                        alert(data.message);
+                        // alert(data.message);
 
-                    },250);
+                    // },250);
 
                     //setTimeout(function(){
                     //
@@ -110,9 +111,9 @@ function userSmsConnent(){
                     //},5000);
 
                     //模态框延迟500毫秒后，自动关闭模态框
-                    setTimeout("$('#myModalUserSmsContent').modal('hide')",1000);
+                    // setTimeout("$('#myModalUserSmsContent').modal('hide')",1000);
 
-                }
+                // }
             }
 
         })
@@ -125,7 +126,8 @@ function userSmsConnent(){
             data:{'userMobile':userMobile},
             success:function (data){
 
-                if (data.status_code === 10100 || data.status_code === 10101){
+                if (data.status_code === 10100 || data.status_code === 10101 ||
+                    data.status_code === 10102 || data.status_code === 10103){
 
                     window.alert(data.message);
 
@@ -158,18 +160,18 @@ function userSmsConnent(){
 
                 }
 
-                else if (data.status_code === 10300){
+                // else if (data.status_code === 10300){
 
-                    $('#myModalUserSmsContent').modal('show');
+                    // $('#myModalUserSmsContent').modal('show');
 
-                    $("[name='sms_code']").val("");
-                    $("[name='sms_content']").val("");
+                    // $("[name='sms_code']").val("");
+                    // $("[name='sms_content']").val("");
 
-                    setTimeout(function(){
+                    // setTimeout(function(){
 
-                        alert(data.message);
+                        // alert(data.message);
 
-                    },250);
+                    // },250);
 
                     //setTimeout(function(){
                     //
@@ -181,9 +183,9 @@ function userSmsConnent(){
                     //},5000);
 
                     //模态框延迟500毫秒后，自动关闭模态框
-                    setTimeout("$('#myModalUserSmsContent').modal('hide')",1000);
+                    // setTimeout("$('#myModalUserSmsContent').modal('hide')",1000);
 
-                }
+                // }
             }
 
         })

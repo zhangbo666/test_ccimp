@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+{% block base %}
+
+<style>
+    .op{
+        text-align: center;
+        width:25px;
+
+    }
+
+    .modal.fade.in{
+        top:15%;
+    }
+</style>
+
+
+{% include "common_top.html" %}
+
+<div class="container-fluid">
+
+    <div class="row">
+
+        <!--包含common_left.html-->
+        {% include "common_left.html"%}
+
+        <div style="margin-left: 135px;width: 1200px;" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h2 class="box-title" style="color: blue;">添加公开课</h2>
+                </div>
+
+                <div class="box-body" style="margin-top: 25px;">
+                    <div class="form-group">
+                        <label>公开课名称</label>
+                        <input type="text" name="open_class_name" id="open_class_name" class="form-control" placeholder="公开课名称"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label>公开课人数</label>
+                        <input type="text" name="capacity_name" id="capacity_name" class="form-control" placeholder="公开课人数"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label>公开课老师</label>
+                        <input type="text" name="c_tea_ids_name" id="c_tea_ids_name" class="form-control" placeholder="公开课老师"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label>公开课财富类型</label>
+                        <div class="cost_type">
+                            <select name="cost_type_name" class="form-control select2">
+                                <option value="free">free</option>
+                                <option value="class_time">class_time</option>
+                                <option value="point">point</option>
+                                <option value="money">money</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>商品类型</label>
+                        <div class="code_item_id">
+                            <select name="code_item_id_name" class="form-control select2">
+                                <option value="14">14(免费)</option>
+                                <option value="19">19(付费课时)</option>
+                                <option value="1">1(付费次卡)</option>
+                                <option value="15">15(付费钱)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>公开课财富量</label>
+                        <input type="text" name="code_num_name" id="code_num_name" class="form-control" placeholder="0"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label>公开课权重</label>
+                        <input type="text" name="priority_name" id=priority_name" class="form-control" placeholder="99"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label>课程分类</label>
+                        <div class="course_type">
+                            <select name="course_type_name" class="form-control select2">
+                                <option value="6">公开课</option>
+                                <option value="22">8+1课</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>教材类型</label>
+                        <div class="book_type">
+                            <select name="book_type_name" class="form-control select2">
+                                <option value="1">正常系列</option>
+                                <option value="2">非系列</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label>公开课开始时间：</label>
+                            <input type="text" name="start_time" id="start_time" class="form-control" placeholder="开始时间"
+                                   style="width: 417px;" readonly/>
+                        </div>
+
+                        <div class="form-group">
+                            <label style="margin-left: 50px;">公开课结束时间：</label>
+                            <input type="text" name="end_time" id="end_time" class="form-control" placeholder="结束时间" style="width: 417px;" readonly/>
+                        </div>
+                    </div>
+
+                    <div class="form-inline" style="margin-top: 25px;">
+                        <div class="form-group">
+                            <div class="c_cate_id1">
+                                <label>一级教材：</label>
+                                <select name="c_cate_id1_name" class="form-control select2" style="width: 263px;">
+                                    <option value="0">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="c_cate_id2">
+                                <label style="margin-left: 50px;">二级教材：</label>
+                                <select name="c_cate_id2_name" class="form-control select2" style="width: 263px;">
+                                    <option value="0">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="book_id">
+                                <label style="margin-left: 50px;">三级教材：</label>
+                                <select name="book_id_name" class="form-control select2" style="width: 264px;">
+                                    <option value="0">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <button class="btn btn-info" type="submit" id="openClass"
+                    style="margin-top: 50px;"
+                    onclick="return openClass()">公开课开课</button>
+
+            <button class="btn btn-primary" type="submit" id="userAppointOpenClass" data-keyboard="false"
+                    data-toggle="modal" data-target="#myModalUserSmsContent"
+                    style="margin-left: 20px;margin-top: 50px;"
+                    onclick="userSmsConnent()">学员约课</button>
+
+            <div id="hide_cancle" style="display: none;">
+
+            </div>
+
+            <!--查看日志的模态框（Modal）-->
+            <div class="modal fade bs-example-modal-lg" id="myModalUserSmsContent" tabindex="1"
+                 role="dialog" aria-labelledby="myModalUserSms" aria-hidden="true">
+                <div class="modal-dialog modal-lg" style="overflow:scroll;width:800px;">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
+                            </button>
+                            <h4 class="modal-title" id="myModalSmsLabel" style="color:blue;">短信内容：</h4>
+
+                        </div>
+
+                        <div class="modal-body" id="modalUserSmsContent" style="height:300px;">
+
+                            <div class="table-responsive">
+
+                                <p style="color:blue">短信验证码：</p>
+                                <textarea class="smsCode" id="sms_code" name="sms_code" style="width: 400px;"></textarea>
+
+                                <br><br>
+
+                                <p style="color:blue">注册后短信内容：</p>
+                                <textarea class="smsContent" rows="3" id="sms_content" name="sms_content" style="width: 700px;height: 180px;"></textarea>
+
+                            </div>
+
+                        </div>
+
+                        <div class="modal-footer">
+
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<script type="text/javascript">
+
+
+</script>
+
+
+
+{% endblock %}

@@ -65,3 +65,4 @@ def publicKeyRsa(password):
 if __name__ == '__main__':
 
     pwd = publicKeyRsa('111111')
+    print (pwd)

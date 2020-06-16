@@ -7,10 +7,10 @@
 
 @time: 2019/7/26 14:46
 '''
-import requests,re
+import requests,re,json
 from externalClass.publicKeyRsa import publicKeyRsa
-from externalClass.getPackageDetail import getPackageDetail
 from externalClass.public_configure import global_configure
+
 
 def userLogin(mobile,password):
     '''
@@ -71,12 +71,24 @@ def userLogin(mobile,password):
 if __name__ == '__main__':
 
     # 密码进行加密
-    pwd = publicKeyRsa('123456')
+    pwd = publicKeyRsa('111111')
+    # print (pwd)
 
     # 用户登录
-    req = userLogin('18611772708',pwd)
+    req = userLogin('18611222586',pwd)
+
+    url1 = 'http://www.51talk.com/trial/reserve'
+    res = req.get(url=url1)
+
+    url2 = 'http://trial.51talk.com/trial/reserve'
+    res = req.get(url=url2)
+
+    url3 = 'http://trial.51talk.com/api/trialConfig'
+    res = req.get(url=url3)
+    # print (res.text)
+    # print (res.json())
 
     # 获取该账户下可启用的套餐详情
-    pointDetailNewJson = getPackageDetail(req)
-
-    print ("该账户下所有套餐信息：",pointDetailNewJson)
+    # pointDetailNewJson = getPackageDetail(req)
+    #
+    # print ("该账户下所有套餐信息：",pointDetailNewJson)

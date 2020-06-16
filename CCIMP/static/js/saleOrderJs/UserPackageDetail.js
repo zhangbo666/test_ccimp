@@ -13,7 +13,7 @@ function userPackageDetail() {
     var userPasword = $("[name='password_name']").val();
 
     //获取用户套餐详情按钮连击
-    if (userPackageDetailDoubleClick == 0) {
+    if (userPackageDetailDoubleClick === 0) {
 
         userPackageDetailDoubleClick = 1;
 

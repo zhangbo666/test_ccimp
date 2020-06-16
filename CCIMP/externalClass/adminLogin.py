@@ -9,16 +9,21 @@
 '''
 
 import requests
+from externalClass.md import mdFile
 
 def adminLogin():
     '''
     后台登录
     使用：实例化后直接调请求方法
     '''
+
+    admin_pwd = '123456'
+    admin_pwd = mdFile(admin_pwd)
+
     adminLoginUrl = 'http://crm.51talk.com/admin/login.php'
     data = {
         'user_name': 'admin',
-        'password': '123456',
+        'password': admin_pwd,
         'ref': '',
         'user_type': 'admin',
         'Submit': '登 录',
@@ -46,7 +51,6 @@ if __name__ == '__main__':
 
     test = adminLogin()
 
-    # info = test.get(url=url)
+    info = test.get(url=url)
 
-    # print(info.text,info.status_code)
-    print(test)
+    print(info.text,info.status_code)

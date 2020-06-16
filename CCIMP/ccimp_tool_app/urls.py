@@ -53,4 +53,15 @@ urlpatterns = [
     #修改课程状态
     path('user_info/course_status/', views.course_status),
 
+
+    #公开课
+    path('open_class/',views.open_class),
+
+    #公开课开课
+    # path('open_class/create_open_class/', views.create_open_class),
+
+    # 公开课学员约课
+    # path('open_class/appoint_open_class/', views.appoint_open_class),
+
+
 ]

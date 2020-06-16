@@ -85,6 +85,22 @@ cursor_talkdata_php = conn_talkdata_php.cursor()
 '''###############################################################################'''
 
 
+'''###############################################################################'''
+
+# 连接172.16.70.20--talk_platform_order测试数据库
+conn_talk_platform_order = connect(host='172.16.70.20',
+                          user='rd_user',
+                          password='NTHXDF7czYwi',
+                          port=3306,
+                          db='talk_platform_order',
+                          charset='utf8',
+                          cursorclass=cursors.DictCursor)
+# 连接talk_platform_order数据库游标
+cursor_conn_talk_platform_order = conn_talk_platform_order.cursor()
+
+'''###############################################################################'''
+
+
 # 连接本地测试数据库
 # conn_test = connect(host='127.0.0.1',
 #                     user='root',

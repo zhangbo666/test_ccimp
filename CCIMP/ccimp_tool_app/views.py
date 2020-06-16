@@ -49,6 +49,9 @@ from db_config.db_config import *
 
 import json
 
+from db_config.talkQueryUserOrder import talk_platform_order_query_user_order_success
+from db_config.talkQueryUserOrder import talk_platform_order_query_user_order2_success
+
 
 '''###############################################################################'''
 #售卖下单manage
@@ -256,7 +259,7 @@ def get_order_detail(request):
         order_id = request.POST.get("order_id","")
 
         #获取订单详情
-        order_detail = talk_query_user_order_success(order_id)
+        order_detail = talk_platform_order_query_user_order_success(order_id)
 
         # cursor_talk.close()
         # conn_talk.close()
@@ -355,9 +358,9 @@ def get_order_on_detail(request):
 
                 userId = talk_query_user_info_id_success(user_mobile)
 
-                status = 'on'
+                limit_sum = 10
 
-                order_list_result = talk_query_user_order2_success(userId,status)
+                order_list_result = talk_platform_order_query_user_order2_success(userId,limit_sum)
 
                 if order_list_result == ():
 
@@ -458,12 +461,12 @@ def get_userinfo_detail(request):
             else:
 
                 user_id = talk_query_user_info_id_success(user_mobile)
-                # print ("user_id-->",user_id)
+                print ("user_id-->",user_id)
                 # print ("user_id-->",type(user_id))
 
                 #获取用户身份
                 user_role_info = getUserRole(user_id)
-                # print (user_role_info)
+                print (user_role_info)
                 # print (type(user_role_info))
 
                 # 获取用户身份失败或当前网络不是测试环境
@@ -551,24 +554,24 @@ def get_user_sms_connent(request):
 
         #1:用户手机号不能为空！;2:手机号位数输入错误，请重新输入！;3:手机号格式输入错误，请重新输入！;4:正常
         mobile_result_tag = mobileNumberFormatValidity(user_mobile)
-        print ("mobile_result_tag",mobile_result_tag)
+        # print ("mobile_result_tag",mobile_result_tag)
 
         if mobile_result_tag == 1:
 
             # return HttpResponse("用户手机号不能为空！")
-            return JsonResponse({"status_code":10101,
+            return JsonResponse({"status_code":10100,
                                  "message":"手机号不能为空！"})
 
         elif mobile_result_tag == 2:
 
             # return HttpResponse("手机号位数输入错误，请重新输入！")
-            return JsonResponse({"status_code":10102,
+            return JsonResponse({"status_code":10101,
                                  "message":"手机号位数输入错误，请重新输入！"})
 
         elif mobile_result_tag == 3:
 
             # return HttpResponse("手机号格式输入错误，请重新输入！")
-            return JsonResponse({"status_code":10106,
+            return JsonResponse({"status_code":10102,
                                  "message":"手机号格式输入错误，请重新输入！"})
 
         elif mobile_result_tag == 4:
@@ -580,7 +583,7 @@ def get_user_sms_connent(request):
 
             if sms_code == None and sms_content == None:
 
-                return JsonResponse({"status_code":10300,
+                return JsonResponse({"status_code":10103,
                                      "message":"未找到该手机的短信信息！！！"})
 
             elif sms_code != None and sms_content != None:
@@ -600,7 +603,7 @@ def get_user_sms_connent(request):
             elif sms_code == None and sms_content != None:
 
                 return JsonResponse({"status_code":10200,
-                                     "message":"注册后手机短信获取成功！！！",
+                                     "message":"该手机短信内容获取成功！！！",
                                      "result_sms_code":"",
                                      "result_sms_content":sms_content})
 
@@ -1005,3 +1008,37 @@ def course_status(request):
                 return JsonResponse({"status_code": 10106,
                                      "message": "课程状态修改失败"})
 
+
+'''###############################################################################'''
+#公开课manage
+@auth
+def open_class(request):
+
+    get_username = request.session.get('user','')
+
+    users = User.objects.all()
+
+    if request.method == "GET":
+
+        for user in users:
+
+            if user.user_name == get_username:
+
+                if user.permission_options == 1:
+
+                    return render(request,"open_class.html",
+                                  {"username":get_username,
+                                   "type_option_admin":"permission_sap",
+                                   "aTag_":"2"})
+
+                elif user.permission_options == 2:
+
+                    return render(request,"open_class.html",
+                                  {"username":get_username,
+                                   "aTag_":"2"})
+
+                elif user.permission_options == 3:
+
+                    return render(request,"open_class.html",
+                                  {"username":get_username,
+                                   "aTag_":"2"})
