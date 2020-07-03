@@ -104,8 +104,8 @@ def talk_platform_order_query_user_order_success(orderId):
 
             user_order_info_result = cursor.fetchall()
 
-            # print ("user_order_info_result-->",user_order_info_result)
-            # print ("user_order_info_result-->",type(user_order_info_result))
+            print ("user_order_info_result-->",user_order_info_result)
+            print ("user_order_info_result-->",type(user_order_info_result))
 
             return user_order_info_result
 

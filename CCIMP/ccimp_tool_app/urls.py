@@ -55,13 +55,17 @@ urlpatterns = [
 
 
     #公开课
-    path('open_class/',views.open_class),
+    path('open_class/', views.open_class),
+    path('open_class/open_class_add/',views.open_class_add),
+    # path('open_class/open_class_appoint/', views.open_class_appoint),
 
-    #公开课开课
-    # path('open_class/create_open_class/', views.create_open_class),
+    #获取公开课老师list
+    path('open_class/api/getSelectTeacherData', views.getSelectTeacherData),
 
-    # 公开课学员约课
-    # path('open_class/appoint_open_class/', views.appoint_open_class),
+    #获取公开课教材list
+    path('open_class/api/getSelectTextBookData', views.getSelectTextBookData),
+
+
 
 
 ]

@@ -44,7 +44,7 @@ function saleOrder(){
                 isCheck = true;
 
                 //下单按钮连击
-                if (saleOrderDoubleClick == 0) {
+                if (saleOrderDoubleClick === 0) {
 
                     saleOrderDoubleClick = 1;
 

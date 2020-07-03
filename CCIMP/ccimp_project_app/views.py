@@ -36,7 +36,7 @@ def project_manage(request):
     for user in users:
 
         projects = Project.objects.filter(user_id=user.id)
-
+        print(type(projects))
         paginator = Paginator(projects,5)
 
         # 最大分几页数字表示

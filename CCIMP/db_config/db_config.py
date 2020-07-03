@@ -101,6 +101,54 @@ cursor_conn_talk_platform_order = conn_talk_platform_order.cursor()
 '''###############################################################################'''
 
 
+'''###############################################################################'''
+
+# 连接172.16.70.20--textbook测试数据库
+conn_textbook = connect(host='172.16.70.20',
+                          user='rd_user',
+                          password='NTHXDF7czYwi',
+                          port=3306,
+                          db='textbook',
+                          charset='utf8',
+                          cursorclass=cursors.DictCursor)
+# 连接textbook数据库游标
+cursor_textbook = conn_textbook.cursor()
+
+'''###############################################################################'''
+
+
+'''###############################################################################'''
+
+# 连接172.16.70.20--talkplatform_teacher测试数据库
+conn_talkplatform_teacher = connect(host='172.16.70.20',
+                          user='rd_user',
+                          password='NTHXDF7czYwi',
+                          port=3306,
+                          db='talkplatform_teacher',
+                          charset='utf8',
+                          cursorclass=cursors.DictCursor)
+# 连接talkplatform_teacher数据库游标
+cursor_conn_talkplatform_teacher = conn_talkplatform_teacher.cursor()
+
+'''###############################################################################'''
+
+
+'''###############################################################################'''
+
+# 连接172.16.70.20--talkplatform_course测试数据库
+conn_talkplatform_course = connect(host='172.16.70.20',
+                          user='rd_user',
+                          password='NTHXDF7czYwi',
+                          port=3306,
+                          db='talkplatform_course',
+                          charset='utf8',
+                          cursorclass=cursors.DictCursor)
+# 连接talkplatform_course数据库游标
+cursor_conn_talkplatform_course = conn_talkplatform_course.cursor()
+
+'''###############################################################################'''
+
+
 # 连接本地测试数据库
 # conn_test = connect(host='127.0.0.1',
 #                     user='root',
