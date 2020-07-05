@@ -50,8 +50,23 @@ urlpatterns = [
     path('user_info/user_identity/', views.user_identity),
 
 
+    # 2020-07-05:张波修改
     #修改课程状态
-    path('user_info/course_status/', views.course_status),
+    # path('user_info/course_status/', views.course_status),
+
+
+    # 2020-07-05:张波修改
+    #获取用户约课记录
+    path('user_info/get_user_appoint_record/', views.get_user_appoint_record),
+
+
+    # 2020-07-05:张波修改
+    #获取约课记录list
+    path('user_info/api/getAppointRecordListData', views.getAppointRecordListData),
+
+
+    # 2020-07-05:张波修改
+    path('user_info/api/appoint_record', views.appoint_record),
 
 
     #公开课
@@ -64,8 +79,5 @@ urlpatterns = [
 
     #获取公开课教材list
     path('open_class/api/getSelectTextBookData', views.getSelectTextBookData),
-
-
-
 
 ]

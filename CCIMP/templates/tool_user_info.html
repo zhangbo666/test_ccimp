@@ -8,14 +8,19 @@
 
     }
 
+    .op2{
+        text-align: center;
+
+    }
+
     .modal.fade.in{
-        top:15%;
+        top:5%;
     }
 </style>
 
+{% load static %}
 
 {% include "common_top.html" %}
-
 <div class="container-fluid">
 
     <div class="row">
@@ -30,10 +35,16 @@
             <button class="btn btn-success" type="submit" id="userInfoDetail"
                     onclick="return userInfoDetail()">用户账户查询</button>
 
-            <button class="btn btn-success" type="submit" id="userSmsConnent" data-keyboard="false"
-                    data-toggle="modal" data-target="#myModalUserSmsContent"
+            <button class="btn btn-success" type="submit" id="userSmsConnent"
+                    data-keyboard="false" data-toggle="modal" data-target="#myModalUserSmsContent"
                     style="margin-left: 20px;"
                     onclick="userSmsConnent()">手机短信查询</button>
+
+            <!--2020-07-05：张波修改-->
+            <button class="btn btn-success" type="submit" id="appointRecord"
+                    data-keyboard="false" data-toggle="modal" data-target="#myModalAppointRecord"
+                    style="margin-left: 20px;"
+                    onclick="userAppointRecord()">约课记录查询</button>
 
             <br>
 
@@ -151,20 +162,22 @@
             </div>
 
             <div style="margin-top: 30px;">
-                <label style="color: blue;">课程状态：</label>
-                <select class="course_status" name="course_status" id="course_status" style="width: 100px;">
-                    <option value="0">请选择</option>
-                    <option value="end">已完成</option>
-                    <option value="s_absent">学员缺席</option>
-                    <option value="t_absent">老师缺席</option>
-                </select>
 
-                <button class="btn btn-success" type="submit"
-                        style="margin-left: 30px;"
-                        name="courseStatus"
-                        id="courseStatus"
-                        onclick="return courseStatus()">修改课程状态
-                </button>
+                <!--2020-07-05：一期注释-->
+                <!--<label style="color: blue;">课程状态：</label>-->
+                <!--<select class="course_status" name="course_status" id="course_status" style="width: 100px;">-->
+                    <!--<option value="0">请选择</option>-->
+                    <!--<option value="end">已完成</option>-->
+                    <!--<option value="s_absent">学员缺席</option>-->
+                    <!--<option value="t_absent">老师缺席</option>-->
+                <!--</select>-->
+                <!--<button class="btn btn-success" type="submit"-->
+                        <!--style="margin-left: 30px;"-->
+                        <!--name="courseStatus"-->
+                        <!--id="courseStatus"-->
+                        <!--onclick="return courseStatus()">修改课程状态-->
+                <!--</button>-->
+
             </div>
 
             <p style="color:red;margin-top: 50px;">以下功能暂未开放，敬请期待。。。</p>
@@ -206,7 +219,7 @@
 
             <br>
 
-            <!--查看日志的模态框（Modal）-->
+            <!--查看短信模态框（Modal）-->
             <div class="modal fade bs-example-modal-lg" id="myModalUserSmsContent" tabindex="1"
                  role="dialog" aria-labelledby="myModalUserSms" aria-hidden="true">
                 <div class="modal-dialog modal-lg" style="overflow:scroll;width:900px;">
@@ -244,6 +257,83 @@
                     </div>
                 </div>
             </div>
+
+            <!--查看约课记录模态框（Modal）-->
+            <div class="modal fade bs-example-modal-lg" id="myModalAppointRecord" tabindex="1"
+                 role="dialog" aria-labelledby="AppointRecord" aria-hidden="true">
+                <div class="modal-dialog modal-lg" style="overflow:scroll;width: 1000px;">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
+                            </button>
+                            <h4 class="modal-title" id="myModalAppointRecordLabel" style="color:blue;">约课记录：</h4>
+
+                        </div>
+
+                        <div>
+                            <select class="course_status" name="course_status" id="course_status"
+                                    style="margin-left: 40px;margin-top: 20px;">
+                                <option value="0">请选择</option>
+                                <option value="end">已完成</option>
+                                <option value="s_absent">学员缺席</option>
+                                <option value="t_absent">老师缺席</option>
+                            </select>
+                            <button class="btn btn-sm btn-success" style="margin-left: 20px;" type="submit"
+                                    id="appointRecordEdit" onclick="appointRecordEdit()">修改</button>
+                        </div>
+
+                        <div class="modal-body" id="modalAppointRecordsTable" style="height:500px;">
+
+                            <div class="table-responsive">
+
+                                <table class="table table-striped table-hover table-condensed table-bo" id="myTableOpenClassInfo"
+                                       style="
+                                       table-layout: fixed;word-break: break-all;word-wrap: break-word;
+                                       vertical-align: middle;text-align:center;margin-top: 20px;
+                                       font-size: 14px;">
+                                    <thead>
+                                        <tr>
+                                            <th class="op2" style="width: 5px;">序号</th>
+                                            <th class="op2" style="width: 5px;">约课ID</th>
+                                            <th class="op2" style="width: 5px;">老师ID</th>
+                                            <th class="op2" style="width: 12px;">学员ID</th>
+                                            <th class="op2" style="width: 5px;">课程ID</th>
+                                            <th class="op2" style="width: 5px;">约课类型</th>
+                                            <th class="op2" style="width: 20px;">开始时间</th>
+                                            <th class="op2" style="width: 20px;">结束时间</th>
+                                        </tr>
+
+                                    </thead>
+
+                                    <tbody>
+
+                                    </tbody>
+
+                                </table>
+
+                                <!--<p style="color:blue">：</p>-->
+                                <!--<textarea class="smsCode" id="sms_code" name="sms_code" style="width: 400px;"></textarea>-->
+
+                                <br><br>
+
+                                <!--<p style="color:blue">：</p>-->
+                                <!--<textarea class="smsContent" rows="3" id="sms_content" name="sms_content" style="width: 700px;height: 180px;"></textarea>-->
+
+                            </div>
+
+                        </div>
+
+                        <div class="modal-footer">
+
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
         </div>
 
     </div>
