@@ -2,6 +2,7 @@
 {% block base %}
 
 <style>
+
     .op{
         text-align: center;
         width:25px;
@@ -16,6 +17,7 @@
     .modal.fade.in{
         top:5%;
     }
+
 </style>
 
 {% load static %}
@@ -35,6 +37,10 @@
             <button class="btn btn-success" type="submit" id="userInfoDetail"
                     onclick="return userInfoDetail()">用户账户查询</button>
 
+            <!--2020-07-04：郭靖修改-->
+            <button class="btn btn-success" type="submit" id="userRegister" style="margin-left: 20px;"
+                    onclick="return userRegister()">测试账号注册</button>
+
             <button class="btn btn-success" type="submit" id="userSmsConnent"
                     data-keyboard="false" data-toggle="modal" data-target="#myModalUserSmsContent"
                     style="margin-left: 20px;"
@@ -47,6 +53,22 @@
                     onclick="userAppointRecord()">约课记录查询</button>
 
             <br>
+
+            <!--2020-07-04：郭靖修改-->
+            <div style="margin-top: 30px;">
+
+                <label style="color: blue;">测试账号注册：</label>
+
+                <label>手机号：</label>
+                <input type="text" name="new_mobile" placeholder="请输入手机号码" id="new_user_mobile">
+
+                <label>设置密码：</label>
+                <input type="text" name="new_password" placeholder="请设置密码，至少6位字符" id="new_user_password">
+
+                <label>推荐人手机几号：</label>
+                <input type="text" name="recommen_mobile" placeholder="没有可不填" id="recommen_mobile">
+
+            </div>
 
             <div style="margin-top: 30px;">
 

@@ -31,6 +31,8 @@ from externalClass.open_class.getTeacherInfo import getTeacherInfo
 from externalClass.open_class.getTextBookInfo import getTextBookInfo
 from externalClass.open_class.getOpenClassInfo import getOpenClassInfo
 from externalClass.open_class.openClassConfig import *
+from externalClass.getRegisterInfo import is_used_phoneNumber
+from externalClass.postRegisterinfo import post_registerinfo
 
 from db_config.talkQueryUserOrder import talk_query_user_order_success
 from db_config.talkQueryUserInfo import talk_query_user_info_detail_success
@@ -750,6 +752,60 @@ def user_nick_name(request):
 
                 return JsonResponse({"status_code": 10107,
                                      "message": "学员已冻结，不能修改信息"})
+
+
+'''###############################################################################'''
+#新账号注册检测
+@auth
+def register_mobile_check(request):
+
+    if request.method == "POST":
+
+        user_mobile = request.POST.get("new_mobile", "")
+
+        get_mobile_status = is_used_phoneNumber(user_mobile)
+
+        if get_mobile_status == '1' :
+
+            return JsonResponse({"status_code": 10200,"message":"手机号未注册"})
+
+        elif get_mobile_status == '0':
+
+            return JsonResponse({"status_code": 10101,"message":"手机号已注册"})
+
+        else :
+
+            return JsonResponse({"status_code": 10102,"message":"其他错误"})
+
+        #print(get_mobile_status)
+
+
+'''###############################################################################'''
+#账号注册
+@auth
+def post_registerinfo_mobile(request):
+
+    if request.method == "POST":
+
+        new_mobile = request.POST.get("new_mobile", "")
+
+        new_password = request.POST.get("new_password", "")
+
+        recommen_mobile = request.POST.get("recommen_mobile", "")
+
+        get_register_status = post_registerinfo(new_mobile,new_password,recommen_mobile)
+
+        if get_register_status == 'OK':
+
+            return JsonResponse({"status_code": 10200,"message":"注册成功"})
+
+        elif get_register_status == '0':
+
+            return JsonResponse({"status_code": 10101,"message":"手机号已注册"})
+
+        else:
+
+            return JsonResponse({"status_code": 10201,"message":"注册失败成功"})
 
 
 '''###############################################################################'''

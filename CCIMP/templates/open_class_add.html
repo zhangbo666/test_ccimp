@@ -2,11 +2,21 @@
 
 {% block openClassAdd %}
 
+{% load  static %}
+
 <!--bootstrap-datetimepicker-->
-<link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+<!--<link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">-->
+<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-datetimepicker/4.17.47/bootstrap-datetimepicker.min.css' %}"/>
+
 <!--<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>-->
-<script src="https://cdn.bootcss.com/moment.js/2.22.0/moment-with-locales.js"></script>
-<script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+
+<!--<script src="https://cdn.bootcss.com/moment.js/2.22.0/moment-with-locales.js"></script>-->
+<script type="text/javascript" src='{% static "js/bootstrap-datetimepicker/moment/2.22.0/moment-with-locales.js" %}'></script>
+
+<!--<script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>-->
+<script type="text/javascript" src='{% static "js/bootstrap-datetimepicker/4.17.47/bootstrap-datetimepicker.min.js" %}'></script>
+
+
 
 <style>
     .op{
@@ -197,8 +207,11 @@
 <script type="text/javascript" src="{% static 'js/openClassJs/saveOpenClass.js' %}"></script>
 
 <!--select2样式库-->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
+<!--<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet">-->
+<link rel="stylesheet" type="text/css" href="{% static 'css/select2/4.0.7/select2.min.css' %}"/>
+
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>-->
+<script type="text/javascript" src="{% static 'js/select2/4.0.7/select2.min.js' %}"></script>
 
 
 <script type="text/javascript">
