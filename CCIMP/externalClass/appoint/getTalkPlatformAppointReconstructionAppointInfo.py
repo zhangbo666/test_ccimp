@@ -18,6 +18,7 @@ def getTalkPlatformAppointReconstructionAppointInfo(user_id,limit_appoint_sum):
     talkplatform_appoint_reconstruction_appoint_s_id = ""
     talkplatform_appoint_reconstruction_appoint_course_id = ""
     talkplatform_appoint_reconstruction_appoint_point_type = ""
+    talkplatform_appoint_reconstruction_appoint_status = ""
     talkplatform_appoint_reconstruction_appoint_start_time = ""
     talkplatform_appoint_reconstruction_appoint_end_time = ""
 
@@ -47,6 +48,10 @@ def getTalkPlatformAppointReconstructionAppointInfo(user_id,limit_appoint_sum):
 
                 talkplatform_appoint_reconstruction_appoint_point_type = values
 
+            if key == "status":
+
+                talkplatform_appoint_reconstruction_appoint_status = values
+
             if key == "start_time":
 
                 start_time = values.strftime('%Y-%m-%d %H:%M:%S')
@@ -66,6 +71,7 @@ def getTalkPlatformAppointReconstructionAppointInfo(user_id,limit_appoint_sum):
                 "s_id": talkplatform_appoint_reconstruction_appoint_s_id,
                 "course_id": talkplatform_appoint_reconstruction_appoint_course_id,
                 "point_type": talkplatform_appoint_reconstruction_appoint_point_type,
+                "status": talkplatform_appoint_reconstruction_appoint_status,
                 "start_time": talkplatform_appoint_reconstruction_appoint_start_time,
                 "end_time": talkplatform_appoint_reconstruction_appoint_end_time
 

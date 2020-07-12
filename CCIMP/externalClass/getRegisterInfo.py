@@ -29,7 +29,8 @@ def is_used_phoneNumber(phoneNumber):
 
 if __name__ == '__main__':
 
-    mobile = '18911666666'
+    mobile = '18611221275'
 
     # 用户登录，查询该手机的账户与密码内容
-    is_used_phoneNumber(mobile)
+    user_phone_result = is_used_phoneNumber(mobile)
+    print (user_phone_result)

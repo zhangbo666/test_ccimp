@@ -38,6 +38,14 @@ urlpatterns = [
     path('user_info/user_nick_name/', views.user_nick_name),
 
 
+    #注册新用户,判断用户是否注册
+    path('user_info/register_mobile_check/', views.register_mobile_check),
+
+
+    #新账号注册
+    path('user_info/post_registerInfo/', views.post_registerinfo_mobile),
+
+
     #修改账号状态
     path('user_info/account_status/', views.account_status),
 
@@ -60,12 +68,13 @@ urlpatterns = [
     path('user_info/get_user_appoint_record/', views.get_user_appoint_record),
 
 
-    # 2020-07-05:张波修改
+    # 2020-07-11:张波修改--获取数据方法二合一，暂时屏蔽这个方法
     #获取约课记录list
-    path('user_info/api/getAppointRecordListData', views.getAppointRecordListData),
+    # path('user_info/api/getAppointRecordListData', views.getAppointRecordListData),
 
 
     # 2020-07-05:张波修改
+    #约课课程状态修改
     path('user_info/api/appoint_record', views.appoint_record),
 
 

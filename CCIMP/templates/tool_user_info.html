@@ -294,22 +294,23 @@
                         </div>
 
                         <div>
+                            <label style="margin-left: 30px;">课程状态</label>
                             <select class="course_status" name="course_status" id="course_status"
-                                    style="margin-left: 40px;margin-top: 20px;">
+                                    style="margin-left: 10px;margin-top: 20px;">
                                 <option value="0">请选择</option>
                                 <option value="end">已完成</option>
                                 <option value="s_absent">学员缺席</option>
                                 <option value="t_absent">老师缺席</option>
                             </select>
                             <button class="btn btn-sm btn-success" style="margin-left: 20px;" type="submit"
-                                    id="appointRecordEdit" onclick="appointRecordEdit()">修改</button>
+                                    id="appointRecordEdit" onclick="appointRecordEdit()">修改课程状态</button>
                         </div>
 
                         <div class="modal-body" id="modalAppointRecordsTable" style="height:500px;">
 
                             <div class="table-responsive">
 
-                                <table class="table table-striped table-hover table-condensed table-bo" id="myTableOpenClassInfo"
+                                <table class="table table-striped table-hover table-condensed table-bordered" id="myTableOpenClassInfo"
                                        style="
                                        table-layout: fixed;word-break: break-all;word-wrap: break-word;
                                        vertical-align: middle;text-align:center;margin-top: 20px;
@@ -322,6 +323,7 @@
                                             <th class="op2" style="width: 12px;">学员ID</th>
                                             <th class="op2" style="width: 5px;">课程ID</th>
                                             <th class="op2" style="width: 5px;">约课类型</th>
+                                            <th class="op2" style="width: 5px;">课程状态</th>
                                             <th class="op2" style="width: 20px;">开始时间</th>
                                             <th class="op2" style="width: 20px;">结束时间</th>
                                         </tr>

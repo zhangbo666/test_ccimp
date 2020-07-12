@@ -18,8 +18,8 @@ def talk_query_appoint_info_detail_success(user_id,limit_appoint_sum):
 
         with conn_talk.cursor() as cursor:
 
-            #查询
-            sql_query  = "select id,t_id,s_id,start_time,end_time,course_id,point_type " \
+            #查询状态
+            sql_query  = "select id,t_id,s_id,start_time,end_time,course_id,point_type,status " \
                          "from appoint where s_id = " \
                          "'"+str(user_id)+"' and start_time > '2020-01-01 00:00:00' and status = 'on'" \
                          "ORDER BY start_time DESC LIMIT %d" % (limit_appoint_sum)
@@ -53,7 +53,7 @@ def talkplatform_appoint_reconstruction_query_appoint_info_detail_success(user_i
         with conn_talkplatform_appoint_reconstruction.cursor() as cursor:
 
             # 查询
-            sql_query  = "select id,t_id,s_id,start_time,end_time,course_id,point_type " \
+            sql_query  = "select id,t_id,s_id,start_time,end_time,course_id,point_type,status " \
                          "from appoint where s_id = " \
                          "'"+str(user_id)+"' and start_time > '2020-01-01 00:00:00' and status = 'on'" \
                          "ORDER BY start_time DESC LIMIT %d" % (limit_appoint_sum)
@@ -87,7 +87,7 @@ def talk_update_appoint_info_start_time_end_time_success(appoint_Id,start_time,e
         with conn_talk.cursor() as cursor:
 
             # 查询
-            sql_query = "select start_time,end_time from appoint where s_id = '" + str(appoint_Id) + "'"
+            # sql_query = "select start_time,end_time from appoint where s_id = '" + str(appoint_Id) + "'"
 
             # 更新
             sql_upate = "update appoint set start_time = '" + start_time + "',end_time = '" + end_time +\

@@ -33,6 +33,9 @@ from externalClass.open_class.getOpenClassInfo import getOpenClassInfo
 from externalClass.open_class.openClassConfig import *
 from externalClass.getRegisterInfo import is_used_phoneNumber
 from externalClass.postRegisterinfo import post_registerinfo
+from externalClass.appoint.getTalkAppointInfo import getTalkAppointInfo
+from externalClass.appoint.getTalkPlatformAppointReconstructionAppointInfo import getTalkPlatformAppointReconstructionAppointInfo
+from externalClass.appoint.appointConfig import *
 
 from db_config.talkQueryUserOrder import talk_query_user_order_success
 from db_config.talkQueryUserInfo import talk_query_user_info_detail_success
@@ -49,6 +52,8 @@ from db_config.talkQueryUserInfo import talk_query_user_info_id_account_status_s
 from db_config.talkQueryAppointInfo import talk_query_appoint_info_detail_success
 from db_config.talkQueryAppointInfo import talk_query_appoint_info_id_success
 
+from db_config.talkQueryAppointInfo import talk_update_appoint_info_start_time_end_time_success
+from db_config.talkQueryAppointInfo import talkplatform_appoint_reconstruction_update_appoint_info_start_time_end_time_success
 
 
 from db_config.db_config import *
@@ -65,11 +70,7 @@ from db_config.talkQueryUserOrder import talk_platform_order_query_user_order2_s
 
 '''###############################################################################'''
 
-from externalClass.appoint.getTalkAppointInfo import getTalkAppointInfo
-from externalClass.appoint.getTalkPlatformAppointReconstructionAppointInfo import getTalkPlatformAppointReconstructionAppointInfo
-from externalClass.appoint.appointConfig import *
-from db_config.talkQueryAppointInfo import talk_update_appoint_info_start_time_end_time_success
-from db_config.talkQueryAppointInfo import talkplatform_appoint_reconstruction_update_appoint_info_start_time_end_time_success
+
 
 '''###############################################################################'''
 #售卖下单manage
@@ -1379,9 +1380,6 @@ def get_user_appoint_record(request):
 
         user_mobile = request.GET.get("userMobile","")
 
-        # print (course_status)
-        # print (user_mobile)
-
         # 1:用户手机号不能为空！;2:手机号位数输入错误，请重新输入！;3:手机号格式输入错误，请重新输入！;4:正常
         mobile_result_tag = mobileNumberFormatValidity(user_mobile)
         # print ("mobile_result_tag",mobile_result_tag)
@@ -1404,50 +1402,57 @@ def get_user_appoint_record(request):
             return JsonResponse({"status_code": 10103,
                                  "message": "手机号格式输入错误，请重新输入！"})
 
-        return JsonResponse({"status_code": 10200,
-                             "result": {"data":"接口获取正确"}})
-
-
-'''###############################################################################'''
-#2020-07-05:张波修改
-#初始化获得约课记录list数据
-@auth
-def getAppointRecordListData(request):
-
-    if request.method == "GET":
-
-        user_mobile = request.GET.get("userMobile","")
-        # print ("user_mobile-->",user_mobile)
-
         userId = talk_query_user_info_id_success(user_mobile)
 
         if userId == ():
 
-            return JsonResponse({"status_code": 10101,"message":"该学员对应的userid为空"})
+            return JsonResponse({"status_code": 10104,"message":"该学员对应的userid为空"})
 
-
+        #获取talk约课记录
         talk_appoint_info_result = getTalkAppointInfo(userId,limit_appoint_sum)
         # print (talk_appoint_info_result)
 
+        #获取talkplatform_appoint_reconstruction约课记录
         talkplatform_appoint_reconstruction_appoint_info_result = getTalkPlatformAppointReconstructionAppointInfo(userId,limit_appoint_sum)
         # print (talkplatform_appoint_reconstruction_appoint_info_result)
 
         if talk_appoint_info_result == [] and talkplatform_appoint_reconstruction_appoint_info_result == []:
 
-            return JsonResponse({"status_code": 10102,"message":"该学员约课信息在php库与平台库查询为空"})
+            return JsonResponse({"status_code": 10105,"message":"该学员约课信息在php库与平台库查询为空"})
 
-        elif talk_appoint_info_result == ():
+        elif talk_appoint_info_result == []:
 
-            return JsonResponse({"status_code": 10103, "message": "该学员约课信息在php库查询为空"})
+            return JsonResponse({"status_code": 10106, "message": "该学员约课信息在php库查询为空"})
 
         elif talkplatform_appoint_reconstruction_appoint_info_result == []:
 
-            return JsonResponse({"status_code": 10104, "message": "该学员约课信息在平台库查询为空"})
+            return JsonResponse({"status_code": 10107, "message": "该学员约课信息在平台库查询为空"})
 
-        else:
+        # return JsonResponse({"status_code": 10200,
+        #                      "result": {"data":"接口获取正确"}})
 
-            return JsonResponse({"status_code": 10200, "message": "查询正确",
-                                 "appointRecords":talkplatform_appoint_reconstruction_appoint_info_result})
+        return JsonResponse({"status_code": 10200, "data": "接口获取正确",
+                             "appointRecords":talkplatform_appoint_reconstruction_appoint_info_result})
+
+
+'''###############################################################################'''
+#2020-07-11:张波修改--获取数据方法二合一，暂时屏蔽这个方法
+#初始化获得约课记录list数据
+# @auth
+# def getAppointRecordListData(request):
+#
+#     if request.method == "GET":
+#
+#         user_mobile = request.GET.get("userMobile","")
+#         # print ("user_mobile-->",user_mobile)
+#
+#         userId = talk_query_user_info_id_success(user_mobile)
+#
+#         talkplatform_appoint_reconstruction_appoint_info_result = getTalkPlatformAppointReconstructionAppointInfo(userId,limit_appoint_sum)
+#         # print (talkplatform_appoint_reconstruction_appoint_info_result)
+#
+#         return JsonResponse({"status_code": 10200, "data": "接口获取正确",
+#                              "appointRecords":talkplatform_appoint_reconstruction_appoint_info_result})
 
 
 '''###############################################################################'''

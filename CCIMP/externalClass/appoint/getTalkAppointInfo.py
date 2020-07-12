@@ -18,6 +18,7 @@ def getTalkAppointInfo(user_id,limit_appoint_sum):
     talk_appoint_s_id = ""
     talk_appoint_course_id = ""
     talk_appoint_point_type = ""
+    talk_appoint_status = ""
     talk_appoint_start_time = ""
     talk_appoint_end_time = ""
 
@@ -47,6 +48,10 @@ def getTalkAppointInfo(user_id,limit_appoint_sum):
 
                 talk_appoint_point_type = values
 
+            if key == "status":
+
+                talk_appoint_status = values
+
             if key == "start_time":
 
                 start_time = values.strftime('%Y-%m-%d %H:%M:%S')
@@ -66,6 +71,7 @@ def getTalkAppointInfo(user_id,limit_appoint_sum):
                 "s_id": talk_appoint_s_id,
                 "course_id": talk_appoint_course_id,
                 "point_type": talk_appoint_point_type,
+                "status":talk_appoint_status,
                 "start_time": talk_appoint_start_time,
                 "end_time": talk_appoint_end_time
 
