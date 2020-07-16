@@ -32,27 +32,12 @@
 
         <div style="margin-left: 135px;width: 1500px;" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <h4 style="color: blue;">51Talk用户信息查询：</h4>
-            <br>
 
-            <button class="btn btn-success" type="submit" id="userInfoDetail"
-                    onclick="return userInfoDetail()">用户账户查询</button>
+            <br>
 
             <!--2020-07-04：郭靖修改-->
-            <button class="btn btn-success" type="submit" id="userRegister" style="margin-left: 20px;"
+            <button class="btn btn-info" type="submit" id="userRegister"
                     onclick="return userRegister()">测试账号注册</button>
-
-            <button class="btn btn-success" type="submit" id="userSmsConnent"
-                    data-keyboard="false" data-toggle="modal" data-target="#myModalUserSmsContent"
-                    style="margin-left: 20px;"
-                    onclick="userSmsConnent()">手机短信查询</button>
-
-            <!--2020-07-05：张波修改-->
-            <button class="btn btn-success" type="submit" id="appointRecord"
-                    data-keyboard="false" data-toggle="modal" data-target="#myModalAppointRecord"
-                    style="margin-left: 20px;"
-                    onclick="userAppointRecord()">约课记录查询</button>
-
-            <br>
 
             <!--2020-07-04：郭靖修改-->
             <div style="margin-top: 30px;">
@@ -70,19 +55,21 @@
 
             </div>
 
+            <hr width=80% style="border:double #2e6da4;">
+
+            <button class="btn btn-primary" type="submit" id="userInfoDetail"
+                    onclick="return userInfoDetail()">用户账户查询</button>
+
+            <!--2020-07-05：张波修改-->
+            <button class="btn btn-danger" type="submit" id="appointRecord"
+                    data-keyboard="false" data-toggle="modal" data-target="#myModalAppointRecord"
+                    style="margin-left: 20px;"
+                    onclick="userAppointRecord()">约课记录查询</button>
+
             <div style="margin-top: 30px;">
 
-                <label style="color: blue;">用户手机号：</label>
-                <input type="text" name="user_mobile" placeholder="手机号码" id="user_mobile">
-
-                <!--郭靖-->
-                <label>要获取的信息：</label>
-                <select id ="contentType" name="content_mode">
-                    <option value='message'> 短信验证码 </option>
-                    <option value='allContent'> 短信内容 </option>
-                </select>
-                <label style="display: none;" id="search_infoTitle">搜索内容：</label>
-                <input style="display: none;" id="search_infoContent" type="text" name="search_content" placeholder="搜索内容" >
+                <label style="color: blue;">用户手机：</label>
+                <input type="text" name="user_mobile" placeholder="手机号码" id="user_mobile" style="width: 100px;">
 
             </div>
 
@@ -121,11 +108,30 @@
 
             </div>
 
+            <br>
+
+            <div>
+                <!--郭靖-->
+                <label style="color: blue;">短信内容：</label>
+                <select id ="contentType" name="content_mode" style="width: 100px;">
+    s                <option value='message'> 短信验证码 </option>
+                    <option value='allContent'> 短信内容 </option>
+                </select>
+                <label style="display: none;" id="search_infoTitle">搜索内容：</label>
+                <input style="display: none;" id="search_infoContent" type="text" name="search_content" placeholder="搜索内容" >
+                <button class="btn btn-warning" type="submit" id="userSmsConnent"
+                        data-keyboard="false" data-toggle="modal" data-target="#myModalUserSmsContent"
+                        style="margin-left: 30px;"
+                        onclick="userSmsConnent()">手机短信查询</button>
+            </div>
+
+
+
             <div style="margin-top: 30px;">
                 <label style="color: blue;">用户昵称：</label>
-                <input type="text" name="nick_name" id="nick_name">
+                <input type="text" name="nick_name" id="nick_name" style="width: 100px;">
                 <button class="btn btn-success" type="submit"
-                        style="margin-left: 18px;"
+                        style="margin-left: 30px;"
                         id="userNickName"
                         onclick="return userNickName()">修改用户昵称
                 </button>
@@ -140,7 +146,7 @@
                     <option value="on">on</option>
                 </select>
 
-                <button class="btn btn-success" type="submit"
+                <button class="btn btn-info" type="submit"
                         style="margin-left: 30px;"
                         name="accountStatus"
                         id="accountStatus"
@@ -158,7 +164,7 @@
                     <option value="n">未验证</option>
                 </select>
 
-                <button class="btn btn-success" type="submit"
+                <button class="btn btn-danger" type="submit"
                         style="margin-left: 30px;"
                         name="mobileStatus"
                         id="mobileStatus"
@@ -201,6 +207,9 @@
                 <!--</button>-->
 
             </div>
+
+            <hr width=80% style="border:double #2e6da4;">
+
 
             <p style="color:red;margin-top: 50px;">以下功能暂未开放，敬请期待。。。</p>
             <div style="margin-top: 30px;">
