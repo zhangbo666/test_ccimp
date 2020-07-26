@@ -50,6 +50,14 @@ def getUserRole(user_id):
 
                     userRole = 19
 
+            elif user_role == '18':
+
+                    userRole = 18
+
+            elif user_role == '13':
+
+                    userRole = 13
+
             elif user_role == '':
 
                     userRole = 14
@@ -72,7 +80,9 @@ def getUserRole(user_id):
 
 if __name__ == '__main__':
 
-    mobile = '18611222585'
+    mobile = '18611222647'
+
+    userRole = ''
 
     userId = talk_query_user_info_id_success(mobile)
 
@@ -85,9 +95,7 @@ if __name__ == '__main__':
     # print (roleResult.text)
 
     role_sso_text = re.findall(r'"data":"(.*)"', roleResult.text)[0]
-
     # print (role_sso_text)
 
     role_sso_text = role_sso_text.split(',')
-
     # print (role_sso_text)

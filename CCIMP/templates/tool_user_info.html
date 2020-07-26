@@ -114,7 +114,7 @@
                 <!--郭靖-->
                 <label style="color: blue;">短信内容：</label>
                 <select id ="contentType" name="content_mode" style="width: 100px;">
-    s                <option value='message'> 短信验证码 </option>
+                    <option value='message'> 短信验证码 </option>
                     <option value='allContent'> 短信内容 </option>
                 </select>
                 <label style="display: none;" id="search_infoTitle">搜索内容：</label>
@@ -125,6 +125,28 @@
                         onclick="userSmsConnent()">手机短信查询</button>
             </div>
 
+            <div>
+                <label style="margin-top: 30px;color: blue;">SSO身份：</label>
+                <select class="sso_identity" name="sso_identity" id="sso_identity"
+                        style="width: 100px;">
+                    <option value="0">请选择</option>
+                    <option value="11">青少1对1</option>
+                    <option value="12">美小1对1</option>
+                    <option value="14">成人1对1</option>
+                    <option value="15">达拉斯</option>
+                    <option value="17">美小达拉斯</option>
+                    <option value="11,18">菲教+班课</option>
+                    <option value="12,18">美教+班课</option>
+                </select>
+
+                <button class="btn btn-danger" type="submit"
+                        style="margin-left: 30px;"
+                        name="ssoIdentity"
+                        id="ssoIdentity"
+                        onclick="return ssoIdentity()">修改SSO身份
+                </button>
+
+            </div>
 
 
             <div style="margin-top: 30px;">

@@ -70,6 +70,7 @@ from db_config.talkQueryUserOrder import talk_platform_order_query_user_order2_s
 
 '''###############################################################################'''
 
+from externalClass.ssoIdentity import ssoIdentity
 
 
 '''###############################################################################'''
@@ -1485,7 +1486,7 @@ def appoint_record(request):
 
             # 转换为str类型
             current_now_time= current_now_time.strftime('%Y-%m-%d %H:%M:%S')
-            # print (current_now_time)
+            print (current_now_time)
 
             course_status_result = courseStatus(course_status,appoint_record_id)
 
@@ -1508,3 +1509,62 @@ def appoint_record(request):
         except:
 
             return JsonResponse({"status_code": 10102,"message":"课程更新出错"})
+
+
+'''###############################################################################'''
+#2020-07-25:张波修改
+#sso身份修改
+@auth
+def sso_identity(request):
+
+    if request.method == "POST":
+
+        user_mobile = request.POST.get("userMobile","")
+        sso_identity = request.POST.get("ssoIdentity","")
+
+        #1:用户手机号不能为空！;2:手机号位数输入错误，请重新输入！;3:手机号格式输入错误，请重新输入！;4:正常
+        mobile_result_tag = mobileNumberFormatValidity(user_mobile)
+        # print ("mobile_result_tag",mobile_result_tag)
+
+        if mobile_result_tag == 1:
+
+            # return HttpResponse("用户手机号不能为空！")
+            return JsonResponse({"status_code":10101,
+                                 "message":"手机号不能为空！"})
+
+        elif mobile_result_tag == 2:
+
+            # return HttpResponse("手机号位数输入错误，请重新输入！")
+            return JsonResponse({"status_code":10102,
+                                 "message":"手机号位数输入错误，请重新输入！"})
+
+        elif mobile_result_tag == 3:
+
+            # return HttpResponse("手机号格式输入错误，请重新输入！")
+            return JsonResponse({"status_code":10103,
+                                 "message":"手机号格式输入错误，请重新输入！"})
+
+        elif mobile_result_tag == 4:
+
+            #查询账号状态返回用户id
+            userId = talk_query_user_info_id_account_status_success(user_mobile)
+            # print (userId)
+
+            ssoidentity_result = ssoIdentity(sso_identity,userId)
+            # print (ssoidentity_result.json())
+
+            data_result = ssoidentity_result.json()['data']
+            # print (data_result)
+
+            if data_result == '角色变更，操作失败。操作失败，请稍后再试':
+
+                return JsonResponse({"status_code": 10104,"message":data_result,"result": data_result})
+
+            elif data_result == '标签限制,操作失败,请按右侧组合填写。':
+
+                return JsonResponse({"status_code": 10105,"message": "SSO身份修改失败","result": data_result})
+
+            else:
+
+                return JsonResponse({"status_code": 10200, "message": "SSO身份修改成功", "result": data_result})
+

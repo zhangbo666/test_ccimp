@@ -89,4 +89,8 @@ urlpatterns = [
     #获取公开课教材list
     path('open_class/api/getSelectTextBookData', views.getSelectTextBookData),
 
+
+    #修改sso身份
+    path('user_info/sso_identity/', views.sso_identity),
+
 ]
