@@ -68,6 +68,12 @@ function ssoIdentity() {
 
         }
 
+        else if (data.status_code === 10106 || data.status_code === 10107){
+
+            window.alert(data.message);
+
+        }
+
     }
 
     })

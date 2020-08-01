@@ -1489,6 +1489,7 @@ def appoint_record(request):
             print (current_now_time)
 
             course_status_result = courseStatus(course_status,appoint_record_id)
+            print (course_status_result)
 
             if course_status_result == True:
 
@@ -1553,18 +1554,30 @@ def sso_identity(request):
             ssoidentity_result = ssoIdentity(sso_identity,userId)
             # print (ssoidentity_result.json())
 
-            data_result = ssoidentity_result.json()['data']
-            # print (data_result)
+            if ssoidentity_result == "httperror" or ssoidentity_result == "requesterror":
 
-            if data_result == '角色变更，操作失败。操作失败，请稍后再试':
-
-                return JsonResponse({"status_code": 10104,"message":data_result,"result": data_result})
-
-            elif data_result == '标签限制,操作失败,请按右侧组合填写。':
-
-                return JsonResponse({"status_code": 10105,"message": "SSO身份修改失败","result": data_result})
+                return JsonResponse({"status_code": 10106,"message":"请求错误，请检查！"})
 
             else:
 
-                return JsonResponse({"status_code": 10200, "message": "SSO身份修改成功", "result": data_result})
+                try:
+
+                    data_result = ssoidentity_result.json()['data']
+                    # print (data_result)
+
+                    if data_result == '角色变更，操作失败。操作失败，请稍后再试':
+
+                        return JsonResponse({"status_code": 10104,"message":data_result,"result": data_result})
+
+                    elif data_result == '标签限制,操作失败,请按右侧组合填写。':
+
+                        return JsonResponse({"status_code": 10105,"message": "SSO身份修改失败","result": data_result})
+
+                    else:
+
+                        return JsonResponse({"status_code": 10200, "message": "SSO身份修改成功", "result": data_result})
+
+                except:
+
+                    return JsonResponse({"status_code": 10107, "message": "修改身份报错，请本地重新登录crm后台获取最新PHPSESSID信息"})
 
