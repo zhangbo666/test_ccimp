@@ -1482,11 +1482,12 @@ def appoint_record(request):
         try:
 
             # 转换为datetime.datetime类型
-            current_now_time = datetime.now()
+            current_now_time = datetime.utcfromtimestamp(time.time() + 28800)
+            print(current_now_time)
 
             # 转换为str类型
-            current_now_time= current_now_time.strftime('%Y-%m-%d %H:%M:%S')
-            print (current_now_time)
+            current_now_time = current_now_time.strftime('%Y-%m-%d %H:%M:%S')
+            print(current_now_time)
 
             course_status_result = courseStatus(course_status,appoint_record_id)
             print (course_status_result)
