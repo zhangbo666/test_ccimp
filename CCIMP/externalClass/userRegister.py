@@ -35,7 +35,7 @@ def user_register(mobile,password,recommen_mobile):
         'mobile': mobile,
         'password': password,
         'nick_name': '',
-        'recommen_mobile': '',
+        'recommen_mobile': recommen_mobile,
         'privacy': '1',
         'client': '1',
         'user_type': '0',
@@ -71,6 +71,16 @@ def user_register(mobile,password,recommen_mobile):
         # print (res.cookies)
         # res_cookies = requests.utils.dict_from_cookiejar(res.cookies)
         # print (res_cookies)
+        # print (res.json()['status'])
+
+        # register_dict = {
+        #
+        #     "request":request,
+        #     "status":res.json()['status']
+        # }
+        #
+        # return register_dict
+
 
     # 已注册
     elif res_json['status'] == 0:
@@ -81,8 +91,7 @@ def user_register(mobile,password,recommen_mobile):
 
 if __name__ == '__main__':
 
-    # user_name = '18911666685@qq.com'
-    mobile = '18611222584'
+    mobile = '18611222734'
     password = '111111'
     recommen_mobile = '18911666666'
 

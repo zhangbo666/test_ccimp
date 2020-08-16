@@ -21,9 +21,15 @@ function userRegister() {
 
     //校验注册手机号 和 密码 填写规范
     if(!checkPhone(new_mobile)){
-        return
+
+        window.location.reload();
+        return;
+
     }else if(!checkPassword(new_password)){
-        return
+
+        window.location.reload();
+        return;
+
     };
 
     //获取手机号是否注册接口
@@ -33,8 +39,11 @@ function userRegister() {
     data:{'new_mobile':new_mobile},
         success:function (data) {
 
+            $('#myRolecontent').modal('hide');
+
             if (data.status_code === 10200) {
-                mobile_check_status = 1
+
+                mobile_check_status = 1;
 
                 //初始化蒙层
                 createMask();
@@ -52,18 +61,25 @@ function userRegister() {
                         closeMask();
 
                         if (data.status_code === 10200) {
-                            window.alert(data.message)
+
+                            window.alert(data.message);
+                            $('#myRolecontent').modal('show');
+
                         } else if (data.status_code === 10101){
-                            mobile_check_status = 0
+
+                            mobile_check_status = 0;
                             window.alert(data.message);
-                            window.location.reload()
+                            window.location.reload();
+
                         }else if (data.status_code === 10102){
-                            mobile_check_status = 0
+
+                            mobile_check_status = 0;
                             window.alert(data.message);
-                            window.location.reload()
+                            window.location.reload();
+
                         }else {
                             window.alert('发生出了其他错误，咱也不知道，咱们不敢问，请联系波波');
-                            window.location.reload()
+                            window.location.reload();
                         }
 
                     },
@@ -73,48 +89,27 @@ function userRegister() {
                     }
                })
 
-            } else if (data.status_code === 10101){
-                mobile_check_status = 0
+            } else if (data.status_code === 10101 || data.status_code === 10102){
+
+                mobile_check_status = 0;
+
                 window.alert(data.message);
-                window.location.reload()
-            }else if (data.status_code === 10102){
-                mobile_check_status = 0
-                window.alert(data.message);
-                window.location.reload()
+
+                // $('#myRolecontent').modal('hide');
+
+                //模态框延迟100毫秒后，自动关闭模态框
+                // setTimeout("$('#myRolecontent').modal('hide')",1);//5s延时自动关闭
+
+                window.location.reload();
+
             }else {
+
                 window.alert('发生出了其他错误，咱也不知道，咱们不敢问，请联系波波');
                 window.location.reload()
             }
 
         }
    })
-
-    // if(mobile_check_status === 1){
-    //     $.ajax({
-    //     url:'/tool/user_info/post_registerInfo/',
-    //     type:'POST',
-    //     data:{'new_mobile':new_mobile,'new_password':new_password,'recommen_mobile':recommen_mobile},
-    //         success:function (data) {
-    //
-    //             if (data.status_code === 10200) {
-    //                 window.alert(data.message)
-    //             } else if (data.status_code === 10101){
-    //                 mobile_check_status = 0
-    //                 window.alert(data.message);
-    //                 window.location.reload()
-    //             }else if (data.status_code === 10102){
-    //                 mobile_check_status = 0
-    //                 window.alert(data.message);
-    //                 window.location.reload()
-    //             }else {
-    //                 window.alert('发生出了其他错误，咱也不知道，咱们不敢问，请联系波波');
-    //                 window.location.reload()
-    //             }
-    //
-    //         }
-    //    })
-    // }
-
 
 }
 
@@ -177,4 +172,133 @@ function closeMask(){
     var backdrop=document.getElementById('backdrop');
     backdrop.style.display='none';
 }
+
+
+//青少按钮点击监听
+// $("#teenagers_Role").click(function() {
+// })
+
+//成人按钮点击监听
+// $("#adult_Role").click(function() {
+// })
+
+
+//身份确认弹窗
+function userLevelconfirm(){
+    var data={'occup': '7', 'grade': '-4', 'purpose': '0', 'english_level': '1', 'age': '0', 'sex': 'man'};
+
+    if($("#teenagers_Role option:selected").val() === 'teenagers001'){
+        data = {
+            'occup': '7',
+            'grade': '-4',
+            'purpose': '0',
+            'english_level': '1',
+            'age': '0',
+            'sex': 'man'
+        }
+    }else if($("#teenagers_Role option:selected").val() === 'teenagers002'){
+        data = {
+                'occup': '7',
+                'grade': '-4',
+                'purpose': '0',
+                'english_level': '4',
+                'age': '0',
+                'sex': 'man'
+            }
+    }else if($("#teenagers_Role option:selected").val() === 'teenagers003'){
+        data = {
+                'occup': '7',
+                'grade': '-3',
+                'purpose': '0',
+                'english_level': '2',
+                'age': '0',
+                'sex': 'woman'
+            }
+    }else if($("#teenagers_Role option:selected").val() === 'teenagers004'){
+        data = {
+                'occup': '7',
+                'grade': '-2',
+                'purpose': '0',
+                'english_level': '3',
+                'age': '0',
+                'sex': 'woman'
+            }
+    }else if($("#teenagers_Role option:selected").val() === 'teenagers005'){
+        data = {
+                'occup': '7',
+                'grade': '-1',
+                'purpose': '21',
+                'english_level': '1',
+                'age': '0',
+                'sex': 'woman'
+            }
+    }else if($("#teenagers_Role option:selected").val() === 'teenagers006'){
+        data = {
+                'occup': '4',
+                'grade': '1',
+                'purpose': '21',
+                'english_level': '1',
+                'age': '0',
+                'sex': 'woman'
+            }
+    }else if($("#teenagers_Role option:selected").val() === 'teenagers007'){
+        data = {
+                'occup': '6',
+                'grade': '8',
+                'purpose': '20',
+                'english_level': '11',
+                'age': '0',
+                'sex': 'man'
+            }
+    }else if($("#teenagers_Role option:selected").val() === 'teenagers008'){
+        data = {
+                'occup': '5',
+                'grade': '0',
+                'purpose': '14',
+                'english_level': '2',
+                'age': '0',
+                'sex': 'man'
+            }
+    }else if($("#teenagers_Role option:selected").val() === 'teenagers009'){
+        data = {
+                'occup': '2',
+                'grade': '0',
+                'purpose': '12',
+                'english_level': '4',
+                'age': '0',
+                'sex': 'man'
+            }
+    }else if($("#teenagers_Role option:selected").val() === 'teenagers010'){
+        data = {
+                'occup': '1',
+                'grade': '0',
+                'purpose': '7',
+                'english_level': '1',
+                'age': '0',
+                'sex': 'man'
+            }
+    }
+
+     $.ajax({
+           url:'/tool/user_info/post_UpUserOccupInfo/',
+           type:'POST',
+           data:data,
+           success:function (data) {
+
+               if (data.status_code === 10200) {
+
+                    window.alert(data.message);
+
+               }
+
+           },
+
+          complete:function(){
+
+          }
+     })
+}
+
+
+
 

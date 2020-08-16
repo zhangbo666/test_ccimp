@@ -44,39 +44,29 @@ def post_registerinfo(mobile,password,recommen_mobile):
     }
 
     res = request.post(url=register_url,data=ajax_data,headers=headers)
-    return res.reason
-    #print (res.ok)
-    #print(res.reason)
 
+    # res_cookiese = requests.utils.dict_from_cookiejar(res.cookies)
+    # print (res_cookiese)
 
-	# print (res.cookies)
-        #res_cookiese = request.utils.dict_from_cookiejar(res.cookies)
-        # print (res_cookiese)
+    #重定向页面1
+    trial_reserve_url = 'http://trial.51talk.com/trial/reserv'
+    res = request.get(url=trial_reserve_url)
 
-        #trial_reserve_url = 'http://trial.51talk.com/trial/reserv'
-        #res = request.get(url=trial_reserve_url)
-        # print (res.cookies)
-        # res_cookies = requests.utils.dict_from_cookiejar(res.cookies)
-        # print (res_cookies)
+    #重定向页面2
+    url = 'http://trial.51talk.com/api/trialConfig'
+    res = request.get(url=url)
 
-        #url = 'http://trial.51talk.com/api/trialConfig'
-        #res = request.get(url=url)
-        # print (res.json())
-        # print (type(res.json()))
+    #存储request请求和状态
+    listDate = {"statue":res.reason,"requestSession":request}
 
-        # print (res.cookies)
-        # res_cookies = request.utils.dict_from_cookiejar(res.cookies)
-        # print (res_cookies)
-
-
-
+    return listDate
 
 
 if __name__ == '__main__':
 
     mobile = '18911666703'
     password = '123456'
-    recommen_mobile = '18911666666'
+    recommen_mobile = '18611221275'
 
     # 用户登录，查询该手机的账户与密码内容
     post_registerinfo(mobile,password,recommen_mobile)

@@ -33,9 +33,11 @@ from externalClass.open_class.getOpenClassInfo import getOpenClassInfo
 from externalClass.open_class.openClassConfig import *
 from externalClass.getRegisterInfo import is_used_phoneNumber
 from externalClass.postRegisterinfo import post_registerinfo
+from externalClass.postrUserOccupInfo import UpUserOccupInfo
 from externalClass.appoint.getTalkAppointInfo import getTalkAppointInfo
 from externalClass.appoint.getTalkPlatformAppointReconstructionAppointInfo import getTalkPlatformAppointReconstructionAppointInfo
 from externalClass.appoint.appointConfig import *
+from externalClass.ssoIdentity import ssoIdentity
 
 from db_config.talkQueryUserOrder import talk_query_user_order_success
 from db_config.talkQueryUserInfo import talk_query_user_info_detail_success
@@ -70,7 +72,13 @@ from db_config.talkQueryUserOrder import talk_platform_order_query_user_order2_s
 
 '''###############################################################################'''
 
-from externalClass.ssoIdentity import ssoIdentity
+
+
+
+
+'''###############################################################################'''
+#定义全局变量
+requestSession = ''
 
 
 '''###############################################################################'''
@@ -796,18 +804,36 @@ def post_registerinfo_mobile(request):
         recommen_mobile = request.POST.get("recommen_mobile", "")
 
         get_register_status = post_registerinfo(new_mobile,new_password,recommen_mobile)
+        print (get_register_status)
 
-        if get_register_status == 'OK':
+        if get_register_status["statue"] == 'OK':
+
+            global requestSession
+
+            requestSession = get_register_status["requestSession"]
 
             return JsonResponse({"status_code": 10200,"message":"注册成功"})
 
-        elif get_register_status == '0':
+        elif get_register_status[0] == '0':
 
             return JsonResponse({"status_code": 10101,"message":"手机号已注册"})
 
         else:
 
-            return JsonResponse({"status_code": 10201,"message":"注册失败成功"})
+            return JsonResponse({"status_code": 10201,"message":"注册失败"})
+
+
+'''###############################################################################'''
+#账号注册后修改用户身份选项
+def post_UpUserOccupInfo(request):
+
+    if request.method == "POST":
+
+       levelRoleData = request.POST
+
+       res = UpUserOccupInfo(levelRoleData,requestSession)
+
+       return JsonResponse({"status_code": 10200, "message": "身份选项设置成功！"})
 
 
 '''###############################################################################'''

@@ -41,9 +41,11 @@ urlpatterns = [
     #注册新用户,判断用户是否注册
     path('user_info/register_mobile_check/', views.register_mobile_check),
 
-
     #新账号注册
     path('user_info/post_registerInfo/', views.post_registerinfo_mobile),
+
+    # 注册新用户修改用户身份
+    path('user_info/post_UpUserOccupInfo/', views.post_UpUserOccupInfo),
 
 
     #修改账号状态

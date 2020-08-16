@@ -36,7 +36,8 @@
             <br>
 
             <!--2020-07-04：郭靖修改-->
-            <button class="btn btn-info" type="submit" id="userRegister"
+            <button class="btn btn-info" type="submit" id="userRegister" data-toggle="modal"
+                    data-target="#myRolecontent"
                     onclick="return userRegister()">测试账号注册</button>
 
             <!--2020-07-04：郭靖修改-->
@@ -392,6 +393,50 @@
                 </div>
             </div>
 
+            <!--选择用户身份模态框（Modal）-->
+            <div class="modal fade bs-example-modal-lg" id="myRolecontent" tabindex="1"
+                             role="dialog" aria-labelledby="myRoleinfo" aria-hidden="true">
+                <div class="modal-dialog modal-lg" style="overflow:scroll;width:900px;">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
+                            </button>
+                            <h4 class="modal-title" id="myRoleLabel" style="color:blue;">注册用户身份选择：</h4>
+
+                        </div>
+
+                        <div class="modal-body" id="userAccountRoleChoose" style="height:300px;">
+
+                            <div class="table-responsive" style="width: 280px;height: 50px">
+                                <select class="teenagersRole" id="teenagers_Role" >
+                                    <option value = "teenagers001" selected="selected">幼儿园->未上幼儿园->没学过英语</option>
+                                    <option value = "teenagers002">幼儿园->未上幼儿园->会说简单单词</option>
+                                    <option value = "teenagers003">幼儿园->幼儿园小班->能说完整句子</option>
+                                    <option value = "teenagers004">幼儿园->幼儿园中班->能流利交流</option>
+                                    <option value = "teenagers005">幼儿园->幼儿园大班->没学过英语</option>
+                                    <option value = "teenagers006">小学生->一年级->没学过英语</option>
+                                    <option value = "teenagers007">初中生->初二->课外辅导一年</option>
+                                    <option value = "teenagers008">高中生->出国留学->能说完整句子</option>
+                                    <option value = "teenagers009">大学生->毕业生找工作->会说简单单词</option>
+                                    <option value = "teenagers010">上班族->综合英语能力->没学过英语</option>
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                        <div class="modal-footer">
+
+                            <button type="button" class="btn btn-primary"  id="roleconfirm" data-dismiss="modal"  onclick="return userLevelconfirm()">确认</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
         </div>
 
     </div>
@@ -401,6 +446,17 @@
 
 <script type="text/javascript">
 
+////    不起作用
+//    $("#userRegister").click(function ()
+//    {        $('#myRolecontent').modal('hide');
+//    );
+
+//    $(function() {
+//        $('#myRolecontent').on('hide.bs.modal',
+//        function(){
+//               alert('嘿，我听说您喜欢模态框...');
+//        })
+//    });
 
 </script>
 
