@@ -1,5 +1,5 @@
 import requests
-from adminLogin import adminLogin
+from externalClass.adminLogin import adminLogin
 
 
 def ssoH5_query(uid):
@@ -19,7 +19,7 @@ def ssoH5_modify(uid,value):
 
 	data_h5 = {}
 
-	if value == 0:
+	if value == "0":
 
 		data_h5 = {
 
@@ -27,7 +27,7 @@ def ssoH5_modify(uid,value):
 			"value":value
 		}
 
-	elif value == 1:
+	elif value == "1":
 
 		data_h5 = {
 
@@ -49,10 +49,26 @@ if __name__ == '__main__':
 
 	value = 0
 
-	sso_query_h5 = ssoH5_query(uid)
+	# sso_query_h5 = ssoH5_query(uid)
+	# print (sso_query_h5.json())
 
-	sso_modify_h5 = ssoH5_modify(uid,value)
-	
-	print (sso_query_h5.json())
+	# if sso_query_h5.json()['data'] == '没查到数据':
 
-	print (sso_modify_h5.json())
+	# print("该用户不是H5标签用户")
+
+	# elif sso_query_h5.json()['data'] == '是':
+
+	# print("该用户是H5标签用户")
+
+
+	sso_modify_h5 = ssoH5_modify(uid, value)
+	# print (sso_modify_h5.json())
+	# print(sso_modify_h5.json()['data'][10:11])
+
+	if sso_modify_h5.json()['data'][10:11] == '是':
+
+		print("修改完成,当前值为:是")
+
+	elif sso_modify_h5.json()['data'][10:11] == '否':
+
+		print("修改完成,当前值为:否")

@@ -71,9 +71,7 @@ from db_config.talkQueryUserOrder import talk_platform_order_query_user_order2_s
 
 
 '''###############################################################################'''
-
-
-
+from externalClass.ssoH5 import ssoH5_modify,ssoH5_query
 
 
 '''###############################################################################'''
@@ -1608,3 +1606,55 @@ def sso_identity(request):
 
                     return JsonResponse({"status_code": 10107, "message": "修改身份报错，请本地重新登录crm后台获取最新PHPSESSID信息"})
 
+
+'''###############################################################################'''
+#2020-08-20:张波修改
+#ssoh5标签身份修改
+@auth
+def sso_h5(request):
+
+    if request.method == "POST":
+
+        user_mobile = request.POST.get("userMobile","")
+        h5_label = request.POST.get("h5Label","")
+
+        #1:用户手机号不能为空！;2:手机号位数输入错误，请重新输入！;3:手机号格式输入错误，请重新输入！;4:正常
+        mobile_result_tag = mobileNumberFormatValidity(user_mobile)
+        # print ("mobile_result_tag",mobile_result_tag)
+
+        if mobile_result_tag == 1:
+
+            # return HttpResponse("用户手机号不能为空！")
+            return JsonResponse({"status_code":10101,
+                                 "message":"手机号不能为空！"})
+
+        elif mobile_result_tag == 2:
+
+            # return HttpResponse("手机号位数输入错误，请重新输入！")
+            return JsonResponse({"status_code":10102,
+                                 "message":"手机号位数输入错误，请重新输入！"})
+
+        elif mobile_result_tag == 3:
+
+            # return HttpResponse("手机号格式输入错误，请重新输入！")
+            return JsonResponse({"status_code":10103,
+                                 "message":"手机号格式输入错误，请重新输入！"})
+
+        elif mobile_result_tag == 4:
+
+            #查询账号状态返回用户id
+            userId = talk_query_user_info_id_account_status_success(user_mobile)
+            # print (userId)
+
+            if h5_label == '0' or h5_label == '1':
+
+                sso_h5_result = ssoH5_modify(userId,h5_label)
+                # print (sso_h5_result.json())
+
+                if sso_h5_result.json()['data'][10:11] == '是':
+
+                    return JsonResponse({"status_code": 10200,"message":"该学员h5标签修改成功！"})
+
+                elif sso_h5_result.json()['data'][10:11]  == '否':
+
+                    return JsonResponse({"status_code": 10200,"message":"该学员h5标签取消成功！"})

@@ -95,4 +95,9 @@ urlpatterns = [
     #修改sso身份
     path('user_info/sso_identity/', views.sso_identity),
 
+
+    #修改ssoh5标签身份
+    path('user_info/sso_h5/',views.sso_h5),
+
+
 ]
