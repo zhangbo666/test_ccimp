@@ -73,7 +73,8 @@ function saleOrder(){
                             data.status_code === 10102 ||
                             data.status_code === 10103 ||
                             data.status_code === 10104 ||
-                            data.status_code === 10105
+                            data.status_code === 10105 ||
+                            data.status_code === 10106
                         ) {
 
                         alert(data.message);

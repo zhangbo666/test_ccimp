@@ -27,16 +27,26 @@ def getOrderInfo(req,point_id) -> str:
         'gateway': '99online',
         'point_id': str(point_id),
         'agreement': '1',
-        'payMethod': 'bank'
+        'payMethod': 'bank',
+        'user_name':'admin'
     }
-    pay = req.post(url=payUrl,data=payData,verify=False)
 
-    orderId = str(pay.url).split('order_id=')[1]
+    error_info = '订单id获取失败！'
 
-    # print('接口返回code：{}，返回的url：{}，订单id：{}'.format(pay.status_code,pay.url,orderId))
-    # return '接口返回code：{}，返回的url：{}，订单id：{}'.format(pay.status_code,pay.url,orderId)
+    try:
+        pay = req.post(url=payUrl,data=payData,verify=False)
 
-    return orderId
+        orderId = str(pay.url).split('order_id=')[1]
+
+        # print('接口返回code：{}，返回的url：{}，订单id：{}'.format(pay.status_code,pay.url,orderId))
+        # return '接口返回code：{}，返回的url：{}，订单id：{}'.format(pay.status_code,pay.url,orderId)
+
+        return orderId
+
+    except:
+
+        return error_info
+
     # try:
     #
     #

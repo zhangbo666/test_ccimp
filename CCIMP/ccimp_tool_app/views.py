@@ -262,11 +262,18 @@ def order_pay_success(request):
 
                 #获取用户下单详情
                 status_flage = getOrderInfo(req,point_id)
+                # print ("status_flage-->",status_flage)
 
                 if status_flage == False:
 
                     return JsonResponse({"status_code":10105,
                                          "message":"签名获取失败，不能创建订单数据！"})
+
+                elif status_flage == '订单id获取失败！':
+
+                    return JsonResponse({"status_code":10106,
+                                         "message":"订单创建失败，请查看原因！",
+                                         "result":status_flage})
 
                 else:
 
