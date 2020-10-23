@@ -29,7 +29,7 @@ function userAppointRecord(){
     // }
 
     $.ajax({
-        url:'/tool/user_info/get_user_appoint_record/',
+        url:'/tool/appoint_manage/get_user_appoint_record/',
         type:'GET',
         data:{'userMobile':userMobile},
         success:function (data)

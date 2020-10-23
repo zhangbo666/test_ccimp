@@ -2,18 +2,29 @@
 
 
 __author__ = 'zhangbo'
-
+import time
+import json
 
 
 from externalClass.adminLogin import adminLogin
 
-def processOrder(req,order_id):
+def processOrder(req,order_id_check_val):
 
-    processUrl = 'http://crm.51talk.com/admin/order/do_deal_order.php?order_id=' + str(order_id)
+    order_id_check_val_list = json.loads(order_id_check_val)
 
-    responses_result = req.get(url=processUrl)
+    order_id_check_val_length = len(order_id_check_val_list)
 
-    return responses_result
+    for i in range(0,order_id_check_val_length):
+
+        processUrl = 'http://crm.51talk.com/admin/order/do_deal_order.php?order_id=' + str(order_id_check_val_list[i])
+
+        responses_result = req.get(url=processUrl)
+
+        time.sleep(1)
+
+        if (i == order_id_check_val_length -1 ):
+
+            return responses_result
 
 
 if __name__ == '__main__':

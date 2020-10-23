@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+{% block base %}
+
+
+<style>
+
+    .op{
+        text-align: center;
+        width:25px;
+
+    }
+
+    .op2{
+        text-align: center;
+
+    }
+
+    .modal.fade.in{
+        top:5%;
+    }
+
+</style>
+
+{% load static %}
+
+{% include "common_top.html" %}
+<div class="container-fluid">
+
+    <div class="row">
+
+        <!--包含common_left.html-->
+        {% include "common_left.html"%}
+
+        <!--2020-09-29:15:07--张波修改-->
+        <div style="margin-left: 135px;width: 1500px;" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+            <h4 style="color: blue;">约课查询：</h4>
+
+            <div style="margin-top: 30px;">
+
+                <label style="color: blue;">用户手机：</label>
+                <input type="text" name="user_mobile" placeholder="手机号码" id="user_mobile" style="width: 100px;">
+                <button class="btn btn-danger" type="submit" id="appointRecord"
+                    data-keyboard="false" data-toggle="modal" data-target="#myModalAppointRecord"
+                    style="margin-left: 20px;"
+                    onclick="userAppointRecord()">约课记录查询
+                </button>
+
+            </div>
+
+            <br>
+
+            <!--查看约课记录模态框（Modal）-->
+            <div class="modal fade bs-example-modal-lg" id="myModalAppointRecord" tabindex="1"
+                 role="dialog" aria-labelledby="AppointRecord" aria-hidden="true">
+                <div class="modal-dialog modal-lg" style="overflow:scroll;width: 1000px;">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
+                            </button>
+                            <h4 class="modal-title" id="myModalAppointRecordLabel" style="color:blue;">约课记录：</h4>
+
+                        </div>
+
+                        <div>
+                            <label style="margin-left: 30px;">课程状态</label>
+                            <select class="course_status" name="course_status" id="course_status"
+                                    style="margin-left: 10px;margin-top: 20px;">
+                                <option value="0">请选择</option>
+                                <option value="end">已完成</option>
+                                <option value="s_absent">学员缺席</option>
+                                <option value="t_absent">老师缺席</option>
+                                <option value="cancel">取消课程</option>
+                            </select>
+                            <button class="btn btn-sm btn-success" style="margin-left: 20px;" type="submit"
+                                    id="appointRecordEdit" onclick="appointRecordEdit()">修改课程状态</button>
+                        </div>
+
+                        <div class="modal-body" id="modalAppointRecordsTable" style="height:500px;">
+
+                            <div class="table-responsive">
+
+                                <table class="table table-striped table-hover table-condensed table-bordered" id="myTableOpenClassInfo"
+                                       style="
+                                       table-layout: fixed;word-break: break-all;word-wrap: break-word;
+                                       vertical-align: middle;text-align:center;margin-top: 20px;
+                                       font-size: 14px;">
+                                    <thead>
+                                        <tr>
+                                            <th class="op2" style="width: 5px;">序号</th>
+                                            <th class="op2" style="width: 5px;">约课ID</th>
+                                            <th class="op2" style="width: 5px;">老师ID</th>
+                                            <th class="op2" style="width: 12px;">学员ID</th>
+                                            <th class="op2" style="width: 5px;">课程ID</th>
+                                            <th class="op2" style="width: 5px;">约课类型</th>
+                                            <th class="op2" style="width: 5px;">课程状态</th>
+                                            <th class="op2" style="width: 20px;">开始时间</th>
+                                            <th class="op2" style="width: 20px;">结束时间</th>
+                                        </tr>
+
+                                    </thead>
+
+                                    <tbody>
+
+                                    </tbody>
+
+                                </table>
+
+                                <br>
+
+                            </div>
+
+                        </div>
+
+                        <div class="modal-footer">
+
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script type="text/javascript">
+
+////    不起作用
+//    $("#userRegister").click(function ()
+//    {        $('#myRolecontent').modal('hide');
+//    );
+
+//    $(function() {
+//        $('#myRolecontent').on('hide.bs.modal',
+//        function(){
+//               alert('嘿，我听说您喜欢模态框...');
+//        })
+//    });
+
+</script>
+
+
+
+{% endblock %}

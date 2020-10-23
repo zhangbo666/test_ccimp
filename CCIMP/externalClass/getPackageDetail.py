@@ -12,7 +12,8 @@ def getPackageDetail(req,user_role):
     orderDetailList = [{'point_package_10':'http://sale.51talk.com/api/pointList?point_type=point_package_10'},
                        {'point_package':'http://sale.51talk.com/api/pointList?point_type=point_package'},
                        {'point':'http://sale.51talk.com/api/pointList?point_type=point'},
-                       {'shuagnshi':'http://sale.51talk.com/api/pointList?from=web&point_type=mix_point'}]
+                       {'shuagnshi':'http://sale.51talk.com/api/pointList?from=web&point_type=mix_point'},
+                       {'box':'http://sale.51talk.com/api/pointList?point_type=box'}]
 
 
     # 套餐type类型

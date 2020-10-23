@@ -8,6 +8,8 @@ function processOrder(){
 
     var radio_order = document.getElementsByName('radio_orders');
 
+    order_id_check_val = [];
+
     var isCheck = false;
 
     //处理订单按钮连击
@@ -29,6 +31,10 @@ function processOrder(){
             if (checkeds === true){
 
                 var order_id = $("input[name=radio_orders]:checked").val();
+
+                // 将数组对象转化成json字符串，传到后端系统
+                order_id_check_val.push(order_id);
+                order_id_check_val = JSON.stringify(order_id_check_val);
 
                 alert("订单处理开始，请等候...");
 
@@ -61,7 +67,7 @@ function processOrder(){
                 $.ajax({
                 url:'/tool/sale_order/process_order/',
                 type:'POST',
-                data:{'order_id':order_id},
+                data:{'order_id_check_val':order_id_check_val},
                 success:function(data){
 
                     if (data.status_code === 10101 || data.status_code === 10102) {

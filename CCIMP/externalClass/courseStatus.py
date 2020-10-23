@@ -42,6 +42,7 @@ if __name__ == '__main__':
     # course_status_data = 'end'
     # course_status_data = 's_absent'
     # course_status_data = 't_absent'
+    # course_status_data = 'cancel'
 
     appoint_id = '52663928'
 

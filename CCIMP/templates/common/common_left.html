@@ -176,8 +176,8 @@
                                     </p>
                                 </a>
 
-                                <a href="#">
-                                    <p class="zcd" id="zcd11">
+                                <a href="/search_crm_stuOrder/">
+                                    <p class="zcd" id="zcd44">
                                         <i class="glyphicon glyphicon-th-list"></i>
                                         <span>订单退款</span>
                                     </p>
@@ -187,6 +187,13 @@
                                     <p class="zcd" id="zcd12">
                                         <i class="glyphicon glyphicon-user"></i>
                                         <span>学员信息</span>
+                                    </p>
+                                </a>
+
+                                <a href="/tool/appoint_manage/">
+                                    <p class="zcd" id="zcd46">
+                                        <i class="glyphicon glyphicon-th-list"></i>
+                                        <span>约课管理</span>
                                     </p>
                                 </a>
 
@@ -240,10 +247,24 @@
                                     </p>
                                 </a>
 
+                                <a href="/get_teacher_email_code/">
+                                    <p class="zcd" id="zcd41">
+                                        <i class="glyphicon glyphicon-th-list"></i>
+                                        <span>教师端邮箱验证码</span>
+                                    </p>
+                                </a>
+
                                 <a href="/tool/open_class/">
-                                    <p class="zcd" id="zcd39">
+                                    <p class="zcd" id="zcd38">
                                         <i class="glyphicon glyphicon-th-list"></i>
                                         <span>公开课</span>
+                                    </p>
+                                </a>
+
+                                <a href="/prs_reveal/">
+                                    <p class="zcd" id="zcd42">
+                                        <i class="glyphicon glyphicon-th-list"></i>
+                                        <span>解密脱敏数据</span>
                                     </p>
                                 </a>
 
@@ -284,8 +305,8 @@
                                     </p>
                                 </a>
 
-                                <a href="#">
-                                    <p class="zcd" id="zcd22">
+                                <a href="/search_crm_stuOrder/">
+                                    <p class="zcd" id="zcd45">
                                         <i class="glyphicon glyphicon-th-list"></i>
                                         <span>订单退款</span>
                                     </p>
@@ -295,6 +316,13 @@
                                     <p class="zcd" id="zcd23">
                                         <i class= "glyphicon glyphicon-user"></i>
                                         <span>学员信息</span>
+                                    </p>
+                                </a>
+
+                                <a href="/tool/appoint_manage/">
+                                    <p class="zcd" id="zcd47">
+                                        <i class="glyphicon glyphicon-th-list"></i>
+                                        <span>约课管理</span>
                                     </p>
                                 </a>
 
@@ -348,15 +376,61 @@
                                     </p>
                                 </a>
 
-                                <a href="/tool/open_class/">
+                                <a href="/get_teacher_email_code/">
                                     <p class="zcd" id="zcd40">
+                                        <i class="glyphicon glyphicon-th-list"></i>
+                                        <span>教师端邮箱验证码</span>
+                                    </p>
+                                </a>
+
+                                <a href="/tool/open_class/">
+                                    <p class="zcd" id="zcd39">
                                         <i class="glyphicon glyphicon-th-list"></i>
                                         <span>公开课</span>
                                     </p>
                                 </a>
 
+                                <a href="/prs_reveal/">
+                                    <p class="zcd" id="zcd43">
+                                        <i class="glyphicon glyphicon-th-list"></i>
+                                        <span>解密脱敏数据</span>
+                                    </p>
+                                </a>
+
                             </div>
 
+                        </li>
+
+                    {% endif %}
+
+                    {% if type_option_admin == "permission_sap" %}
+
+                        <li class="">
+                            <p class="fuMenu">友情链接</p>
+                            <img class="xiala" src="/static/image/xiala.png">
+                            <div class="div1" id="div21">
+                                <a href="/links/">
+                                    <p class="zcd" id="zcd48">
+                                        <i class="glyphicon glyphicon-cog"></i>
+                                        <span>友情链接</span>
+                                    </p>
+                                </a>
+                            </div>
+                        </li>
+
+                    {% else %}
+
+                        <li class="">
+                            <p class="fuMenu">友情链接</p>
+                            <img class="xiala" src="/static/image/xiala.png">
+                            <div class="div1" id="div22">
+                                <a href="/links/">
+                                    <p class="zcd" id="zcd49">
+                                        <i class="glyphicon glyphicon-cog"></i>
+                                        <span>友情链接</span>
+                                    </p>
+                                </a>
+                            </div>
                         </li>
 
                     {% endif %}

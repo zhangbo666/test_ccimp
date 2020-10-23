@@ -77,6 +77,7 @@ from externalClass.ssoH5 import ssoH5_modify,ssoH5_query
 '''###############################################################################'''
 #定义全局变量
 requestSession = ''
+mobileGlobal = ''
 
 
 '''###############################################################################'''
@@ -316,9 +317,11 @@ def process_order(request):
 
     if request.method == "POST":
 
-        order_id = request.POST.get("order_id","")
+        order_id_check_val = request.POST.get("order_id_check_val","")
+        # print (type(order_id_check_val))
+        # print (order_id_check_val)
 
-        if order_id == "":
+        if order_id_check_val == "":
 
             return JsonResponse({"status_code":10101,
                                  "message":"订单号为空，无法处理该订单数据！"})
@@ -329,9 +332,9 @@ def process_order(request):
             req = adminLogin()
 
             #调用admin后台处理订单接口
-            responses_result = processOrder(req,order_id)
-            # print ("responses_result-->",responses_result)
-            # print ("responses_result-->",type(responses_result))
+            responses_result = processOrder(req,order_id_check_val)
+            print ("responses_result-->",responses_result)
+            print ("responses_result-->",type(responses_result))
 
             if responses_result.text == '订单处理成功':
 
@@ -353,6 +356,10 @@ def get_order_on_detail(request):
 
         user_mobile = request.POST.get("userMobile","")
         user_password = request.POST.get("userPasword","")
+
+        # 全局变量赋值
+        global mobileGlobal
+        mobileGlobal = user_mobile
 
         if user_mobile == "":
 
@@ -402,6 +409,29 @@ def get_order_on_detail(request):
                 else:
 
                     return JsonResponse({"status_code":10200,"message":"用户未完成订单获取成功！！！","result":order_list_result})
+
+
+'''###############################################################################'''
+#2020-10-21:张波修改
+#获取用户处理订单后为On状态的订单信息
+@auth
+def get_rest_order_on_detail(request):
+
+    if request.method == "GET":
+
+        userId = talk_query_user_info_id_success(mobileGlobal)
+
+        limit_sum = 10
+
+        order_list_result = talk_platform_order_query_user_order2_success(userId, limit_sum)
+
+        if order_list_result == ():
+
+            return JsonResponse({"status_code": 10100, "message": "该用户订单已全部处理成功！！！"})
+
+        else:
+
+            return JsonResponse({"status_code": 10200, "message": "用户未完成订单获取成功！！！", "result": order_list_result})
 
 
 '''###############################################################################'''
@@ -1412,6 +1442,10 @@ def get_user_appoint_record(request):
 
         user_mobile = request.GET.get("userMobile","")
 
+        #全局变量赋值
+        global mobileGlobal
+        mobileGlobal = user_mobile
+
         # 1:用户手机号不能为空！;2:手机号位数输入错误，请重新输入！;3:手机号格式输入错误，请重新输入！;4:正常
         mobile_result_tag = mobileNumberFormatValidity(user_mobile)
         # print ("mobile_result_tag",mobile_result_tag)
@@ -1468,6 +1502,47 @@ def get_user_appoint_record(request):
 
 
 '''###############################################################################'''
+#2020-10-21:张波修改
+#获取用户处理约课记录后为On状态的约课记录信息
+@auth
+def get_user_rest_appoint_record(request):
+
+    if request.method == "GET":
+
+        userId = talk_query_user_info_id_success(mobileGlobal)
+
+        if userId == ():
+
+            return JsonResponse({"status_code": 10100,"message":"该学员对应的userid为空"})
+
+        #获取talk约课记录
+        talk_appoint_info_result = getTalkAppointInfo(userId,limit_appoint_sum)
+        print (talk_appoint_info_result)
+
+        #获取talkplatform_appoint_reconstruction约课记录
+        talkplatform_appoint_reconstruction_appoint_info_result = getTalkPlatformAppointReconstructionAppointInfo(userId,limit_appoint_sum)
+        print (talkplatform_appoint_reconstruction_appoint_info_result)
+
+        if talk_appoint_info_result == [] and talkplatform_appoint_reconstruction_appoint_info_result == []:
+
+            return JsonResponse({"status_code": 10101,"message":"该学员约课信息在php库与平台库查询为空"})
+
+        elif talk_appoint_info_result == []:
+
+            return JsonResponse({"status_code": 10102, "message": "该学员约课信息在php库查询为空"})
+
+        elif talkplatform_appoint_reconstruction_appoint_info_result == []:
+
+            return JsonResponse({"status_code": 10103, "message": "该学员约课信息在平台库查询为空"})
+
+        # return JsonResponse({"status_code": 10200,
+        #                      "result": {"data":"接口获取正确"}})
+
+        return JsonResponse({"status_code": 10200, "data": "接口获取正确",
+                             "appointRecords":talkplatform_appoint_reconstruction_appoint_info_result})
+
+
+'''###############################################################################'''
 #2020-07-11:张波修改--获取数据方法二合一，暂时屏蔽这个方法
 #初始化获得约课记录list数据
 # @auth
@@ -1507,6 +1582,10 @@ def appoint_record(request):
             course_status = course_status
 
         elif course_status == "t_absent":
+
+            course_status = course_status
+
+        elif course_status == "cancel":
 
             course_status = course_status
 
@@ -1658,10 +1737,52 @@ def sso_h5(request):
                 sso_h5_result = ssoH5_modify(userId,h5_label)
                 # print (sso_h5_result.json())
 
-                if sso_h5_result.json()['data'][10:11] == '是':
+                if sso_h5_result.json()['data'] == '是':
 
                     return JsonResponse({"status_code": 10200,"message":"该学员h5标签修改成功！"})
 
-                elif sso_h5_result.json()['data'][10:11]  == '否':
+                elif sso_h5_result.json()['data']  == '否':
 
                     return JsonResponse({"status_code": 10200,"message":"该学员h5标签取消成功！"})
+
+
+'''###############################################################################'''
+#约课管理manage
+@auth
+def appoint_manage(request):
+
+    get_username = request.session.get('user','')
+
+    users = User.objects.all()
+
+    if request.method == "GET":
+
+        for user in users:
+
+            if user.user_name == get_username:
+
+                if user.permission_options == 1:
+
+                    return render(request,"tool_appoint_manage.html",
+                                  {"username":get_username,
+                                   "type_option_admin":"permission_sap",
+                                   "aTag_":"2"})
+
+                elif user.permission_options == 2:
+
+                    return render(request,"tool_appoint_manage.html",
+                                  {"username":get_username,
+                                   "aTag_":"2"})
+
+                elif user.permission_options == 3:
+
+                    return render(request,"tool_appoint_manage.html",
+                                  {"username":get_username,
+                                   "aTag_":"2"})
+
+
+'''###############################################################################'''
+
+
+
+

@@ -35,10 +35,24 @@ function userOnOrderDetail(){
 
             var data = data.result;
 
+            //单选钮
+            // for (var i=0; i < data.length; i++){
+            //
+            //     var str = '<td>' +
+            //               '<input type="radio" name="radio_on_orders" id="radio_on_orders" value='+ data[i].id + '>' + '</td>' +
+            //               '<td>' + data[i].id + '</td>' +
+            //               '<td>' + data[i].extend_id + '</td>' +
+            //               '<td>' + data[i].order_money + '</td>' +
+            //               '<td>' + data[i].order_type + '</td>' +
+            //               '<td>' + data[i].status + '</td>';
+            //     $("#myTableUserOnOrderDetail").append('<tr>' + str + '</tr>');
+            // }
+
+            //复选框
             for (var i=0; i < data.length; i++){
 
                 var str = '<td>' +
-                          '<input type="radio" name="radio_on_orders" id="radio_on_orders" value='+ data[i].id + '>' + '</td>' +
+                          '<input type="checkbox" name="checkbox_on_orders" id="checkbox_on_orders" value='+ data[i].id + '>' + '</td>' +
                           '<td>' + data[i].id + '</td>' +
                           '<td>' + data[i].extend_id + '</td>' +
                           '<td>' + data[i].order_money + '</td>' +

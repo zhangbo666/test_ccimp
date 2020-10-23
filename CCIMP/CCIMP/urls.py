@@ -40,8 +40,13 @@ urlpatterns = [
     # 权限用户与权限分类管理app
     path('permission/',include('ccimp_permission_app.urls')),
 
+    # 友情链接
+    path('links/',include('ccimp_links_app.urls')),
+
     # 工具管理app
     path('tool/',include('ccimp_tool_app.urls')),
+
+
 
 ]
 
