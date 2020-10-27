@@ -120,7 +120,6 @@ function processOnOrder(){
                                 $("#myTableUserOnOrderDetail").append('<tr>' + str + '</tr>');
                             }
 
-
                             //释放处理未完成订单按钮点击事件
                             $("#processOnOrder").attr("disabled",false);
                             //$("#processOnOrder").removeAttr("disabled");
@@ -204,7 +203,6 @@ function processOnOrder(){
                                 $("#myTableUserOnOrderDetail").append('<tr>' + str + '</tr>');
                             }
 
-
                             //释放处理未完成订单按钮点击事件
                             $("#processOnOrder").attr("disabled",false);
                             //$("#processOnOrder").removeAttr("disabled");
@@ -247,13 +245,12 @@ function processOnOrder(){
         alert("当前订单数据列表为空！")
     }
 
-
 }
 
 
 
 
-//处理当前账户下未完成的订单--多选操作
+//处理当前账户下未完成的订单--单选操作
 // function processOnOrder(){
 //
 //     var radio_on_order = document.getElementsByName('radio_on_orders');

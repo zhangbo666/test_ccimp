@@ -1523,17 +1523,18 @@ def get_user_rest_appoint_record(request):
         talkplatform_appoint_reconstruction_appoint_info_result = getTalkPlatformAppointReconstructionAppointInfo(userId,limit_appoint_sum)
         print (talkplatform_appoint_reconstruction_appoint_info_result)
 
-        if talk_appoint_info_result == [] and talkplatform_appoint_reconstruction_appoint_info_result == []:
+        if talk_appoint_info_result == [] and talkplatform_appoint_reconstruction_appoint_info_result == [] or \
+           talk_appoint_info_result == [] or talkplatform_appoint_reconstruction_appoint_info_result == []:
 
-            return JsonResponse({"status_code": 10101,"message":"该学员约课信息在php库与平台库查询为空"})
+            return JsonResponse({"status_code": 10101,"message":"该学员约课信息已全部处理，请查看！！！"})
 
-        elif talk_appoint_info_result == []:
-
-            return JsonResponse({"status_code": 10102, "message": "该学员约课信息在php库查询为空"})
-
-        elif talkplatform_appoint_reconstruction_appoint_info_result == []:
-
-            return JsonResponse({"status_code": 10103, "message": "该学员约课信息在平台库查询为空"})
+        # elif talk_appoint_info_result == []:
+        #
+        #     return JsonResponse({"status_code": 10102, "message": "该学员约课信息已全部处理成功"})
+        #
+        # elif talkplatform_appoint_reconstruction_appoint_info_result == []:
+        #
+        #     return JsonResponse({"status_code": 10103, "message": "该学员约课信息已全部处理成功"})
 
         # return JsonResponse({"status_code": 10200,
         #                      "result": {"data":"接口获取正确"}})
@@ -1570,8 +1571,13 @@ def appoint_record(request):
 
     if request.method == "POST":
 
-        appoint_record_id = request.POST.get("appointRecordID","")
+        appoint_id_check_val = request.POST.get("appoint_id_check_val","")
         course_status = request.POST.get("courseStatus","")
+
+        if appoint_id_check_val == "":
+
+            return JsonResponse({"status_code":10100,
+                                 "message":"约课id为空，无法处理该约课数据！"})
 
         if course_status == "end":
 
@@ -1593,24 +1599,30 @@ def appoint_record(request):
 
             # 转换为datetime.datetime类型
             current_now_time = datetime.utcfromtimestamp(time.time() + 28800)
-            print(current_now_time)
+            # print(current_now_time)
 
             # 转换为str类型
             current_now_time = current_now_time.strftime('%Y-%m-%d %H:%M:%S')
-            print(current_now_time)
+            # print(current_now_time)
 
-            course_status_result = courseStatus(course_status,appoint_record_id)
-            print (course_status_result)
+            course_status_result = courseStatus(course_status,appoint_id_check_val)
+            # print (course_status_result)
 
             if course_status_result == True:
 
-                talk_update_appoint_info_start_time_end_time_success(appoint_record_id,
-                                                                     current_now_time,
-                                                                     current_now_time)
+                appoint_id_check_val_list = json.loads(appoint_id_check_val)
 
-                talkplatform_appoint_reconstruction_update_appoint_info_start_time_end_time_success(appoint_record_id,
-                                                                                                    current_now_time,
-                                                                                                    current_now_time)
+                appoint_id_check_val_length = len(appoint_id_check_val_list)
+
+                for i in range(0, appoint_id_check_val_length):
+
+                    talk_update_appoint_info_start_time_end_time_success(appoint_id_check_val_list[i],
+                                                                         current_now_time,
+                                                                         current_now_time)
+
+                    talkplatform_appoint_reconstruction_update_appoint_info_start_time_end_time_success(appoint_id_check_val_list[i],
+                                                                                                        current_now_time,
+                                                                                                        current_now_time)
 
                 return JsonResponse({"status_code": 10200,"message":"课程状态已修改"})
 

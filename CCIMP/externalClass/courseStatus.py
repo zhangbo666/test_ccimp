@@ -1,10 +1,15 @@
 __author__ = 'zhangbo'
 
+import time
+
+import json
+
 from externalClass.adminLogin import adminLogin
 
 from db_config.talkQueryUserInfo import talk_query_user_info_id_success
 
-def courseStatus(course_status_data,appoint_id_data):
+
+def courseStatus(course_status_data,appoint_id_check_val):
 
     '''
     账号状态
@@ -15,24 +20,33 @@ def courseStatus(course_status_data,appoint_id_data):
 
     # print ("course_status_data-->",course_status_data)
     # print ("appoint_id_data-->",appoint_id_data)
-
     # course_appoint_id_data = talk_query_user_info_id_success(mobile_data)
 
-    courseStatusUrl = "https://www.51talk.com/Admin/Masy/masy_mysql_update_appoint_status?id=" \
-                       + str(appoint_id_data) + "&status=" + str(course_status_data)
+    appoint_id_check_val_list = json.loads(appoint_id_check_val)
 
-    #调取后台登录接口
-    admin_login = adminLogin()
+    appoint_id_check_val_length = len(appoint_id_check_val_list)
 
-    coursestatus = admin_login.get(url=courseStatusUrl)
+    for i in range(0,appoint_id_check_val_length):
 
-    if coursestatus.ok == True:
+        courseStatusUrl = "https://www.51talk.com/Admin/Masy/masy_mysql_update_appoint_status?id=" \
+                           + str(appoint_id_check_val_list[i]) + "&status=" + str(course_status_data)
 
-        return True
+        #调取后台登录接口
+        admin_login = adminLogin()
 
-    else:
+        coursestatus = admin_login.get(url=courseStatusUrl)
 
-        return False
+        time.sleep(1)
+
+        if (i == appoint_id_check_val_length -1 ):
+
+            if coursestatus.ok == True:
+
+                return True
+
+            else:
+
+                return False
 
 if __name__ == '__main__':
 

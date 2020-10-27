@@ -73,7 +73,7 @@ function userAppointRecord(){
                 for (var i=0; i < appointRecords.length; i++){
 
                     var str = '<td>' +
-                              '<input type="radio" name="radio_on_appoint_record" id="radio_on_appoint_record" value='+ appointRecords[i].id +' >' + '</td>' +
+                              '<input type="checkbox" name="checkbox_on_appoint_record" id="checkbox_on_appoint_record" value='+ appointRecords[i].id +' >' + '</td>' +
                               '<td>' + appointRecords[i].id + '</td>' +
                               '<td>' + appointRecords[i].t_id + '</td>' +
                               '<td>' + appointRecords[i].s_id + '</td>' +
