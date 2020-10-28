@@ -13,7 +13,7 @@ class PermissionClass(models.Model):
       permission_english_name = models.CharField("权限英文名",max_length=100,null=False)
 
       #1:sap超级管理员权限、2:pp项目管理权限、3:gp普通权限
-      permission_options = models.IntegerField("权限分类",default=3)
+      permission_options = models.IntegerField("权限分类",default=2)
 
       create_time = models.DateTimeField(null=False)
 

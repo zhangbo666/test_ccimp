@@ -27,5 +27,19 @@ def links_manage(request):
 
                     return render(request,"links.html",
                                   {"username":get_username,
-                                   "type_option_admin":"permission_sap"})
+                                   "type_option_admin":"permission_sap",
+                                   "aTag_":"3"})
+
+                if user.permission_options == 2:
+
+                    return render(request,"links.html",
+                                  {"username":get_username,
+                                   "aTag_": "3"})
+
+                if user.permission_options == 3:
+
+                    return render(request,"links.html",
+                                  {"username":get_username,
+                                   "aTag_": "3"})
+
 
