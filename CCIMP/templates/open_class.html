@@ -34,10 +34,10 @@
                         style="margin-top: 25px;"
                         onclick="location.href='open_class_add/'">公开课开课</button>
 
-                <button class="btn btn-primary" type="submit" id="userAppointOpenClass" data-keyboard="false"
-                        data-toggle="modal" data-target="#userAppointOpenClass"
-                        style="margin-left: 50px;margin-top: 25px;" disabled="disabled"
-                        onclick="return userAppointOpenClass()">学员约课</button>
+                <!--<button class="btn btn-primary" type="submit" id="userAppointOpenClass" data-keyboard="false"-->
+                        <!--data-toggle="modal" data-target="#userAppointOpenClass"-->
+                        <!--style="margin-left: 50px;margin-top: 25px;" disabled="disabled"-->
+                        <!--onclick="return userAppointOpenClass()">学员约课</button>-->
 
             </div>
 
@@ -100,10 +100,10 @@
                             <td>{{ openClass.end_time   | date:"Y-m-d H:i:s" }}</td>
 
                             <td>
-
-                                <a href="/tool/open_class/{{ openClass.id }}/" disabled="disabled">约课
+                                <span style="color:red">暂无，期待版本更新</span>
+                                <!--<a href="/tool/open_class/{{ openClass.id }}/" disabled="disabled">约课-->
                                     <!--<i class="glyphicon glyphicon-pencil">约课</i>-->
-                                </a>
+                                <!--</a>-->
 
                                 <!--<a href="/project/delete_project/{{ project.id }}/" style="margin-left:20px;"-->
                                           <!--onclick="return project_del()">-->

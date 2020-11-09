@@ -38,6 +38,7 @@ from externalClass.appoint.getTalkAppointInfo import getTalkAppointInfo
 from externalClass.appoint.getTalkPlatformAppointReconstructionAppointInfo import getTalkPlatformAppointReconstructionAppointInfo
 from externalClass.appoint.appointConfig import *
 from externalClass.ssoIdentity import ssoIdentity
+from externalClass.ssoH5 import ssoH5_modify,ssoH5_query
 
 from db_config.talkQueryUserOrder import talk_query_user_order_success
 from db_config.talkQueryUserInfo import talk_query_user_info_detail_success
@@ -60,6 +61,8 @@ from db_config.talkQueryAppointInfo import talkplatform_appoint_reconstruction_u
 
 from db_config.db_config import *
 
+
+
 import json
 import time
 import requests
@@ -71,7 +74,7 @@ from db_config.talkQueryUserOrder import talk_platform_order_query_user_order2_s
 
 
 '''###############################################################################'''
-from externalClass.ssoH5 import ssoH5_modify,ssoH5_query
+from externalClass.orderOnConfig import *
 
 
 '''###############################################################################'''
@@ -398,9 +401,7 @@ def get_order_on_detail(request):
 
                 userId = talk_query_user_info_id_success(user_mobile)
 
-                limit_sum = 10
-
-                order_list_result = talk_platform_order_query_user_order2_success(userId,limit_sum)
+                order_list_result = talk_platform_order_query_user_order2_success(userId,orderon_limit_sum)
 
                 if order_list_result == ():
 
@@ -421,9 +422,7 @@ def get_rest_order_on_detail(request):
 
         userId = talk_query_user_info_id_success(mobileGlobal)
 
-        limit_sum = 10
-
-        order_list_result = talk_platform_order_query_user_order2_success(userId, limit_sum)
+        order_list_result = talk_platform_order_query_user_order2_success(userId, orderon_limit_sum)
 
         if order_list_result == ():
 
@@ -1154,6 +1153,8 @@ def open_class(request):
 
     users = User.objects.all()
 
+    course_limit_sum = openClassCourseConfig()
+
     open_class_info_result_list = getOpenClassInfo(course_limit_sum)
 
 
@@ -1389,6 +1390,8 @@ def getSelectTeacherData(request):
 
     if request.method == "GET":
 
+        limin_teacher_sum = openClassTeacherConfig()
+
         teacherinfo_result_list = getTeacherInfo(limin_teacher_sum)
 
         teacherinfo_result_no = {}
@@ -1413,6 +1416,10 @@ def getSelectTeacherData(request):
 def getSelectTextBookData(request):
 
     if request.method == "GET":
+
+        c_cate1_textbook_limit_sum = openClassOneTextBookConfig()
+        c_cate2_textbook_limit_sum = openClassTwoTextBookConfig()
+        c_cate3_textbook_limit_sum = openClassThreeTextBookConfig()
 
         textbookinfo_result_list = getTextBookInfo(c_cate1_textbook_limit_sum,c_cate2_textbook_limit_sum,c_cate3_textbook_limit_sum)
 
@@ -1476,7 +1483,6 @@ def get_user_appoint_record(request):
 
         #获取talk约课记录
         talk_appoint_info_result = getTalkAppointInfo(userId,limit_appoint_sum)
-        # print (talk_appoint_info_result)
 
         #获取talkplatform_appoint_reconstruction约课记录
         talkplatform_appoint_reconstruction_appoint_info_result = getTalkPlatformAppointReconstructionAppointInfo(userId,limit_appoint_sum)

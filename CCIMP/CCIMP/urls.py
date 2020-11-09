@@ -46,7 +46,8 @@ urlpatterns = [
     # 工具管理app
     path('tool/',include('ccimp_tool_app.urls')),
 
-
+    # 系统设置app
+    path('systemSettings/', include('ccimp_systemSettings_app.urls')),
 
 ]
 

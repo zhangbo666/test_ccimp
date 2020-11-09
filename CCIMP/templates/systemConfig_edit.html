@@ -1,0 +1,153 @@
+{% extends "systemConfig.html"%}
+
+{% block webConfigEdit %}
+
+<h3 style="color: blue">编辑配置</h3>
+
+<!--<form class="form-horizontal" method="post" action="/project/add_project/">-->
+<fieldset>
+
+    <label class="control-label" style="margin-top: 5px;">配置名称：</label>
+    <div class="control-group">
+        <!--<div class="controls">-->
+            <input type="text" name='webConfig_name' class="input-xlarge"
+                   style="width:300px;height:30px;margin-top: 5px;">
+            <span style="color:red">{{ webConfig_name }}</span>
+        <!--</div>-->
+    </div>
+
+    <label class="control-label" style="margin-top: 5px;">配置Key：</label>
+    <div class="control-group">
+        <!--<div class="controls">-->
+            <input type="text" name='webConfig_key' class="input-xlarge"
+                   style="width:300px;height:30px;margin-top: 5px;">
+            <span style="color:red">{{ webConfig_key }}</span>
+        <!--</div>-->
+    </div>
+
+    <label class="control-label" style="margin-top: 5px;">配置value：</label>
+    <div class="control-group">
+        <!--<div class="controls">-->
+            <input type="text" name='webConfig_value' class="input-xlarge"
+                   style="width:300px;height:30px;margin-top: 5px;">
+            <span style="color:red">{{ webConfig_value }}</span>
+        <!--</div>-->
+    </div>
+
+    <label for="describe" class="control-label" style="margin-top:20px;">配置描述：</label>
+    <div class="control-group">
+        <!--<div class="controls">-->
+        <span class="textarea">
+            <textarea id= "describe" name="webConfig_describe"
+                      style="width: 300px;height: 80px;margin-top: 10px;"></textarea>
+        </span>
+        <!--</div>-->
+    </div>
+
+    <div class="control-group" style="margin-left:20px;margin-top:40px;float: left">
+        <div class="controls">
+            <button style="margin-left: 40px;" class="btn btn-success" onclick = webConfigEditSave()>修改</button>
+            <!--<button style="margin-left: 20px;" onclick="javascript:this.form.action='/project/';"-->
+                    <!--class="btn btn-info">返回</button>-->
+            <button style="margin-left: 20px;" onclick="location.href='/systemSettings/Admin/webConfig';"
+            class="btn btn-info">返回</button>
+
+        </div>
+    </div>
+</fieldset>
+<!--</form>-->
+
+
+<script type="text/javascript">
+
+    // 获取当前url地址
+    var url = document.location;
+
+    console.log("url",url.pathname.split("/")[5]);
+
+    var ws_id = ((url.pathname.split("/")[5]).split("=")[1]);
+
+    console.log("当前选中的配置文件id：",ws_id);
+
+    if (ws_id === ""){
+
+        alert("当前配置文件id为空，不能进行修改")
+    }
+
+    //调用api，获取编辑配置数据
+    $.get("/systemSettings/Admin/webConfig/get_edit_webConfig_data",{
+
+        "ws_id":ws_id
+
+    },function (resp) {
+
+        if (resp.status === 10200 ) {
+
+            document.querySelector("[name=webConfig_name]").value       = resp.data.ws_nameConfig;
+            document.querySelector("[name=webConfig_key]").value        = resp.data.ws_keyConfig;
+            document.querySelector("[name=webConfig_value]").value      = resp.data.ws_valueConfig;
+            document.querySelector("[name=webConfig_describe]").value   = resp.data.ws_describeConfig;
+
+        }
+    });
+
+    //保存配置文件数据
+    function webConfigEditSave() {
+
+        var webConfigName = document.querySelector("[name=webConfig_name]").value;
+        var webConfigKey = document.querySelector("[name=webConfig_key]").value;
+        var webConfigValue = document.querySelector("[name=webConfig_value]").value;
+        var webConfigDescribe = document.querySelector("[name=webConfig_describe]").value;
+
+        msg_1 = confirm("确定修改配置文件数据吗？");
+
+        if (msg_1 === true){
+
+            $.post("/systemSettings/Admin/webConfig/edit_save_webConfig", {
+
+            "webConfigName": webConfigName,
+            "webConfigKey": webConfigKey,
+            "webConfigValue": webConfigValue,
+            "webConfigDescribe":webConfigDescribe,
+            "wsId":ws_id
+
+            }, function (var_resp) {
+
+                if (var_resp.status === 10101 || var_resp.status === 10102 || var_resp.status === 10103) {
+
+                    alert(var_resp.message);
+                }
+                else {
+
+                    alert("修改成功!");
+
+                    window.location.replace("/systemSettings/Admin/webConfig");
+
+                }
+            });
+        }
+
+    }
+
+
+
+    // 项目编辑js判断
+//    function projectEdit(){
+//
+//        msg_ = confirm("确定要删除项目吗？");
+//
+//        if (msg_ == true){
+//
+//            return true;
+//
+//            }
+//
+//        else{
+//
+//            return false;
+//        }
+//    };
+
+</script>
+
+{% endblock %}

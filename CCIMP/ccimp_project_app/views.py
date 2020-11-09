@@ -638,7 +638,8 @@ def project_search(request):
                                        "projects":contacts,
                                        "page_num":page_num,
                                        "paginator_num_pages":paginator_num_pages,
-                                       "paginator_num_pages_array_":paginator_num_pages_array_})
+                                       "paginator_num_pages_array_":paginator_num_pages_array_,
+                                       "search_name":search_name})
 
 
                 elif user.permission_options == 2:
@@ -662,7 +663,8 @@ def project_search(request):
                                        "projects":contacts,
                                        "page_num":page_num,
                                        "paginator_num_pages":paginator_num_pages,
-                                       "paginator_num_pages_array_":paginator_num_pages_array_})
+                                       "paginator_num_pages_array_":paginator_num_pages_array_,
+                                       "search_name":search_name})
 
                 elif user.permission_options == 3:
 

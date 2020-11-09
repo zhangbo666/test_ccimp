@@ -1,0 +1,477 @@
+{% extends "base.html" %}
+{% block base %}
+{% include "common_top.html"%}
+
+
+
+<div class="container-fluid">
+    <div class="row">
+
+        <!--包含common_left.html-->
+        {% include "common_left.html"%}
+
+        <div style="margin-left: 135px;width:1200px;" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+            <!--web配置列表-->
+            {% if type == "list" %}
+
+                <form class="webConfig" method="get" name="webConfig-page" action="/systemSettings/Admin/webConfig/webConfig_search">
+                    <span>配置名称：</span>
+                    <input type="text" name="search_name" placeholder="搜索配置名称">
+                    <span style="margin-left: 25px;">配置Key：</span>
+                    <input type="text" name="search_key" placeholder="搜索配置Key">
+                    <button class="btn btn-primary" type="submit" style="margin-left: 25px;">搜索配置</button>
+                </form>
+
+
+                <h3 class="sub-header">web配置列表
+                    <button class="btn btn-primary" name="submit" style="float:right;"
+                            onclick="location.href='/systemSettings/Admin/webConfig/add'">创建配置</button>
+                </h3>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+
+                            <tr style="text-align: center">
+                                <th>id</th>
+                                <th>配置名称</th>
+                                <th>配置Key</th>
+                                <th>配置value</th>
+                                <th>配置描述</th>
+                                <th>创建时间</th>
+                                <th>更新时间</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            {% for webConfig in webConfigs %}
+
+                            <tr>
+                                <td>{{ webConfig.id }}</td>
+                                <td>{{ webConfig.nameConfig }}</td>
+                                <td>{{ webConfig.keyConfig }}</td>
+                                <td>{{ webConfig.valueConfig }}</td>
+                                <td>{{ webConfig.describeConfig }}</td>
+                                <td>{{ webConfig.create_time | date:"Y-m-d H:i:s" }}</td>
+                                <td>{{ webConfig.update_time | date:"Y-m-d H:i:s" }}</td>
+                                <td>
+
+                                    <a href="/systemSettings/Admin/webConfig/edit/id={{ webConfig.id }}/">
+                                        <i class="glyphicon glyphicon-pencil">编辑</i>
+                                    </a>
+
+                                    <!--<a href="/project/delete_project/{{ project.id }}/" style="margin-left:20px;"-->
+                                              <!--onclick="return project_del()">-->
+                                        <!--<i class="glyphicon glyphicon-trash">删除</i>-->
+                                    <!--</a>-->
+                                    <!--<button type="submit" name="">查看报告</button>-->
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                            <!--{% csrf_token %}-->
+                        </tbody>
+                    </table>
+                    <div style="text-align: center;color:red;margin-top: 200px;">{{ webConfigs_data_search_error }}</div>
+                    <div style="text-align: center;color:red;margin-top: 200px;">{{ not_webConfigs_data }}</div>
+
+                </div>
+
+            {% endif %}
+
+            <!--web配置文件创建-->
+            {% if type == "add" %}
+
+                {% block webConfigAdd %}
+
+                {% endblock %}
+
+            {% endif %}
+
+            <!--web配置文件编辑-->
+            {% if type == "edit" %}
+
+                {% block webConfigEdit %}
+
+                {% endblock %}
+
+            {% endif %}
+
+            <!--分页器-->
+            <div style="text-align: center;">
+               <nav aria-label="Page navigation">
+                  <ul class="pagination">
+
+                      {% if webConfigs %}
+
+                          <!--{% if not page %}-->
+
+                              <!--{% if search_name %}-->
+
+                                  <!--<li>-->
+                                      <!--<a href="?search_name={{ search_name }}&search_key={{ search_key }}&page={{ page_num }}" aria-label="Previous">-->
+                                          <!--<span aria-hidden="true">首页11</span>-->
+                                      <!--</a>-->
+                                  <!--</li>-->
+
+                              <!--{% endif %}-->
+
+                              <!--<li>-->
+                                  <!--<a href="?search_name={{ search_name }}&search_key={{ search_key }}&page={{ page_num }}" aria-label="Previous">-->
+                                      <!--<span aria-hidden="true">首页22</span>-->
+                                  <!--</a>-->
+                              <!--</li>-->
+
+                          <!--{% endif %}-->
+
+                          {% if search_name and search_key %}
+
+                              <li>
+                                  <a href="?search_name={{ search_name }}&search_key={{ search_key }}&page={{ page_num }}" aria-label="Previous">
+                                      <span aria-hidden="true">首页</span>
+                                  </a>
+                              </li>
+
+                          {% elif search_name == "" and search_key == "" %}
+
+                              <li>
+                                  <a href="?search_name={{ search_name }}&search_key={{ search_key }}&page={{ page_num }}" aria-label="Previous">
+                                      <span aria-hidden="true">首页</span>
+                                  </a>
+                              </li>
+
+                          {% elif search_name == "" %}
+
+                              <li>
+                                  <a href="?search_key={{ search_key }}&page={{ page_num }}" aria-label="Previous">
+                                      <span aria-hidden="true">首页</span>
+                                  </a>
+                              </li>
+
+                          {% elif search_key == "" %}
+
+                              <li>
+                                  <a href="?search_name={{ search_name }}&page={{ page_num }}" aria-label="Previous">
+                                      <span aria-hidden="true">首页</span>
+                                  </a>
+                              </li>
+
+                          {% else %}
+
+                              <li>
+                                  <a href="?page={{ page_num }}" aria-label="Previous">
+                                      <span aria-hidden="true">首页</span>
+                                  </a>
+                              </li>
+
+                          {% endif %}
+
+
+
+
+                          {% if webConfigs.has_previous %}
+
+                              {% if search_name and search_key %}
+
+                                  <li>
+                                      <a href="?search_name={{ search_name }}&search_key={{ search_key }}&page={{ webConfigs.previous_page_number}}" aria-label="Previous">
+                                          <span aria-hidden="true">&laquo;</span>
+                                      </a>
+                                  </li>
+
+                              {% elif search_name == "" and search_key == "" %}
+
+                                  <li>
+                                      <a href="?search_name={{ search_name }}&search_key={{ search_key }}&page={{ webConfigs.previous_page_number}}" aria-label="Previous">
+                                          <span aria-hidden="true">&laquo;</span>
+                                      </a>
+                                  </li>
+
+                              {% elif search_name == "" %}
+
+                                  <li>
+                                      <a href="?search_key={{ search_key }}&page={{ webConfigs.previous_page_number}}" aria-label="Previous">
+                                          <span aria-hidden="true">&laquo;</span>
+                                      </a>
+                                  </li>
+
+                              {% elif search_key == "" %}
+
+                                  <li>
+                                      <a href="?search_name={{ search_name }}&page={{ webConfigs.previous_page_number}}" aria-label="Previous">
+                                          <span aria-hidden="true">&laquo;</span>
+                                      </a>
+                                  </li>
+
+                              {% else %}
+
+                                  <li>
+                                      <a href="?page={{ webConfigs.previous_page_number }}" aria-label="Previous">
+                                          <span aria-hidden="true">&laquo;</span>
+                                      </a>
+                                  </li>
+
+                              {% endif %}
+
+                          {% else %}
+
+                              <li class="disabled">
+                                      <a href="" aria-label="Next">
+                                          <span aria-hidden="true">&laquo;</span>
+                                      </a>
+                              </li>
+
+                          {% endif%}
+
+
+                          {% for ws1 in paginator_num_pages_array_ %}
+
+                              {% if webConfigs.has_previous %}
+
+                                  {% if search_name %}
+
+                                      {% if ws1 == webConfigs.number %}
+
+                                          <li class="active">
+
+                                              <a href="?search_name={{ search_name }}&page={{ ws1 }}">
+                                                  {{ ws1 }}
+                                              </a>
+
+                                          </li>
+
+                                      {% else %}
+
+                                          <li>
+
+                                              <a href="?search_name={{ search_name }}&page={{ ws1 }}">
+                                                  {{ ws1 }}
+                                              </a>
+
+                                          </li>
+
+                                      {% endif %}
+
+
+                                  {% else %}
+
+                                      {% if ws1 == webConfigs.number %}
+
+                                          <li class="active">
+
+                                              <a href="?page={{ ws1 }}">
+                                                  {{ ws1 }}
+                                              </a>
+
+                                          </li>
+
+                                      {% else %}
+
+                                          <li>
+
+                                              <a href="?page={{ ws1 }}">
+                                                  {{ ws1 }}
+                                              </a>
+
+                                          </li>
+
+                                      {% endif %}
+
+                                  {% endif %}
+
+                              {% else %}
+
+                                  {% if search_name %}
+
+                                      {% if ws1 == webConfigs.number %}
+
+                                          <li class="active">
+
+                                              <a href="?search_name={{ search_name }}&page={{ ws1 }}">
+                                                  {{ ws1 }}
+                                              </a>
+
+                                          </li>
+
+                                      {% else %}
+
+                                          <li>
+
+                                              <a href="?search_name={{ search_name }}&page={{ ws1 }}">
+                                                  {{ ws1 }}
+                                              </a>
+
+                                          </li>
+
+                                      {% endif %}
+
+                                  {% else %}
+
+                                      {% if ws1 == webConfigs.number %}
+
+                                          <li class="active">
+
+                                              <a href="?page={{ ws1 }}">
+                                                  {{ ws1 }}
+                                              </a>
+
+                                          </li>
+
+                                      {% else %}
+
+                                          <li>
+
+                                              <a href="?page={{ ws1 }}">
+                                                  {{ ws1 }}
+                                              </a>
+
+                                          </li>
+
+                                      {% endif %}
+
+                                  {% endif %}
+
+                              {% endif %}
+
+                          {% endfor %}
+
+
+                          {% if webConfigs.has_next %}
+
+                              {% if search_name and search_key %}
+
+                                  <li>
+                                      <a href="?search_name={{ search_name }}&search_key={{ search_key }}&page={{ webConfigs.next_page_number}}" aria-label="Previous">
+                                          <span aria-hidden="true">&raquo;</span>
+                                      </a>
+                                  </li>
+
+                              {% elif search_name == "" and search_key == "" %}
+
+                                  <li>
+                                      <a href="?search_name={{ search_name }}&search_key={{ search_key }}&page={{ webConfigs.next_page_number}}" aria-label="Previous">
+                                          <span aria-hidden="true">&raquo;</span>
+                                      </a>
+                                  </li>
+
+                              {% elif search_name == "" %}
+
+                                  <li>
+                                      <a href="?search_key={{ search_key }}&page={{ webConfigs.next_page_number}}" aria-label="Previous">
+                                          <span aria-hidden="true">&raquo;</span>
+                                      </a>
+                                  </li>
+
+                              {% elif search_key == "" %}
+
+                                  <li>
+                                      <a href="?search_name={{ search_name }}&page={{ webConfigs.next_page_number}}" aria-label="Previous">
+                                          <span aria-hidden="true">&raquo;</span>
+                                      </a>
+                                  </li>
+
+                              {% else %}
+
+                                  <li>
+                                      <a href="?page={{ webConfigs.next_page_number }}" aria-label="Previous">
+                                          <span aria-hidden="true">&raquo;</span>
+                                      </a>
+                                  </li>
+
+                              {% endif %}
+
+                          {% else %}
+
+                              <li class="disabled">
+                                      <a href="#" aria-label="Next">
+                                          <span aria-hidden="true">&raquo;</span>
+                                      </a>
+                              </li>
+
+                          {% endif%}
+
+
+                          {% if search_name and search_key %}
+
+                              <li>
+                                  <a href="?search_name={{ search_name }}&search_key={{ search_key }}&page={{ paginator_num_pages }}" aria-label="Previous">
+                                      <span aria-hidden="true">末页</span>
+                                  </a>
+                              </li>
+
+                          {% elif search_name == "" and search_key == "" %}
+
+                              <li>
+                                  <a href="?search_name={{ search_name }}&search_key={{ search_key }}&page={{ paginator_num_pages }}" aria-label="Previous">
+                                      <span aria-hidden="true">末页</span>
+                                  </a>
+                              </li>
+
+                          {% elif search_name == "" %}
+
+                              <li>
+                                  <a href="?search_key={{ search_key }}&page={{ paginator_num_pages }}" aria-label="Previous">
+                                      <span aria-hidden="true">末页</span>
+                                  </a>
+                              </li>
+
+                          {% elif search_key == "" %}
+
+                              <li>
+                                  <a href="?search_name={{ search_name }}&page={{ paginator_num_pages }}" aria-label="Previous">
+                                      <span aria-hidden="true">末页</span>
+                                  </a>
+                              </li>
+
+                          {% else %}
+
+                              <li>
+                                  <a href="?page={{ paginator_num_pages }}" aria-label="Previous">
+                                      <span aria-hidden="true">末页</span>
+                                  </a>
+                              </li>
+
+                          {% endif %}
+
+
+                      {% endif %}
+
+                  </ul>
+
+               </nav>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script type="text/javascript">
+
+    // 项目删除js判断
+    function project_del(){
+
+        msg_ = confirm("确定要删除项目吗？");
+
+        if (msg_ === true){
+
+            return true;
+        }
+
+        else{
+
+            return false;
+        }
+    };
+
+</script>
+
+
+
+{% endblock %}

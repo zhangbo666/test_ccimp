@@ -18,6 +18,8 @@ def getTeacherInfo(limin_teacher_sum):
 
 if __name__ == '__main__':
 
+    limin_teacher_sum = 10
+
     teacher_info_result_list = talk_platform_teacher_query_teacher_info_success(limin_teacher_sum)
     teacher_info_result_json = json.dumps(teacher_info_result_list)
 

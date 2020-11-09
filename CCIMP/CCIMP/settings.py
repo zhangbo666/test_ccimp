@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'ccimp_permission_app',
     'ccimp_tool_app',
     'ccimp_links_app',
+    'ccimp_systemSettings_app',
 ]
 
 MIDDLEWARE = [

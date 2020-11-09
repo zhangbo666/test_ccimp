@@ -1,0 +1,59 @@
+{% extends "systemConfig.html"%}
+
+{% block webConfigAdd %}
+
+
+<h3 style="color: blue">添加配置</h3>
+
+<form class="form-horizontal" method="post" action="/systemSettings/Admin/webConfig/add">
+    <fieldset>
+
+        <label class="control-label" style="margin-top: 5px;">配置名称：</label>
+        <div class="control-group">
+            <!--<div class="controls">-->
+                <input type="text" name='webConfig_name' class="input-xlarge"
+                       style="width:300px;height:30px;margin-top: 5px;">
+                <span style="color:red">{{ webConfig_name }}</span>
+            <!--</div>-->
+        </div>
+
+        <label class="control-label" style="margin-top: 5px;">配置Key：</label>
+        <div class="control-group">
+            <!--<div class="controls">-->
+                <input type="text" name='webConfig_key' class="input-xlarge"
+                       style="width:300px;height:30px;margin-top: 5px;">
+                <span style="color:red">{{ webConfig_key }}</span>
+            <!--</div>-->
+        </div>
+
+        <label class="control-label" style="margin-top: 5px;">配置value：</label>
+        <div class="control-group">
+            <!--<div class="controls">-->
+                <input type="text" name='webConfig_value' class="input-xlarge"
+                       style="width:300px;height:30px;margin-top: 5px;">
+                <span style="color:red">{{ webConfig_value }}</span>
+            <!--</div>-->
+        </div>
+
+        <label for="describe" class="control-label" style="margin-top:20px;">配置描述：</label>
+        <div class="control-group">
+            <!--<div class="controls">-->
+            <span class="textarea">
+                <textarea id= "describe" name="webConfig_describe"
+                          style="width: 300px;height: 80px;margin-top: 10px;"></textarea>
+            </span>
+            <!--</div>-->
+        </div>
+
+        <div class="control-group" style="margin-left:20px;margin-top:40px;float: left">
+            <div class="controls">
+                <button style="margin-left: 40px;" class="btn btn-success">保存</button>
+                <button style="margin-left: 20px;" onclick="javascript:this.form.action='/systemSettings/Admin/webConfig';"
+                        class="btn btn-info">返回</button>
+            </div>
+        </div>
+    </fieldset>
+</form>
+
+
+{% endblock %}

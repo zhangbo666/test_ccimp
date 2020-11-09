@@ -435,18 +435,45 @@
 
                     {% endif %}
 
-                    <li class="">
-                        <p class="fuMenu">系统设置</p>
-                        <img class="xiala" src="/static/image/xiala.png">
-                        <div class="div1" id="div17">
-                            <a href="#">
-                                <p class="zcd" id="zcd13">
-                                    <i class="glyphicon glyphicon-cog"></i>
-                                    <span>系统设置</span>
-                                </p>
-                            </a>
-                        </div>
-                    </li>
+                    {% if aTag_ == "4" %}
+
+                        {% if type_option_admin == "permission_sap" %}
+
+                            <li class="">
+                                <p class="fuMenu">系统设置</p>
+                                <img class="xiala" src="/static/image/xiala.png">
+                                <div class="div1" id="div17" style="display:block;">
+                                    <a href="/systemSettings/Admin/webConfig">
+                                        <p class="zcd" id="zcd11">
+                                            <i class="glyphicon glyphicon-cog"></i>
+                                            <span>配置文件</span>
+                                        </p>
+                                    </a>
+                                </div>
+                            </li>
+
+                        {% endif %}
+
+                    {% else %}
+
+                        {% if type_option_admin == "permission_sap" %}
+
+                            <li class="">
+                                <p class="fuMenu">系统设置</p>
+                                <img class="xiala" src="/static/image/xiala.png">
+                                <div class="div1" id="div23">
+                                    <a href="/systemSettings/Admin/webConfig">
+                                        <p class="zcd" id="zcd13">
+                                            <i class="glyphicon glyphicon-cog"></i>
+                                            <span>配置文件</span>
+                                        </p>
+                                    </a>
+                                </div>
+                            </li>
+
+                        {% endif %}
+
+                    {% endif %}
 
                 </ul>
             </div>
