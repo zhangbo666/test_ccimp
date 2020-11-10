@@ -231,7 +231,79 @@
 
                               {% if webConfigs.has_previous %}
 
-                                  {% if search_name %}
+                                  {% if search_name and search_key %}
+
+                                      {% if ws1 == webConfigs.number %}
+
+                                          <li class="active">
+
+                                              <a href="?search_name={{ search_name }}&search_key={{ search_key }}&page={{ ws1 }}">
+                                                  {{ ws1 }}
+                                              </a>
+
+                                          </li>
+
+                                      {% else %}
+
+                                          <li>
+
+                                              <a href="?search_name={{ search_name }}&search_key={{ search_key }}&page={{ ws1 }}">
+                                                  {{ ws1 }}
+                                              </a>
+
+                                          </li>
+
+                                      {% endif %}
+
+                                  {% elif search_name == "" and search_key == "" %}
+
+                                      {% if ws1 == webConfigs.number %}
+
+                                          <li class="active">
+
+                                              <a href="?search_name={{ search_name }}&search_key={{ search_key }}&page={{ ws1 }}">
+                                                  {{ ws1 }}
+                                              </a>
+
+                                          </li>
+
+                                      {% else %}
+
+                                          <li>
+
+                                              <a href="?search_name={{ search_name }}&search_key={{ search_key }}&page={{ ws1 }}">
+                                                  {{ ws1 }}
+                                              </a>
+
+                                          </li>
+
+                                      {% endif %}
+
+                                  {% elif search_name == "" %}
+
+                                      {% if ws1 == webConfigs.number %}
+
+                                          <li class="active">
+
+                                              <a href="?search_key={{ search_key }}&page={{ ws1 }}">
+                                                  {{ ws1 }}
+                                              </a>
+
+                                          </li>
+
+                                      {% else %}
+
+                                          <li>
+
+                                              <a href="?search_key={{ search_key }}&page={{ ws1 }}">
+                                                  {{ ws1 }}
+                                              </a>
+
+                                          </li>
+
+                                      {% endif %}
+
+                                  {% elif search_key == "" %}
 
                                       {% if ws1 == webConfigs.number %}
 
@@ -254,7 +326,6 @@
                                           </li>
 
                                       {% endif %}
-
 
                                   {% else %}
 
@@ -284,7 +355,79 @@
 
                               {% else %}
 
-                                  {% if search_name %}
+                                  {% if search_name and search_key %}
+
+                                      {% if ws1 == webConfigs.number %}
+
+                                          <li class="active">
+
+                                              <a href="?search_name={{ search_name }}&search_key={{ search_key }}&page={{ ws1 }}">
+                                                  {{ ws1 }}
+                                              </a>
+
+                                          </li>
+
+                                      {% else %}
+
+                                          <li>
+
+                                              <a href="?search_name={{ search_name }}&search_key={{ search_key }}&page={{ ws1 }}">
+                                                  {{ ws1 }}
+                                              </a>
+
+                                          </li>
+
+                                      {% endif %}
+
+                                  {% elif search_name == "" and search_key == "" %}
+
+                                      {% if ws1 == webConfigs.number %}
+
+                                          <li class="active">
+
+                                              <a href="?search_name={{ search_name }}&search_key={{ search_key }}&page={{ ws1 }}">
+                                                  {{ ws1 }}
+                                              </a>
+
+                                          </li>
+
+                                      {% else %}
+
+                                          <li>
+
+                                              <a href="?search_name={{ search_name }}&search_key={{ search_key }}&page={{ ws1 }}">
+                                                  {{ ws1 }}
+                                              </a>
+
+                                          </li>
+
+                                      {% endif %}
+
+                                  {% elif search_name == "" %}
+
+                                      {% if ws1 == webConfigs.number %}
+
+                                          <li class="active">
+
+                                              <a href="?search_key={{ search_key }}&page={{ ws1 }}">
+                                                  {{ ws1 }}
+                                              </a>
+
+                                          </li>
+
+                                      {% else %}
+
+                                          <li>
+
+                                              <a href="?search_key={{ search_key }}&page={{ ws1 }}">
+                                                  {{ ws1 }}
+                                              </a>
+
+                                          </li>
+
+                                      {% endif %}
+
+                                  {% elif search_key == "" %}
 
                                       {% if ws1 == webConfigs.number %}
 
