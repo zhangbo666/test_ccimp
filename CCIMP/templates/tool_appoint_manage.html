@@ -21,9 +21,10 @@
 
 </style>
 
-{% load static %}
+<!--{% load static %}-->
 
 {% include "common_top.html" %}
+
 <div class="container-fluid">
 
     <div class="row">
@@ -34,7 +35,9 @@
         <!--2020-09-29:15:07--张波修改-->
         <div style="margin-left: 135px;width: 1500px;" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
-            <h4 style="color: blue;">约课查询：</h4>
+            {% if type == "list" %}
+
+            <h4 style="color: blue;">约课数据查询：</h4>
 
             <div style="margin-top: 30px;">
 
@@ -44,6 +47,10 @@
                     data-keyboard="false" data-toggle="modal" data-target="#myModalAppointRecord"
                     style="margin-left: 20px;"
                     onclick="userAppointRecord()">约课记录查询
+                </button>
+                <button class="btn btn-info" type="submit" id="appointAdd"
+                        style="margin-left: 25px;"
+                        onclick="location.href='junior_appoint_add/'">添加1v1约课
                 </button>
 
             </div>
@@ -122,6 +129,16 @@
                     </div>
                 </div>
             </div>
+
+            {% endif %}
+
+            {% if type == "add" %}
+
+                {% block appointAdd %}
+
+                {% endblock %}
+
+            {% endif %}
 
         </div>
 

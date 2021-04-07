@@ -1,0 +1,281 @@
+{% extends "tool_appoint_manage.html" %}
+
+{% block appointAdd %}
+
+{% load  static %}
+
+<!--bootstrap-datetimepicker-->
+<!--<link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">-->
+<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-datetimepicker/4.17.47/bootstrap-datetimepicker.min.css' %}"/>
+
+<!--<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>-->
+
+<!--<script src="https://cdn.bootcss.com/moment.js/2.22.0/moment-with-locales.js"></script>-->
+<script type="text/javascript" src='{% static "js/bootstrap-datetimepicker/moment/2.22.0/moment-with-locales.js" %}'></script>
+
+<!--<script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>-->
+<script type="text/javascript" src='{% static "js/bootstrap-datetimepicker/4.17.47/bootstrap-datetimepicker.min.js" %}'></script>
+
+
+
+<style>
+    .op{
+        text-align: center;
+        width:25px;
+
+    }
+
+    .modal.fade.in{
+        top:15%;
+    }
+</style>
+
+{% load static %}
+
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title" style="color: blue;">添加1v1约课</h3>
+    </div>
+
+    <!--<div style="margin-top: 30px;">-->
+
+    <!--<label style="color: blue;">获取用户当前级别：</label>-->
+    <!--<input type="text" name="user_mobile" placeholder="手机号码" id="user_mobile" style="width: 100px;">-->
+    <!--<button class="btn btn-danger" type="submit" id="appointRecord"-->
+        <!--data-keyboard="false" data-toggle="modal" data-target="#myModalAppointRecord"-->
+        <!--style="margin-left: 20px;"-->
+        <!--onclick="userAppointRecord()">约课记录查询-->
+    <!--</button>-->
+
+    <!--</div>-->
+
+    <div class="box-body" style="margin-top: 25px;">
+
+        <div style="margin-top: 30px;">
+
+            <label style="color: blue;">用户手机：</label>
+            <input type="text" name="user_appoint_mobile" placeholder="输入用户手机号" id="user_appoint_mobile" style="width: 150px;">
+            <button class="btn btn-danger" type="submit" id="appointRecord"
+                style="margin-left: 20px;"
+                onclick="UserUidIfon()">查询用户获得UID
+            </button>
+
+        </div>
+
+        <!--<div class="form-group">-->
+        <div style="margin-top: 30px;">
+            <label style="color:darkmagenta;">学员UID：</label>
+            <input type="text" name="uid_name" id="uid_id" placeholder="学员UID" style="margin-left: 5px;width: 150px;"/>
+        </div>
+
+        <!--<div class="form-group">-->
+        <div>
+            <label style="margin-top: 20px;">1v1老师：</label>
+            <select name="tid_name" id="tid_id" class="select2" style="margin-left: 5px;width: 150px;">
+                <option value="0">请选择老师</option>
+                <option value="3694">BruklynBruklynBruklyn</option>
+                <option value="30">Garyqqq</option>
+                <option value="31">Hazel_nono</option>
+                <option value="32">Lane</option>
+                <option value="35">Bray-BL</option>
+                <option value="37">Jey</option>
+            </select>
+        </div>
+
+        <!--<div class="form-group">-->
+        <div>
+            <label style="margin-top: 20px;">财富数量：</label>
+            <select name="assert_sum" class="select2" style="width: 150px;">
+                <option value="num0">1</option>
+                <option value="num1">0.5</option>
+                <option value="num2">2</option>
+                <option value="num3">3</option>
+                <option value="num4">4</option>
+                <option value="num5">5</option>
+            </select>
+        </div>
+
+        <div class="form-inline" style="margin-top: 20px;">
+            <div class="form-group">
+                <label>约课开始日期：</label>
+                <input type="text" name="start_date" id="datetimepicker1" class="timeInpdut form-control" placeholder="开始日期"
+                       style="width: 200px;"/>
+            </div>
+
+            <div class="form-group">
+            <label style="margin-left: 20px;">开始时间：</label>
+                <select name="start_time" class="select2" id="start_time_id">
+                <option value="0">请选择开始时间</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-inline" style="margin-top: 20px;">
+            <div class="form-group">
+                <label>约课结束日期：</label>
+                <input type="text" name="end_date" id="datetimepicker2" class="timeInpdut form-control" placeholder="结束日期"
+                       style="width: 200px;"/>
+            </div>
+
+            <div class="form-group">
+            <label style="margin-left: 20px;">结束时间：</label>
+                <select name="end_time" class="select2" id="end_time_id">
+                <option value="0">请选择结束时间</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="c_cate_id1">
+            <label style="margin-top: 20px;">一级教材：</label>
+            <select name="j_cate_id1_name" id="j_cate_id1_id" class="form-control select2" style="width: 263px;">
+                <option value="0">请选择</option>
+            </select>
+        </div>
+
+        <div class="c_cate_id2">
+            <label style="margin-top: 20px;">二级教材：</label>
+            <select name="j_cate_id2_name" id="j_cate_id2_id" class="form-control select2" style="width: 263px;">
+                <option value="0">请选择</option>
+            </select>
+        </div>
+
+
+        <div class="book_id">
+            <label style="margin-top: 20px;">三级教材：</label>
+            <select name="j_cate_id3_name" id="j_cate_id3_id" class="form-control select2" style="width: 264px;">
+                <option value="0">请选择</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<button class="btn btn-info" type="submit" id="openClass"
+        style="margin-top: 50px;"
+        onclick="return saveAppointRecord()">确定</button>
+
+<button style="margin-left: 20px;margin-top: 50px;" onclick="location.href='/tool/appoint_manage/';"
+        class="btn">返回</button>
+
+<!--查看日志的模态框（Modal）-->
+<div class="modal fade bs-example-modal-lg" id="myModalUserSmsContent" tabindex="1"
+     role="dialog" aria-labelledby="myModalUserSms" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="overflow:scroll;width:800px;">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
+                </button>
+                <h4 class="modal-title" id="myModalSmsLabel" style="color:blue;">短信内容：</h4>
+
+            </div>
+
+            <div class="modal-body" id="modalUserSmsContent" style="height:300px;">
+
+                <div class="table-responsive">
+
+                    <p style="color:blue">短信验证码：</p>
+                    <textarea class="smsCode" id="sms_code" name="sms_code" style="width: 400px;"></textarea>
+
+                    <br><br>
+
+                    <p style="color:blue">注册后短信内容：</p>
+                    <textarea class="smsContent" rows="3" id="sms_content" name="sms_content" style="width: 700px;height: 180px;"></textarea>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!--引用本地js文件-->
+<script type="text/javascript" src="{% static 'js/appointRecord/appointRecordEdit.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/appointRecord/appointRecordInfo.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/appointRecord/appointRecordStartEndTime.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/appointRecord/saveAppointRecord.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/appointRecord/textJuniorBookInfo.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/appointRecord/userUidInfo.js' %}"></script>
+
+<!--select2样式库-->
+<!--<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet">-->
+<link rel="stylesheet" type="text/css" href="{% static 'css/select2/4.0.7/select2.min.css' %}"/>
+
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>-->
+<script type="text/javascript" src="{% static 'js/select2/4.0.7/select2.min.js' %}"></script>
+
+
+<script type="text/javascript">
+
+    /*初始化开始时间列表*/
+    SelectStartTimeInit();
+
+    /*初始化结束时间列表*/
+    SelectEndTimeInit();
+
+    /*初始化青少教材列表*/
+//    SelectJuniorBookInit();
+
+    /*初始化时间控件*/
+    $(function() {
+        // $('#form1').hide();
+        var picker1 = $('#datetimepicker1').datetimepicker({
+            format: 'YYYY-MM-DD HH:MM',
+            locale: moment.locale('zh-cn')
+        });
+
+        var picker2 = $('#datetimepicker2').datetimepicker({
+            format: 'YYYY-MM-DD HH:MM',
+            locale: moment.locale('zh-cn')
+        });
+
+        //动态设置最小值
+//         picker1.on('dp.change', function(e) {
+//         	picker2.data('DateTimePicker').minDate(e.date);
+//         });
+
+        //动态设置最大值
+//         picker2.on('dp.change', function(e) {
+//         	picker1.data('DateTimePicker').maxDate(e.date);
+//         });
+    });
+
+    $('#datetimepicker1').datetimepicker({
+        format: 'YYYY-MM-DD',
+        locale: moment.locale('zh-cn'),
+        minDate:'2000-01-01',
+        showClose:true,
+//        calendarWeeks:true,
+//        viewMode:'years',
+//        toolbarPlacement:'top'
+        showTodayButton:true,
+        showClear:true
+//        defaultDate:"2010-10-01"
+    });
+
+    $('#datetimepicker2').datetimepicker({
+        format: 'YYYY-MM-DD',
+        locale: moment.locale('zh-cn'),
+        minDate:'2000-01-01',
+        showClose:true,
+//        calendarWeeks:true,
+//        viewMode:'years',
+//        toolbarPlacement:'top'
+        showTodayButton:true,
+        showClear:true
+//        defaultDate:"2010-10-01"
+});
+
+
+</script>
+
+
+
+{% endblock %}

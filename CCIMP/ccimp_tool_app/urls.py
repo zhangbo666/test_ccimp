@@ -88,6 +88,17 @@ urlpatterns = [
     #约课管理
     path('appoint_manage/',views.appoint_manage),
 
+    #添加1v1约课
+    path('appoint_manage/junior_appoint_add/',views.tool_appoint_add),
+
+    # 2021-03-26:张波修改
+    #获取开始时间list
+    path('appoint_manage/api/getSelectStartTimeData', views.getSelectStartTimeData),
+
+    # 2021-03-26:张波修改
+    # 获取结束时间list
+    path('appoint_manage/api/getSelectEndTimeData', views.getSelectEndTimeData),
+
     # 2020-10-21:张波修改
     # 获取用户约课记录
     path('appoint_manage/get_user_appoint_record/', views.get_user_appoint_record),
@@ -99,6 +110,14 @@ urlpatterns = [
     # 2020-10-21:张波修改
     # 约课课程状态修改
     path('appoint_manage/api/appoint_record', views.appoint_record),
+
+    # 2021-03-31:张波修改
+    # 获取用户id和初始化教材库
+    path('appoint_manage/api/get_user_query_uid', views.get_user_query_uid),
+
+    # 2021-03-31:张波修改
+    # 获取青少教材list
+    path('appoint_manage/api/getSelectJuniorTextBookData', views.getSelectJuniorTextBookData),
 
 
     #公开课

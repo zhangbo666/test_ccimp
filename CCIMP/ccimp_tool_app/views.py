@@ -40,6 +40,10 @@ from externalClass.appoint.appointConfig import *
 from externalClass.ssoIdentity import ssoIdentity
 from externalClass.ssoH5 import ssoH5_modify,ssoH5_query
 
+from externalClass import getStartTimeData
+from externalClass import getEndTimeData
+from externalClass import getJuniorTextBookInfo
+
 from db_config.talkQueryUserOrder import talk_query_user_order_success
 from db_config.talkQueryUserInfo import talk_query_user_info_detail_success
 from db_config.talkQueryUserInfo import talk_query_user_info_id_success
@@ -58,14 +62,16 @@ from db_config.talkQueryAppointInfo import talk_query_appoint_info_id_success
 from db_config.talkQueryAppointInfo import talk_update_appoint_info_start_time_end_time_success
 from db_config.talkQueryAppointInfo import talkplatform_appoint_reconstruction_update_appoint_info_start_time_end_time_success
 
+from db_config.kidsQueryUserKidsExt import kids_query_user_kids_ext_info_detail_success
 
-from db_config.db_config import *
+from db_config.dbConfig import *
 
 
 
 import json
 import time
 import requests
+import operator
 
 from datetime import datetime,timedelta
 
@@ -79,8 +85,10 @@ from externalClass.orderOnConfig import *
 
 '''###############################################################################'''
 #定义全局变量
-requestSession = ''
-mobileGlobal = ''
+requestSession  = ''
+mobileGlobal    = ''
+appointGlobal   = ''
+userLevelGlobal = ''
 
 
 '''###############################################################################'''
@@ -1248,6 +1256,9 @@ def open_class_add(request):
         open_class_start_time = request.POST.get("openClassStartTime", "")
         open_class_end_time = request.POST.get("openClassEndTime", "")
 
+        # print ("open_class_start_time",open_class_start_time)
+        # print ("open_class_end_time",open_class_end_time)
+
         open_class_start_time = open_class_start_time + ":00"
         open_class_end_time   = open_class_end_time + ":00"
         # print (open_class_start_time)
@@ -1270,27 +1281,41 @@ def open_class_add(request):
 
 
         #公开课能预约开始时间(str)
-        appoint_start_time = datetime.utcfromtimestamp(time.time() + 29000)
+        # appoint_start_time = datetime.utcfromtimestamp(time.time() + 29000)
+        # print ("datetime.utcfromtimestamp(time.time()",datetime.utcfromtimestamp(time.time()))
         # print ("appoint_start_time-->",appoint_start_time,type(appoint_start_time))
-        appoint_start_time = appoint_start_time.strftime('%Y-%m-%d %H:%M:%S')
+        # appoint_start_time = appoint_start_time.strftime('%Y-%m-%d %H:%M:%S')
         # print ("appoint_start_time-->",appoint_start_time,type(appoint_start_time))
 
 
         # 公开课能预约结束时间(str)
-        appoint_end_time = datetime.now().date() + timedelta(days=7)
+        # appoint_end_time = datetime.now().date() + timedelta(days=7)
+        # print ("datetime.now().date()",datetime.now().date())
         # print ("appoint_end_time-->",appoint_end_time,type(appoint_end_time))
-        appoint_end_time = appoint_end_time.strftime('%Y-%m-%d %H:%M:%S')
+        # appoint_end_time = appoint_end_time.strftime('%Y-%m-%d %H:%M:%S')
         # print ("appoint_end_time-->",appoint_end_time,type(appoint_end_time))
 
 
         open_class_start_time_1 = datetime.strptime(open_class_start_time, "%Y-%m-%d %H:%M:%S")
-        appoint_end_time_1 = datetime.strptime(appoint_end_time, "%Y-%m-%d %H:%M:%S")
+        # print ("open_class_start_time_1",open_class_start_time_1,type(open_class_start_time_1))
 
-        time_seconds_int = int((open_class_start_time_1 - appoint_end_time_1).total_seconds())
+        open_class_end_time_1 = datetime.strptime(open_class_end_time, "%Y-%m-%d %H:%M:%S")
+        # print ("open_class_end_time_1",open_class_end_time_1,type(open_class_end_time_1))
 
-        if (time_seconds_int >= 0):
+        # appoint_end_time_1 = datetime.strptime(appoint_end_time, "%Y-%m-%d %H:%M:%S")
+        # print ("appoint_end_time_1",appoint_end_time_1,type(appoint_end_time_1))
+
+        #开课时间不能大于7天
+        # time_seconds_int = int((open_class_start_time_1 - appoint_end_time_1).total_seconds())
+        time_seconds_int = int((open_class_end_time_1 - open_class_start_time_1).total_seconds())
+        # print ("time_seconds_int",time_seconds_int)
+
+        if (time_seconds_int >= 604801):
 
             return JsonResponse({"status": 10003, "message": "公开课开课时间不能大于7天"})
+
+        appoint_start_time = open_class_start_time
+        appoint_end_time   = open_class_end_time
 
         #接口调用传值
         addAppointOpenClassData = {
@@ -1339,13 +1364,13 @@ def open_class_add(request):
 
         #由字符串格式转化为日期格式的函数为: datetime.datetime.strptime()
         appoint_start_time = datetime.strptime(appoint_start_time, "%Y-%m-%d %H:%M:%S")
-        print (appoint_start_time,type(appoint_start_time))
+        # print (appoint_start_time,type(appoint_start_time))
 
         current_now_time_y_m_d = datetime.strptime(current_now_time_y_m_d, "%Y-%m-%d %H:%M:%S")
-        print (current_now_time_y_m_d,type(current_now_time_y_m_d))
+        # print (current_now_time_y_m_d,type(current_now_time_y_m_d))
 
         seconds_int = int((appoint_start_time - current_now_time_y_m_d).total_seconds())
-        print (seconds_int)
+        # print (seconds_int)
 
         if (seconds_int >= 0):
 
@@ -1370,7 +1395,7 @@ def open_class_add(request):
         else:
 
             open_class_result_json = requests.post(url=addAppointOpenClassUrl, data=addAppointOpenClassData)
-            # print(open_class_result_json.json())
+            print(open_class_result_json.json())
 
             open_class_result_code = int(open_class_result_json.json()['code'])
             # print(open_class_result_code)
@@ -1641,6 +1666,164 @@ def appoint_record(request):
             return JsonResponse({"status_code": 10102,"message":"课程更新出错"})
 
 
+
+
+
+'''###############################################################################'''
+#2021-03-31:张波修改
+#获取用户id
+@auth
+def get_user_query_uid(request):
+
+    if request.method == "POST":
+
+        user_appoint_mobile = request.POST.get("userAppointMobile","")
+
+        #全局变量赋值
+        # global mobileGlobal
+        # mobileGlobal = user_mobile
+
+        # 1:用户手机号不能为空！;2:手机号位数输入错误，请重新输入！;3:手机号格式输入错误，请重新输入！;4:正常
+        mobile_result_tag = mobileNumberFormatValidity(user_appoint_mobile)
+        # print ("mobile_result_tag",mobile_result_tag)
+
+        if mobile_result_tag == 1:
+
+            # return HttpResponse("用户手机号不能为空！")
+            return JsonResponse({"status_code": 10101,
+                                 "message": "手机号不能为空！"})
+
+        elif mobile_result_tag == 2:
+
+            # return HttpResponse("手机号位数输入错误，请重新输入！")
+            return JsonResponse({"status_code": 10102,
+                                 "message": "手机号位数输入错误，请重新输入！"})
+
+        elif mobile_result_tag == 3:
+
+            # return HttpResponse("手机号格式输入错误，请重新输入！")
+            return JsonResponse({"status_code": 10103,
+                                 "message": "手机号格式输入错误，请重新输入！"})
+
+        #全局变量赋值
+        global appointGlobal
+        appointGlobal = user_appoint_mobile
+
+        userId = talk_query_user_info_id_success(user_appoint_mobile)
+
+        if userId == ():
+
+            return JsonResponse({"status_code": 10104,"message":"该学员对应的userid为空"})
+
+        user_current_level = ""
+
+        user_is_buy        = ""
+
+        userInfo = talk_query_user_info_detail_success(user_appoint_mobile)
+
+        for u1 in userInfo:
+
+            for key, values in sorted(u1.items(), key=operator.itemgetter(0)):
+
+                if key == "is_buy":
+
+                    user_is_buy = str(values)
+
+                if key == "current_level":
+
+                    user_current_level = str(values)
+
+        if user_current_level == "":
+
+            return JsonResponse({"status": 10105, "data": "接口获取正确", "message": "该用户还未设置当前级别，不能约付费课！"})
+
+
+        #全局变量赋值
+        global userLevelGlobal
+        userLevelGlobal = user_current_level
+
+
+        if user_is_buy == "free":
+
+            return JsonResponse({"status": 10106, "data": "接口获取正确", "message":"该用户为体验用户，不能约付费课！"})
+
+        user_role_result = getUserRole(userId)
+
+        if user_role_result != 11:
+
+            return JsonResponse({"status_code": 10107,"data": "接口获取正确","message":
+                                 "该学员不是青少用户，暂时不能约青少课 或者 "
+                                 "（成人/青少）双重身份也暂时不能约"})
+
+        #获取talk约课记录
+        # talk_appoint_info_result = getTalkAppointInfo(userId,limit_appoint_sum)
+
+        #获取talkplatform_appoint_reconstruction约课记录
+        # talkplatform_appoint_reconstruction_appoint_info_result = getTalkPlatformAppointReconstructionAppointInfo(userId,limit_appoint_sum)
+        # print (talkplatform_appoint_reconstruction_appoint_info_result)
+
+        # if talk_appoint_info_result == [] and talkplatform_appoint_reconstruction_appoint_info_result == []:
+
+            # return JsonResponse({"status_code": 10105,"message":"该学员约课信息在php库与平台库查询为空"})
+
+        # elif talk_appoint_info_result == []:
+
+            # return JsonResponse({"status_code": 10106, "message": "该学员约课信息在php库查询为空"})
+
+        # elif talkplatform_appoint_reconstruction_appoint_info_result == []:
+
+            # return JsonResponse({"status_code": 10107, "message": "该学员约课信息在平台库查询为空"})
+
+        # return JsonResponse({"status_code": 10200,
+        #                      "result": {"data":"接口获取正确"}})
+
+        return JsonResponse({"status_code": 10200, "data": "接口获取正确",
+                             "uid":userId,"userRole":user_role_result})
+
+
+'''###############################################################################'''
+#获得青少教材list数据
+@auth
+def getSelectJuniorTextBookData(request):
+
+    if request.method == "GET":
+
+        # c_cate1_textbook_limit_sum = openClassOneTextBookConfig()
+        # c_cate2_textbook_limit_sum = openClassTwoTextBookConfig()
+        # c_cate3_textbook_limit_sum = openClassThreeTextBookConfig()
+
+        # userInfo = talk_query_user_info_detail_success(appointGlobal)
+        # print (userInfo)
+        #
+        # for u1 in userInfo:
+        #
+        #     for key, values in sorted(u1.items(), key=operator.itemgetter(0)):
+        #
+        #         if key == "current_level":
+        #
+        #             user_current_level = str(values)
+
+        textjuniorbookinfo_result_list = getJuniorTextBookInfo.getJuniorTextBookInfo(userLevelGlobal)
+
+        textjuniorbookinfo_result_no = {}
+
+        if textjuniorbookinfo_result_list == ():
+
+            textjuniorbookinfo_result_no = {
+
+                "info": "该用户获取不到青少教材，查询无结果",
+            }
+
+            return JsonResponse({"status": 10100, "message": "success", "data": textjuniorbookinfo_result_no})
+
+        else:
+
+            return JsonResponse({"status": 10200, "message": "success", "data": textjuniorbookinfo_result_list})
+
+
+
+
+
 '''###############################################################################'''
 #2020-07-25:张波修改
 #sso身份修改
@@ -1784,23 +1967,252 @@ def appoint_manage(request):
                     return render(request,"tool_appoint_manage.html",
                                   {"username":get_username,
                                    "type_option_admin":"permission_sap",
+                                   "type": "list",
                                    "aTag_":"2"})
 
                 elif user.permission_options == 2:
 
                     return render(request,"tool_appoint_manage.html",
                                   {"username":get_username,
+                                   "type": "list",
                                    "aTag_":"2"})
 
                 elif user.permission_options == 3:
 
                     return render(request,"tool_appoint_manage.html",
                                   {"username":get_username,
+                                   "type": "list",
                                    "aTag_":"2"})
 
 
 '''###############################################################################'''
+#1v1课约课
+@auth
+def tool_appoint_add(request):
+
+    '''1v1课约课'''
+
+    get_username = request.session.get('user', '')
+
+    if request.method == "GET":
+
+        user = User.objects.get(user_name=get_username)
+
+        if user.user_name == get_username:
+
+            if user.permission_options == 1:
+
+                    return render(request,"junior_appoint_add.html",
+                                  {"username":get_username,
+                                   "type":"add",
+                                   "type_option_admin":"permission_sap",
+                                   "aTag_":"2"})
+
+            elif user.permission_options == 2:
+
+                    return render(request,"junior_appoint_add.html",
+                                  {"username":get_username,
+                                   "type":"add",
+                                   "aTag_":"2"})
+
+            elif user.permission_options == 3:
+
+                    return render(request, "junior_appoint_add.html",
+                                  {"username": get_username,
+                                   "aTag_": "2",
+                                   "type": "add"})
+
+        else:
+
+            pass
+
+    else:
+
+        uid_name = request.POST.get("uidName", "")
+        tid_name = request.POST.get("tidName", "")
+        assert_sum = request.POST.get("assertSum", "")
+        start_date = request.POST.get("startDate", "")
+        start_time = request.POST.get("startTime", "")
+        end_date = request.POST.get("endDate", "")
+        end_time = request.POST.get("endTime", "")
+        start_appoint_time = request.POST.get("startAppointTime", "")
+        end_appoint_time = request.POST.get("endAppointTime", "")
+        junior_book_text1_name = request.POST.get("juniorBookText1Name", "")
+        junior_book_text2_name = request.POST.get("juniorBookText2Name", "")
+        junior_book_text3_name = request.POST.get("juniorBookText3Name", "")
+
+        start_appoint_time = start_appoint_time + ":00"
+        end_appoint_time   = end_appoint_time   + ":00"
+        # print (start_appoint_time)
+        # print (end_appoint_time)
+
+        start_appoint_time_compare = datetime.strptime(start_appoint_time, "%Y-%m-%d %H:%M:%S")
+        end_appoint_time_compare = datetime.strptime(end_appoint_time, "%Y-%m-%d %H:%M:%S")
+
+        time_seconds_int = int((end_appoint_time_compare - start_appoint_time_compare).total_seconds())
+
+        if (time_seconds_int <= 600 ):
+
+            return JsonResponse({"status": 10002, "message": "开课时间不能小于10分钟"})
+
+        addAppointOpenClassUrl = "http://172.16.16.97/talkplatform_course_consumer/course_open_class/add_course_info"
+
+        # c_course_costs = [{"cost_type":cost_type_name,"code_item_id":code_item_id_name,"code_num":code_num_name,"priority":priority_name}]
+
+        # c_course_costs = json.dumps(c_course_costs)
 
 
+        #公开课能预约开始时间(str)
+        # appoint_start_time = datetime.utcfromtimestamp(time.time() + 29000)
+        # print ("datetime.utcfromtimestamp(time.time()",datetime.utcfromtimestamp(time.time()))
+        # print ("appoint_start_time-->",appoint_start_time,type(appoint_start_time))
+        # appoint_start_time = appoint_start_time.strftime('%Y-%m-%d %H:%M:%S')
+        # print ("appoint_start_time-->",appoint_start_time,type(appoint_start_time))
+
+
+        # 公开课能预约结束时间(str)
+        # appoint_end_time = datetime.now().date() + timedelta(days=7)
+        # print ("datetime.now().date()",datetime.now().date())
+        # print ("appoint_end_time-->",appoint_end_time,type(appoint_end_time))
+        # appoint_end_time = appoint_end_time.strftime('%Y-%m-%d %H:%M:%S')
+        # print ("appoint_end_time-->",appoint_end_time,type(appoint_end_time))
+
+
+        # open_class_start_time_1 = datetime.strptime(open_class_start_time, "%Y-%m-%d %H:%M:%S")
+        # print ("open_class_start_time_1",open_class_start_time_1,type(open_class_start_time_1))
+
+        # open_class_end_time_1 = datetime.strptime(open_class_end_time, "%Y-%m-%d %H:%M:%S")
+        # print ("open_class_end_time_1",open_class_end_time_1,type(open_class_end_time_1))
+
+        # appoint_end_time_1 = datetime.strptime(appoint_end_time, "%Y-%m-%d %H:%M:%S")
+        # print ("appoint_end_time_1",appoint_end_time_1,type(appoint_end_time_1))
+
+        #开课时间不能大于7天
+        # time_seconds_int = int((open_class_start_time_1 - appoint_end_time_1).total_seconds())
+        # time_seconds_int = int((open_class_end_time_1 - open_class_start_time_1).total_seconds())
+        # print ("time_seconds_int",time_seconds_int)
+
+        # if (time_seconds_int >= 604801):
+
+            # return JsonResponse({"status": 10003, "message": "公开课开课时间不能大于7天"})
+
+        # appoint_start_time = open_class_start_time
+        # appoint_end_time   = open_class_end_time
+
+        #接口调用传值
+        # addAppointOpenClassData = {
+        #     "name": open_class_name,
+        #     "name_en": "csopenclass",
+        #     "name_zh": open_class_name,
+        #     "intro": "测试公共课勿动",
+        #     "intro_desc": "zb",
+        #     "description": "测试公开课",
+        #     "content": "zb",
+        #     "cover": "zb.jpg",
+        #     "sort": "10",
+        #     "book_type": book_type_name,
+        #     "book_id": book_text_name_3,
+        #     "capacity": capacity_name,
+        #     "course_type": course_type_name,
+        #     "c_cate_id1": book_text_name_1,
+        #     "c_cate_id2": book_text_name_2,
+        #     "c_enlevel_id": "1",
+        #     "c_occup_id": "1",
+        #     "c_tea_ids": teacher_name,
+        #     "c_course_costs": c_course_costs,
+        #     "appoint_start_time": appoint_start_time,
+        #     "appoint_end_time": appoint_end_time,
+        #     "start_time": open_class_start_time,
+        #     "end_time": open_class_end_time,
+        #     "is_recommend": "1",
+        #     "study_type": "0",
+        #     "get_skill": "技能测试",
+        #     "class_state": "1",
+        #     "status": "1",
+        #     "admin_id": "1",
+        #     "occup_people": "0",
+        #     "stu_type": "junior",
+        #     "tea_type": "1",
+        #     "sdk_type": "8",
+        #     "tag": "公开课 测试课",
+        #     "channel[]": "51talk-web"
+        # }
+
+        # 转换为datetime.datetime类型
+        # current_now_time = datetime.now()
+
+        # 转换为str类型
+        # current_now_time_y_m_d = current_now_time.strftime('%Y-%m-%d %H:%M:%S')
+
+        #由字符串格式转化为日期格式的函数为: datetime.datetime.strptime()
+        # appoint_start_time = datetime.strptime(appoint_start_time, "%Y-%m-%d %H:%M:%S")
+        # print (appoint_start_time,type(appoint_start_time))
+
+        # current_now_time_y_m_d = datetime.strptime(current_now_time_y_m_d, "%Y-%m-%d %H:%M:%S")
+        # print (current_now_time_y_m_d,type(current_now_time_y_m_d))
+
+        # seconds_int = int((appoint_start_time - current_now_time_y_m_d).total_seconds())
+        # print (seconds_int)
+
+        # if (seconds_int >= 0):
+
+            # open_class_result_json = requests.post(url=addAppointOpenClassUrl, data=addAppointOpenClassData)
+            # print(open_class_result_json.json())
+
+            # open_class_result_code = int(open_class_result_json.json()['code'])
+            # print(open_class_result_code)
+            # print(type(open_class_result_code))
+
+            # open_class_result_message = open_class_result_json.json()['message']
+
+
+            # if open_class_result_code == 10000:
+
+                # return JsonResponse({"status": 200, "message": "公开课开课成功！"})
+
+            # else:
+
+                # return JsonResponse({"status": 10000, "message": open_class_result_message})
+
+        # else:
+
+            # open_class_result_json = requests.post(url=addAppointOpenClassUrl, data=addAppointOpenClassData)
+            # print(open_class_result_json.json())
+
+            # open_class_result_code = int(open_class_result_json.json()['code'])
+            # print(open_class_result_code)
+            # print(type(open_class_result_code))
+
+            # open_class_result_message = open_class_result_json.json()['message']
+
+            # if open_class_result_code == 10030:
+
+                # return JsonResponse({"status": 10001, "message": open_class_result_message})
+
+
+        HttpResponse("测试")
+
+'''###############################################################################'''
+#获得开始时间list数据
+@auth
+def getSelectStartTimeData(request):
+
+    if request.method == "GET":
+
+        startTimeinfo_result_list = getStartTimeData.selectStartTime()
+
+        return JsonResponse({"status": 10200, "message": "success", "data": startTimeinfo_result_list})
+
+
+'''###############################################################################'''
+#获得结束时间list数据
+@auth
+def getSelectEndTimeData(request):
+
+    if request.method == "GET":
+
+        endTimeinfo_result_list = getEndTimeData.selectEndTime()
+
+        return JsonResponse({"status": 10200, "message": "success", "data": endTimeinfo_result_list})
 
 

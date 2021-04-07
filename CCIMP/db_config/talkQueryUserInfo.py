@@ -2,7 +2,7 @@
 #encoding:utf-8
 
 from time import sleep
-from db_config.db_config import *
+from db_config.dbConfig import *
 import operator
 
 

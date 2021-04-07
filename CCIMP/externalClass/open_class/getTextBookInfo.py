@@ -132,6 +132,7 @@ def getTextBookInfo(c_cate1_textbook_limit_sum,c_cate2_textbook_limit_sum,c_cate
 
 if __name__ == '__main__':
 
+
     c_cate1_list = getTextBookInfo(c_cate1_textbook_limit_sum,c_cate2_textbook_limit_sum,c_cate3_textbook_limit_sum)
 
     # print (c_cate1_list)

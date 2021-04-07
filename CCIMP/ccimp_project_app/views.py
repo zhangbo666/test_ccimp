@@ -15,12 +15,17 @@ from ccimp_user_app.models.userModels import User
 from ccimp_permission_app.models.permissionClassModels import PermissionClass
 from ccimp_user_app.views import auth
 
+from django.views.decorators.cache import cache_page
+
 from datetime import datetime
 import time
+
+
 
 '''###############################################################################'''
 # 登录成功，默认项目管理页
 @auth
+@cache_page(10)
 def project_manage(request):
 
     '''登录成功，默认项目管理页'''
@@ -36,7 +41,7 @@ def project_manage(request):
     for user in users:
 
         projects = Project.objects.filter(user_id=user.id)
-        print(type(projects))
+        # print(type(projects))
         paginator = Paginator(projects,5)
 
         # 最大分几页数字表示

@@ -3,7 +3,7 @@ __author__ = 'zhangbo'
 ##!usr/bin/python
 #encoding:utf-8
 
-from db_config.db_config import *
+from db_config.dbConfig import *
 import operator
 
 
