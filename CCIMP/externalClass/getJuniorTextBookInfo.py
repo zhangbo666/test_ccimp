@@ -11,7 +11,7 @@ import operator
 import json
 
 
-def getJuniorTextBookInfo(current_level):
+def getJuniorTextBookInfo(current_level,gradeGlobal):
 
     book_id_id = 0
     book_id_name = ''
@@ -37,155 +37,337 @@ def getJuniorTextBookInfo(current_level):
 
         for key,values in sorted(aa.items(),key=operator.itemgetter(0)):
 
-            if current_level == "0":
+            if gradeGlobal == "-4" or gradeGlobal == "-3" or gradeGlobal == "-2":
 
-                if key == "id":
+                if current_level == "0":
 
-                   if values == 769941:
+                    if key == "id":
 
-                       aa.clear()
+                       if values == 769941:
 
-                   if values == 772051:
+                           aa.clear()
 
-                       aa.clear()
+                       if values == 772051:
 
-                   if values == 772061:
+                           aa.clear()
 
-                       aa.clear()
+                       if values == 772061:
 
-                   if values == 796041:
+                           aa.clear()
 
-                       aa.clear()
+                       if values == 796041:
 
-                   if values == 797021:
+                           aa.clear()
 
-                       aa.clear()
+                       if values == 797021:
 
-                   if values == 796051:
+                           aa.clear()
 
-                       aa.clear()
+                       if values == 796051:
 
-            elif current_level == "1":
+                           aa.clear()
 
-                if key == "id":
+                elif current_level == "1":
 
-                    if values == 772051:
+                    if key == "id":
 
-                       aa.clear()
+                        if values == 772051:
 
-                    if values == 772061:
+                           aa.clear()
 
-                       aa.clear()
+                        if values == 772061:
 
-                    if values == 796041:
+                           aa.clear()
 
-                       aa.clear()
+                        if values == 796041:
 
-                    if values == 797021:
+                           aa.clear()
 
-                       aa.clear()
+                        if values == 797021:
 
-                    if values == 796051:
+                           aa.clear()
 
-                       aa.clear()
+                        if values == 796051:
 
-            elif current_level == "2":
+                           aa.clear()
 
-                if key == "id":
+                elif current_level == "2":
 
-                    if values == 772061:
+                    if key == "id":
 
-                        aa.clear()
+                        if values == 772061:
 
-                    if values == 796041:
+                            aa.clear()
 
-                        aa.clear()
+                        if values == 796041:
 
-                    if values == 797021:
+                            aa.clear()
 
-                        aa.clear()
+                        if values == 797021:
 
-                    if values == 796051:
+                            aa.clear()
 
-                        aa.clear()
+                        if values == 796051:
 
-            elif current_level == "3":
+                            aa.clear()
 
-                if key == "id":
+                elif current_level == "3":
 
-                    if values == 796041:
+                    if key == "id":
 
-                        aa.clear()
+                        if values == 796041:
 
-                    if values == 797021:
+                            aa.clear()
 
-                        aa.clear()
+                        if values == 797021:
 
-                    if values == 796051:
+                            aa.clear()
 
-                        aa.clear()
+                        if values == 796051:
 
-            elif current_level == "4":
+                            aa.clear()
 
-                if key == "id":
+                elif current_level == "4":
 
-                    if values == 797021:
+                    if key == "id":
 
-                        aa.clear()
+                        if values == 797021:
 
-                    if values == 796051:
+                            aa.clear()
 
-                        aa.clear()
+                        if values == 796051:
 
+                            aa.clear()
 
-            elif current_level == "5":
 
-                if key == "id":
+                elif current_level == "5":
 
-                    if values == 796051:
+                    if key == "id":
 
-                        aa.clear()
+                        if values == 796051:
 
-            elif current_level  == "-1":
+                            aa.clear()
 
-                if key == "id":
+                elif current_level == "6":
 
-                   if values  == 773011:
+                    if key == "id":
 
-                       aa.clear()
+                        if values == 796051:
 
-                   if values == 769941:
+                            pass
 
-                       aa.clear()
+                elif current_level  == "-1":
 
-                   if values == 772051:
+                    if key == "id":
 
-                       aa.clear()
+                       if values  == 773011:
 
-                   if values == 772061:
+                           aa.clear()
 
-                       aa.clear()
+                       if values == 769941:
 
-                   if values == 796041:
+                           aa.clear()
 
-                       aa.clear()
+                       if values == 772051:
 
-                   if values == 797021:
+                           aa.clear()
 
-                       aa.clear()
+                       if values == 772061:
 
-                   if values == 796051:
+                           aa.clear()
 
-                       aa.clear()
+                       if values == 796041:
 
+                           aa.clear()
 
-    print(t2_result)
+                       if values == 797021:
+
+                           aa.clear()
+
+                       if values == 796051:
+
+                           aa.clear()
+
+            else:
+
+                if current_level == "0":
+
+                    if key == "id":
+
+                       if values == 769941:
+
+                           aa.clear()
+
+                       if values == 772051:
+
+                           aa.clear()
+
+                       if values == 772061:
+
+                           aa.clear()
+
+                       if values == 796041:
+
+                           aa.clear()
+
+                       if values == 797021:
+
+                           aa.clear()
+
+                       if values == 796051:
+
+                           aa.clear()
+
+                       if values == 1084111:
+
+                           aa.clear()
+
+                elif current_level == "1":
+
+                    if key == "id":
+
+                        if values == 772051:
+
+                           aa.clear()
+
+                        if values == 772061:
+
+                           aa.clear()
+
+                        if values == 796041:
+
+                           aa.clear()
+
+                        if values == 797021:
+
+                           aa.clear()
+
+                        if values == 796051:
+
+                           aa.clear()
+
+                        if values == 1084111:
+
+                           aa.clear()
+
+                elif current_level == "2":
+
+                    if key == "id":
+
+                        if values == 772061:
+
+                            aa.clear()
+
+                        if values == 796041:
+
+                            aa.clear()
+
+                        if values == 797021:
+
+                            aa.clear()
+
+                        if values == 796051:
+
+                            aa.clear()
+
+                        if values == 1084111:
+
+                            aa.clear()
+
+                elif current_level == "3":
+
+                    if key == "id":
+
+                        if values == 796041:
+
+                            aa.clear()
+
+                        if values == 797021:
+
+                            aa.clear()
+
+                        if values == 796051:
+
+                            aa.clear()
+
+                        if values == 1084111:
+
+                            aa.clear()
+
+                elif current_level == "4":
+
+                    if key == "id":
+
+                        if values == 797021:
+
+                            aa.clear()
+
+                        if values == 796051:
+
+                            aa.clear()
+
+                        if values == 1084111:
+
+                            aa.clear()
+
+                elif current_level == "5":
+
+                    if key == "id":
+
+                        if values == 796051:
+
+                            aa.clear()
+
+                        if values == 1084111:
+
+                            aa.clear()
+
+                elif current_level == "6":
+
+                    if key == "id":
+
+                        if values == 1084111:
+
+                            aa.clear()
+
+                elif current_level  == "-1":
+
+                    if key == "id":
+
+                       if values  == 773011:
+
+                           aa.clear()
+
+                       if values == 769941:
+
+                           aa.clear()
+
+                       if values == 772051:
+
+                           aa.clear()
+
+                       if values == 772061:
+
+                           aa.clear()
+
+                       if values == 796041:
+
+                           aa.clear()
+
+                       if values == 797021:
+
+                           aa.clear()
+
+                       if values == 796051:
+
+                           aa.clear()
+
+    # print(t2_result)
 
     while {} in t2_result:
 
         t2_result.remove({})
-
-    print(t2_result)
+    # print(t2_result)
 
     # 一级教材
     for t1 in t2_result:
@@ -294,7 +476,10 @@ if __name__ == '__main__':
     #junior_textbook_level_5 = 797021
     #junior_textbook_level_6 = 796051
 
-    c_cate1_list = getJuniorTextBookInfo()
+    current_level = "-1"
+    gradeGlobal   = "-4"
+
+    c_cate1_list = getJuniorTextBookInfo(current_level,gradeGlobal)
     print (c_cate1_list)
     # print(type(c_cate1_list))
 

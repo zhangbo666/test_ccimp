@@ -355,7 +355,7 @@ function UserUidIfon() {
             if (data.status_code === 10101 || data.status_code === 10102 ||
                 data.status_code === 10103 || data.status_code === 10104 ||
                 data.status_code === 10105 || data.status_code === 10106 ||
-                data.status_code === 10107) {
+                data.status_code === 10107 || data.status_code === 10108) {
 
                 alert(data.message);
 
@@ -366,6 +366,13 @@ function UserUidIfon() {
             else if (data.status_code === 10200) {
 
                 alert("当前约课用户UID为：" + data.uid + ";" +"  当前约课用户角色为：" + data.userRole + ";");
+
+                document.getElementById("uid_id").value = data.uid;
+                document.getElementById("uid_id").style.color = "red";
+
+                document.getElementById('c_cate_id1').style.display="block";
+                document.getElementById('c_cate_id2').style.display="block";
+                document.getElementById('book_id').style.display="block";
 
                 SelectJuniorTextBookData();
 

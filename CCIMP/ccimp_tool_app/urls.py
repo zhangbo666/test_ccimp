@@ -83,6 +83,7 @@ urlpatterns = [
     # path('user_info/api/appoint_record', views.appoint_record),
 
 
+
     #约课管理--新的功能
     # 2020-10-21:张波修改
     #约课管理
@@ -120,6 +121,7 @@ urlpatterns = [
     path('appoint_manage/api/getSelectJuniorTextBookData', views.getSelectJuniorTextBookData),
 
 
+
     #公开课
     path('open_class/', views.open_class),
     path('open_class/open_class_add/',views.open_class_add),
@@ -132,8 +134,10 @@ urlpatterns = [
     path('open_class/api/getSelectTextBookData', views.getSelectTextBookData),
 
 
+
     #修改sso身份
     path('user_info/sso_identity/', views.sso_identity),
+
 
 
     #修改ssoh5标签身份

@@ -77,29 +77,61 @@ function saveAppointRecord(){
 
     }
 
+    var newData = new Date(),newDate_str = "";
+    // alert(newData.getFullYear());
+    // alert(newData.getMonth());
+    // alert(newData.getDate());
+    // alert(newData.getHours());
+    // alert(newData.getMinutes());
+
+    newDate_str += newData.getFullYear() + '-';
+    newDate_str += newData.getMonth() + 1 + '-';
+    newDate_str += newData.getDate() + " ";
+    newDate_str += newData.getHours() + ':';
+    newDate_str += newData.getMinutes();
+    // alert(newDate_str);
+    var newDate_str_replace = newDate_str.replace(/\-/g,'/');
+    var newDate_str_unix = Date.parse(newDate_str_replace);
+
+
     startAppointTime = startDate + " " + startTime;
     endAppointTime   = endDate   + " " + endTime;
+    // alert(startAppointTime);
+    // alert(endAppointTime);
 
     var startTime_replace = startAppointTime.replace(/\-/g,'/');
     var endTime_replace = endAppointTime.replace(/\-/g,'/');
 
     var startTime_unix = Date.parse(startTime_replace);
     var endTime_unix = Date.parse(endTime_replace);
-    alert(endTime_unix-startTime_unix);
+    // alert(endTime_unix-startTime_unix);
     // alert(startTime_replace);
     // alert(endTime_replace);
     // alert(startTime_unix);
     // alert(endTime_unix);
 
+    if ((newDate_str_unix + 1800000 >= startTime_unix)){
+
+        alert("青少约课时间：必须大于当前时间30分钟以上才能约付费课！");
+        return;
+    }
+
+
     if((endTime_unix-startTime_unix) ===0){
 
-        alert("青少约课时间：开始时间不能和结束时间一样！");
+        alert("青少约课时间：青少开始时间不能和结束时间一样！");
         return;
 
     }
-    else if((endTime_unix-startTime_unix) !==1800000){
+    else if((endTime_unix-startTime_unix) > 1800000){
 
-        alert("青少约课时间不正确，只能约30分钟的课程！");
+        alert("青少约课时间：青少约课时间不正确，只能约30分钟的课程！");
+        return;
+
+    }
+    else if((endTime_unix-startTime_unix) < 0){
+
+        alert("青少约课时间：青少约课时间不正确，请重新选择！");
         return;
 
     }
@@ -154,9 +186,11 @@ function saveAppointRecord(){
 
                 }
 
-                else if (data.status === 10000 || data.status === 10001 || data.status === 10002 || data.status === 10003) {
+                else if (data.status === 10001 || data.status === 10002 || data.status === 10003 ||
+                         data.status === 10005) {
 
                     alert(data.message);
+                    console.log(data.message);
 
                 }
 

@@ -89,7 +89,7 @@ requestSession  = ''
 mobileGlobal    = ''
 appointGlobal   = ''
 userLevelGlobal = ''
-
+gradeGlobal     = ''
 
 '''###############################################################################'''
 #售卖下单manage
@@ -1517,9 +1517,9 @@ def get_user_appoint_record(request):
 
             return JsonResponse({"status_code": 10105,"message":"该学员约课信息在php库与平台库查询为空"})
 
-        elif talk_appoint_info_result == []:
-
-            return JsonResponse({"status_code": 10106, "message": "该学员约课信息在php库查询为空"})
+        # elif talk_appoint_info_result == []:
+        #
+        #     return JsonResponse({"status_code": 10106, "message": "该学员约课信息在php库查询为空"})
 
         elif talkplatform_appoint_reconstruction_appoint_info_result == []:
 
@@ -1629,11 +1629,11 @@ def appoint_record(request):
         try:
 
             # 转换为datetime.datetime类型
-            current_now_time = datetime.utcfromtimestamp(time.time() + 28800)
+            # current_now_time = datetime.utcfromtimestamp(time.time() + 28800)
             # print(current_now_time)
 
             # 转换为str类型
-            current_now_time = current_now_time.strftime('%Y-%m-%d %H:%M:%S')
+            # current_now_time = current_now_time.strftime('%Y-%m-%d %H:%M:%S')
             # print(current_now_time)
 
             course_status_result = courseStatus(course_status,appoint_id_check_val)
@@ -1641,19 +1641,19 @@ def appoint_record(request):
 
             if course_status_result == True:
 
-                appoint_id_check_val_list = json.loads(appoint_id_check_val)
+                # appoint_id_check_val_list = json.loads(appoint_id_check_val)
 
-                appoint_id_check_val_length = len(appoint_id_check_val_list)
+                # appoint_id_check_val_length = len(appoint_id_check_val_list)
 
-                for i in range(0, appoint_id_check_val_length):
+                # for i in range(0, appoint_id_check_val_length):
 
-                    talk_update_appoint_info_start_time_end_time_success(appoint_id_check_val_list[i],
-                                                                         current_now_time,
-                                                                         current_now_time)
+                    # talk_update_appoint_info_start_time_end_time_success(appoint_id_check_val_list[i],
+                    #                                                      current_now_time,
+                    #                                                      current_now_time)
 
-                    talkplatform_appoint_reconstruction_update_appoint_info_start_time_end_time_success(appoint_id_check_val_list[i],
-                                                                                                        current_now_time,
-                                                                                                        current_now_time)
+                    # talkplatform_appoint_reconstruction_update_appoint_info_start_time_end_time_success(appoint_id_check_val_list[i],
+                    #                                                                                     current_now_time,
+                    #                                                                                     current_now_time)
 
                 return JsonResponse({"status_code": 10200,"message":"课程状态已修改"})
 
@@ -1719,24 +1719,42 @@ def get_user_query_uid(request):
 
         user_is_buy        = ""
 
+        grade_value        = ""
+
         userInfo = talk_query_user_info_detail_success(user_appoint_mobile)
 
-        for u1 in userInfo:
+        userLevel = kids_query_user_kids_ext_info_detail_success(userId)
+
+        for u1 in userLevel:
 
             for key, values in sorted(u1.items(), key=operator.itemgetter(0)):
-
-                if key == "is_buy":
-
-                    user_is_buy = str(values)
 
                 if key == "current_level":
 
                     user_current_level = str(values)
 
-        if user_current_level == "":
+        for u2 in userInfo:
 
-            return JsonResponse({"status": 10105, "data": "接口获取正确", "message": "该用户还未设置当前级别，不能约付费课！"})
+            for key, values in sorted(u2.items(), key=operator.itemgetter(0)):
 
+                if key == "is_buy":
+
+                    user_is_buy = str(values)
+
+                if key == "grade":
+
+                    grade_value = str(values)
+
+        global gradeGlobal
+        gradeGlobal = grade_value
+
+        if user_current_level == "" or user_current_level == None:
+
+            return JsonResponse({"status_code": 10105, "data": "接口获取正确", "message": "该用户还未设置级别，不能约付费课！"})
+
+        if int(user_current_level) >= 7:
+
+            return JsonResponse({"status_code": 10108, "data": "接口获取正确", "message": "该用户当前级别>=7，不能约青少5.0付费课！"})
 
         #全局变量赋值
         global userLevelGlobal
@@ -1745,7 +1763,7 @@ def get_user_query_uid(request):
 
         if user_is_buy == "free":
 
-            return JsonResponse({"status": 10106, "data": "接口获取正确", "message":"该用户为体验用户，不能约付费课！"})
+            return JsonResponse({"status_code": 10106, "data": "接口获取正确", "message":"该用户为体验用户，不能约付费课！"})
 
         user_role_result = getUserRole(userId)
 
@@ -1803,7 +1821,10 @@ def getSelectJuniorTextBookData(request):
         #
         #             user_current_level = str(values)
 
-        textjuniorbookinfo_result_list = getJuniorTextBookInfo.getJuniorTextBookInfo(userLevelGlobal)
+        # print (userLevelGlobal)
+        # print (type(userLevelGlobal))
+
+        textjuniorbookinfo_result_list = getJuniorTextBookInfo.getJuniorTextBookInfo(userLevelGlobal,gradeGlobal)
 
         textjuniorbookinfo_result_no = {}
 
@@ -2029,114 +2050,140 @@ def tool_appoint_add(request):
     else:
 
         uid_name = request.POST.get("uidName", "")
+
         tid_name = request.POST.get("tidName", "")
+
         assert_sum = request.POST.get("assertSum", "")
+
         start_date = request.POST.get("startDate", "")
+
         start_time = request.POST.get("startTime", "")
+
         end_date = request.POST.get("endDate", "")
+
         end_time = request.POST.get("endTime", "")
+
         start_appoint_time = request.POST.get("startAppointTime", "")
+
         end_appoint_time = request.POST.get("endAppointTime", "")
+
         junior_book_text1_name = request.POST.get("juniorBookText1Name", "")
         junior_book_text2_name = request.POST.get("juniorBookText2Name", "")
         junior_book_text3_name = request.POST.get("juniorBookText3Name", "")
 
         start_appoint_time = start_appoint_time + ":00"
+
         end_appoint_time   = end_appoint_time   + ":00"
-        # print (start_appoint_time)
-        # print (end_appoint_time)
 
         start_appoint_time_compare = datetime.strptime(start_appoint_time, "%Y-%m-%d %H:%M:%S")
         end_appoint_time_compare = datetime.strptime(end_appoint_time, "%Y-%m-%d %H:%M:%S")
 
         time_seconds_int = int((end_appoint_time_compare - start_appoint_time_compare).total_seconds())
 
-        if (time_seconds_int <= 600 ):
+        if (time_seconds_int > 1800000 ):
 
-            return JsonResponse({"status": 10002, "message": "开课时间不能小于10分钟"})
+            return JsonResponse({"status": 10001, "message": "青少约课时间不正确，只能约30分钟的课程！"})
 
-        addAppointOpenClassUrl = "http://172.16.16.97/talkplatform_course_consumer/course_open_class/add_course_info"
+        if (time_seconds_int < 0 ):
 
-        # c_course_costs = [{"cost_type":cost_type_name,"code_item_id":code_item_id_name,"code_num":code_num_name,"priority":priority_name}]
+            return JsonResponse({"status": 10002, "message": "青少约课时间不正确，请重新选择！"})
 
-        # c_course_costs = json.dumps(c_course_costs)
+        if (time_seconds_int == 0 ):
 
-
-        #公开课能预约开始时间(str)
-        # appoint_start_time = datetime.utcfromtimestamp(time.time() + 29000)
-        # print ("datetime.utcfromtimestamp(time.time()",datetime.utcfromtimestamp(time.time()))
-        # print ("appoint_start_time-->",appoint_start_time,type(appoint_start_time))
-        # appoint_start_time = appoint_start_time.strftime('%Y-%m-%d %H:%M:%S')
-        # print ("appoint_start_time-->",appoint_start_time,type(appoint_start_time))
+            return JsonResponse({"status": 10003, "message": "青少开始时间不能和结束时间一样！"})
 
 
-        # 公开课能预约结束时间(str)
-        # appoint_end_time = datetime.now().date() + timedelta(days=7)
-        # print ("datetime.now().date()",datetime.now().date())
-        # print ("appoint_end_time-->",appoint_end_time,type(appoint_end_time))
-        # appoint_end_time = appoint_end_time.strftime('%Y-%m-%d %H:%M:%S')
-        # print ("appoint_end_time-->",appoint_end_time,type(appoint_end_time))
+        start_appoint_time_float = start_appoint_time_compare.timestamp()
+
+        current_now_time= datetime.now()
+        current_now_time_float = current_now_time.timestamp()
+        current_now_time_y_m_d = current_now_time.strftime('%Y-%m-%d %H:%M:%S')
+
+        #当前时间加半小时
+        current_now_time_float = current_now_time_float + float(1800)
+
+        if (current_now_time_float >= start_appoint_time_float):
+
+            return JsonResponse({"status": 10004, "message": "必须大于当前时间30分钟以上才能约付费课！"})
+
+        start_date_split_1 = start_date.split("-")[0]
+        start_date_split_2 = start_date.split("-")[1]
+        start_date_split_3 = start_date.split("-")[2]
+        start_date_split_4 = start_date_split_1+start_date_split_2+start_date_split_3
 
 
-        # open_class_start_time_1 = datetime.strptime(open_class_start_time, "%Y-%m-%d %H:%M:%S")
-        # print ("open_class_start_time_1",open_class_start_time_1,type(open_class_start_time_1))
+        start_time_1 = int(start_time.split(':')[0])
+        start_time_2 = start_time.split(':')[1]
 
-        # open_class_end_time_1 = datetime.strptime(open_class_end_time, "%Y-%m-%d %H:%M:%S")
-        # print ("open_class_end_time_1",open_class_end_time_1,type(open_class_end_time_1))
+        if start_time_2 == "00":
 
-        # appoint_end_time_1 = datetime.strptime(appoint_end_time, "%Y-%m-%d %H:%M:%S")
-        # print ("appoint_end_time_1",appoint_end_time_1,type(appoint_end_time_1))
+            start_time_1 = str(start_time_1 * 2 + 1)
 
-        #开课时间不能大于7天
-        # time_seconds_int = int((open_class_start_time_1 - appoint_end_time_1).total_seconds())
-        # time_seconds_int = int((open_class_end_time_1 - open_class_start_time_1).total_seconds())
-        # print ("time_seconds_int",time_seconds_int)
+        else:
 
-        # if (time_seconds_int >= 604801):
+            start_time_1 = str(start_time_1 * 2 + 2)
 
-            # return JsonResponse({"status": 10003, "message": "公开课开课时间不能大于7天"})
+        date_time = start_date_split_4 + "_" + start_time_1
 
-        # appoint_start_time = open_class_start_time
-        # appoint_end_time   = open_class_end_time
+        #获取约课自增ID
+        appointIDUrl = "http://172.16.16.34/talkplatform_idgenerator_consumer/genId?keyName=appoint.id"
+
+        appointIDResult = requests.get(url=appointIDUrl)
+        appointIDResult_json = appointIDResult.json()
+        appoint_id_result = str(appointIDResult_json["id"])
 
         #接口调用传值
-        # addAppointOpenClassData = {
-        #     "name": open_class_name,
-        #     "name_en": "csopenclass",
-        #     "name_zh": open_class_name,
-        #     "intro": "测试公共课勿动",
-        #     "intro_desc": "zb",
-        #     "description": "测试公开课",
-        #     "content": "zb",
-        #     "cover": "zb.jpg",
-        #     "sort": "10",
-        #     "book_type": book_type_name,
-        #     "book_id": book_text_name_3,
-        #     "capacity": capacity_name,
-        #     "course_type": course_type_name,
-        #     "c_cate_id1": book_text_name_1,
-        #     "c_cate_id2": book_text_name_2,
-        #     "c_enlevel_id": "1",
-        #     "c_occup_id": "1",
-        #     "c_tea_ids": teacher_name,
-        #     "c_course_costs": c_course_costs,
-        #     "appoint_start_time": appoint_start_time,
-        #     "appoint_end_time": appoint_end_time,
-        #     "start_time": open_class_start_time,
-        #     "end_time": open_class_end_time,
-        #     "is_recommend": "1",
-        #     "study_type": "0",
-        #     "get_skill": "技能测试",
-        #     "class_state": "1",
-        #     "status": "1",
-        #     "admin_id": "1",
-        #     "occup_people": "0",
-        #     "stu_type": "junior",
-        #     "tea_type": "1",
-        #     "sdk_type": "8",
-        #     "tag": "公开课 测试课",
-        #     "channel[]": "51talk-web"
-        # }
+        addAppointUrl = "http://172.16.16.34/talkplatform_appointone_consumer/v1/appoint/add"
+
+        head = {
+
+            'Content-Type': 'application/json'
+        }
+
+        addAppointData = {
+
+            'id': appoint_id_result,
+            't_id': tid_name,
+            's_id': uid_name,
+            'tag_id': '87703151451772984943',
+            'start_time': start_appoint_time,
+            'end_time': end_appoint_time,
+            'date_time': date_time,
+            'status': 'on',
+            'date': start_date,
+            'time': start_time_1,
+            'week': '1',
+            'add_time': current_now_time_y_m_d,
+            'course_id': junior_book_text3_name,
+            'appoint_type': 'ios',
+            'point_type': 'point',
+            'cost_num': assert_sum,
+            'now_level': '1',
+            'teach_type': '51TalkAC',
+            'use_point': 'buy',
+            'cancel_operator': '0',
+            'use_skype_id': '0',
+            'need_oral': '0',
+            'course_top_id': junior_book_text1_name,
+            'course_sub_id': junior_book_text2_name,
+            "course_type": '1',
+            'tea_salary': '0',
+            'package_id': '0',
+            'category': 'ph_buy'
+        }
+
+        aa = requests.post(url=addAppointUrl, data=json.dumps(addAppointData), headers=head)
+        result_json = aa.json()
+
+        result_json_code = int (result_json['code'])
+
+        if result_json_code == 10000:
+
+            return JsonResponse({"status": 200, "message": "约课成功，请查看！"})
+
+        elif result_json_code == 203101:
+
+            return JsonResponse({"status": 10005, "message":result_json['message']})
 
         # 转换为datetime.datetime类型
         # current_now_time = datetime.now()
@@ -2189,8 +2236,6 @@ def tool_appoint_add(request):
 
                 # return JsonResponse({"status": 10001, "message": open_class_result_message})
 
-
-        HttpResponse("测试")
 
 '''###############################################################################'''
 #获得开始时间list数据

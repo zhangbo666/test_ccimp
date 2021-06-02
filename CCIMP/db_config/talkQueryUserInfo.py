@@ -20,7 +20,7 @@ def talk_query_user_info_detail_success(user_mobile):
 
             #查询
             sql_query  = "select id,real_name,nick_name,mobile,is_trail,is_buy,current_level,now_level,city," \
-                         "parent_id from user where mobile = '"+str(user_mobile)+"' and status = 'on'"
+                         "parent_id,grade from user where mobile = '"+str(user_mobile)+"' and status = 'on'"
 
             #连接中断重连
             conn_talk.ping(reconnect=True)

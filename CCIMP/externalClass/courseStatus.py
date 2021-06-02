@@ -9,6 +9,7 @@ from externalClass.adminLogin import adminLogin
 from db_config.talkQueryUserInfo import talk_query_user_info_id_success
 
 
+#更改php库和平台库约课状态
 def courseStatus(course_status_data,appoint_id_check_val):
 
     '''
@@ -17,10 +18,6 @@ def courseStatus(course_status_data,appoint_id_check_val):
     :param appoint_id_data:约课ID
     :return:返回账号状态数据
     '''
-
-    # print ("course_status_data-->",course_status_data)
-    # print ("appoint_id_data-->",appoint_id_data)
-    # course_appoint_id_data = talk_query_user_info_id_success(mobile_data)
 
     appoint_id_check_val_list = json.loads(appoint_id_check_val)
 
@@ -52,13 +49,13 @@ if __name__ == '__main__':
 
     mobile_data = '18611222465'
 
-    course_status_data = 'on'
-    # course_status_data = 'end'
+    # course_status_data = 'on'
+    course_status_data = 'end'
     # course_status_data = 's_absent'
     # course_status_data = 't_absent'
     # course_status_data = 'cancel'
 
-    appoint_id = '52663928'
+    appoint_id = '52680179'
 
     course_appoint_id_data = talk_query_user_info_id_success(mobile_data)
 
