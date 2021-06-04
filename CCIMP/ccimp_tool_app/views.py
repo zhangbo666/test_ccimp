@@ -43,6 +43,9 @@ from externalClass.orderOnConfig import *
 from externalClass import getStartTimeData
 from externalClass import getEndTimeData
 from externalClass import getJuniorTextBookInfo
+from externalClass.getTeacherOpenTimeInfo import getTeacherOpenTimeInfo
+from externalClass.getUserLeveInfo import getUserLevelInfo
+
 
 from db_config.talkQueryUserOrder import talk_query_user_order_success
 from db_config.talkQueryUserInfo import talk_query_user_info_detail_success
@@ -81,8 +84,7 @@ from db_config.talkQueryUserOrder import talk_platform_order_query_user_order2_s
 
 #新添加调用文件
 '''###############################################################################'''
-from externalClass.getTeacherOpenTimeInfo import getTeacherOpenTimeInfo
-from externalClass.getUserLeveInfo import getUserLevelInfo
+
 
 
 '''###############################################################################'''
@@ -1723,32 +1725,15 @@ def get_user_query_uid(request):
 
         grade_value        = ""
 
-        userLevel = getUserLevelInfo(userId)
+        #获取用户角色
+        user_role_result = getUserRole(userId)
 
-        if userLevel == ():
+        if user_role_result != 11:
 
-            return JsonResponse({"status_code": 10105, "data": "接口获取正确", "message": "该用户还未设置级别，不能约付费课！"})
+            return JsonResponse({"status_code": 10105,"data": "接口获取正确","message":
+                                 "该学员不是青少用户，暂时不能约青少付费课"})
 
-        for u1 in userLevel:
-
-            for key, values in sorted(u1.items(), key=operator.itemgetter(0)):
-
-                if key == "current_level":
-
-                    user_current_level = str(values)
-
-        if user_current_level == "":
-
-            return JsonResponse({"status_code": 10106, "data": "接口获取正确", "message": "该用户级别为空，不能约付费课！"})
-
-        if int(user_current_level) >= 7:
-
-            return JsonResponse({"status_code": 10107, "data": "接口获取正确", "message": "该用户当前级别>=7，不能约青少5.0付费课！"})
-
-        #全局变量赋值
-        global userLevelGlobal
-        userLevelGlobal = user_current_level
-
+        #获取用户信息
         userInfo = talk_query_user_info_detail_success(user_appoint_mobile)
 
         for u2 in userInfo:
@@ -1763,24 +1748,44 @@ def get_user_query_uid(request):
 
                     grade_value = str(values)
 
+        if user_is_buy == "free":
+
+            return JsonResponse({"status_code": 10106, "data": "接口获取正确", "message":"该用户为体验用户，不能约付费课！"})
+
+        #全局grade赋值
         global gradeGlobal
         gradeGlobal = grade_value
 
-        if user_is_buy == "free":
+        #获取用户级别
+        userLevel = getUserLevelInfo(userId)
 
-            return JsonResponse({"status_code": 10108, "data": "接口获取正确", "message":"该用户为体验用户，不能约付费课！"})
+        if userLevel == ():
 
-        user_role_result = getUserRole(userId)
+            return JsonResponse({"status_code": 10107, "data": "接口获取正确", "message": "该用户还未设置级别，不能约付费课！"})
 
-        if user_role_result != 11:
+        for u1 in userLevel:
 
-            return JsonResponse({"status_code": 10109,"data": "接口获取正确","message":
-                                 "该学员不是青少用户，暂时不能约青少付费课"})
+            for key, values in sorted(u1.items(), key=operator.itemgetter(0)):
 
-        else:
+                if key == "current_level":
 
-            return JsonResponse({"status_code": 10200, "data": "接口获取正确",
-                             "uid":userId,"userRole":user_role_result})
+                    user_current_level = str(values)
+
+        if user_current_level == "":
+
+            return JsonResponse({"status_code": 10108, "data": "接口获取正确", "message": "该用户级别为空，不能约付费课！"})
+
+        if int(user_current_level) >= 7:
+
+            return JsonResponse({"status_code": 10109, "data": "接口获取正确", "message": "该用户当前级别>=7，不能约青少5.0付费课！"})
+
+        #全局变量赋值
+        global userLevelGlobal
+        userLevelGlobal = user_current_level
+
+
+        return JsonResponse({"status_code": 10200, "data": "接口获取正确",
+                         "uid":userId,"userRole":user_role_result})
 
 
 '''###############################################################################'''
