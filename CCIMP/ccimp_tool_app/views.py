@@ -39,7 +39,7 @@ from externalClass.appoint.getTalkPlatformAppointReconstructionAppointInfo impor
 from externalClass.appoint.appointConfig import *
 from externalClass.ssoIdentity import ssoIdentity
 from externalClass.ssoH5 import ssoH5_modify,ssoH5_query
-
+from externalClass.orderOnConfig import *
 from externalClass import getStartTimeData
 from externalClass import getEndTimeData
 from externalClass import getJuniorTextBookInfo
@@ -79,8 +79,10 @@ from db_config.talkQueryUserOrder import talk_platform_order_query_user_order_su
 from db_config.talkQueryUserOrder import talk_platform_order_query_user_order2_success
 
 
+#新添加调用文件
 '''###############################################################################'''
-from externalClass.orderOnConfig import *
+from externalClass.getTeacherOpenTimeInfo import getTeacherOpenTimeInfo
+from externalClass.getUserLeveInfo import getUserLevelInfo
 
 
 '''###############################################################################'''
@@ -1548,14 +1550,14 @@ def get_user_rest_appoint_record(request):
 
         #获取talk约课记录
         talk_appoint_info_result = getTalkAppointInfo(userId,limit_appoint_sum)
-        print (talk_appoint_info_result)
+        # print (talk_appoint_info_result)
 
         #获取talkplatform_appoint_reconstruction约课记录
         talkplatform_appoint_reconstruction_appoint_info_result = getTalkPlatformAppointReconstructionAppointInfo(userId,limit_appoint_sum)
-        print (talkplatform_appoint_reconstruction_appoint_info_result)
+        # print (talkplatform_appoint_reconstruction_appoint_info_result)
 
         if talk_appoint_info_result == [] and talkplatform_appoint_reconstruction_appoint_info_result == [] or \
-           talk_appoint_info_result == [] or talkplatform_appoint_reconstruction_appoint_info_result == []:
+           talkplatform_appoint_reconstruction_appoint_info_result == []:
 
             return JsonResponse({"status_code": 10101,"message":"该学员约课信息已全部处理，请查看！！！"})
 
@@ -1721,9 +1723,11 @@ def get_user_query_uid(request):
 
         grade_value        = ""
 
-        userInfo = talk_query_user_info_detail_success(user_appoint_mobile)
+        userLevel = getUserLevelInfo(userId)
 
-        userLevel = kids_query_user_kids_ext_info_detail_success(userId)
+        if userLevel == ():
+
+            return JsonResponse({"status_code": 10105, "data": "接口获取正确", "message": "该用户还未设置级别，不能约付费课！"})
 
         for u1 in userLevel:
 
@@ -1732,6 +1736,20 @@ def get_user_query_uid(request):
                 if key == "current_level":
 
                     user_current_level = str(values)
+
+        if user_current_level == "":
+
+            return JsonResponse({"status_code": 10106, "data": "接口获取正确", "message": "该用户级别为空，不能约付费课！"})
+
+        if int(user_current_level) >= 7:
+
+            return JsonResponse({"status_code": 10107, "data": "接口获取正确", "message": "该用户当前级别>=7，不能约青少5.0付费课！"})
+
+        #全局变量赋值
+        global userLevelGlobal
+        userLevelGlobal = user_current_level
+
+        userInfo = talk_query_user_info_detail_success(user_appoint_mobile)
 
         for u2 in userInfo:
 
@@ -1748,54 +1766,20 @@ def get_user_query_uid(request):
         global gradeGlobal
         gradeGlobal = grade_value
 
-        if user_current_level == "" or user_current_level == None:
-
-            return JsonResponse({"status_code": 10105, "data": "接口获取正确", "message": "该用户还未设置级别，不能约付费课！"})
-
-        if int(user_current_level) >= 7:
-
-            return JsonResponse({"status_code": 10108, "data": "接口获取正确", "message": "该用户当前级别>=7，不能约青少5.0付费课！"})
-
-        #全局变量赋值
-        global userLevelGlobal
-        userLevelGlobal = user_current_level
-
-
         if user_is_buy == "free":
 
-            return JsonResponse({"status_code": 10106, "data": "接口获取正确", "message":"该用户为体验用户，不能约付费课！"})
+            return JsonResponse({"status_code": 10108, "data": "接口获取正确", "message":"该用户为体验用户，不能约付费课！"})
 
         user_role_result = getUserRole(userId)
 
         if user_role_result != 11:
 
-            return JsonResponse({"status_code": 10107,"data": "接口获取正确","message":
-                                 "该学员不是青少用户，暂时不能约青少课 或者 "
-                                 "（成人/青少）双重身份也暂时不能约"})
+            return JsonResponse({"status_code": 10109,"data": "接口获取正确","message":
+                                 "该学员不是青少用户，暂时不能约青少付费课"})
 
-        #获取talk约课记录
-        # talk_appoint_info_result = getTalkAppointInfo(userId,limit_appoint_sum)
+        else:
 
-        #获取talkplatform_appoint_reconstruction约课记录
-        # talkplatform_appoint_reconstruction_appoint_info_result = getTalkPlatformAppointReconstructionAppointInfo(userId,limit_appoint_sum)
-        # print (talkplatform_appoint_reconstruction_appoint_info_result)
-
-        # if talk_appoint_info_result == [] and talkplatform_appoint_reconstruction_appoint_info_result == []:
-
-            # return JsonResponse({"status_code": 10105,"message":"该学员约课信息在php库与平台库查询为空"})
-
-        # elif talk_appoint_info_result == []:
-
-            # return JsonResponse({"status_code": 10106, "message": "该学员约课信息在php库查询为空"})
-
-        # elif talkplatform_appoint_reconstruction_appoint_info_result == []:
-
-            # return JsonResponse({"status_code": 10107, "message": "该学员约课信息在平台库查询为空"})
-
-        # return JsonResponse({"status_code": 10200,
-        #                      "result": {"data":"接口获取正确"}})
-
-        return JsonResponse({"status_code": 10200, "data": "接口获取正确",
+            return JsonResponse({"status_code": 10200, "data": "接口获取正确",
                              "uid":userId,"userRole":user_role_result})
 
 
@@ -2106,11 +2090,11 @@ def tool_appoint_add(request):
 
             return JsonResponse({"status": 10004, "message": "必须大于当前时间30分钟以上才能约付费课！"})
 
+        #计算slot时间
         start_date_split_1 = start_date.split("-")[0]
         start_date_split_2 = start_date.split("-")[1]
         start_date_split_3 = start_date.split("-")[2]
         start_date_split_4 = start_date_split_1+start_date_split_2+start_date_split_3
-
 
         start_time_1 = int(start_time.split(':')[0])
         start_time_2 = start_time.split(':')[1]
@@ -2124,6 +2108,46 @@ def tool_appoint_add(request):
             start_time_1 = str(start_time_1 * 2 + 2)
 
         date_time = start_date_split_4 + "_" + start_time_1
+
+
+        # tid_name = "4774"
+        time_info = ""
+        time_list = []
+        time_flag = False
+
+        #截取当前时间之后老师开课时间数据
+        current_now_time_y_m_d_sqlit = current_now_time_y_m_d.split(" ")[0]
+
+        #判断老师是否开课
+        teacher_open_time_result = getTeacherOpenTimeInfo(tid_name,current_now_time_y_m_d_sqlit)
+        # print (teacher_open_time_result)
+        # print (type(teacher_open_time_result))
+
+        if teacher_open_time_result == () or teacher_open_time_result == None:
+
+            return JsonResponse({"status": 10005, "message": "该老师未开课，请重新查询！"})
+
+        for teacher_open_time in teacher_open_time_result:
+
+            for key, values in sorted(teacher_open_time.items(), key=operator.itemgetter(0)):
+
+                if key == "time":
+
+                    time_info = str(values)
+
+                    time_list.append(time_info)
+
+        for time_list_resutl in time_list:
+
+            if  time_list_resutl == date_time:
+
+                time_flag = True
+
+                break
+
+        if time_flag == False:
+
+            return JsonResponse({"status": 10006, "message": "该时间点老师未开课，请重新选择老师！"})
 
         #获取约课自增ID
         appointIDUrl = "http://172.16.16.34/talkplatform_idgenerator_consumer/genId?keyName=appoint.id"
@@ -2172,10 +2196,10 @@ def tool_appoint_add(request):
             'category': 'ph_buy'
         }
 
-        aa = requests.post(url=addAppointUrl, data=json.dumps(addAppointData), headers=head)
-        result_json = aa.json()
+        appoint_result = requests.post(url=addAppointUrl, data=json.dumps(addAppointData), headers=head)
+        appoint_result_json = appoint_result.json()
 
-        result_json_code = int (result_json['code'])
+        result_json_code = int (appoint_result_json['code'])
 
         if result_json_code == 10000:
 
@@ -2183,7 +2207,7 @@ def tool_appoint_add(request):
 
         elif result_json_code == 203101:
 
-            return JsonResponse({"status": 10005, "message":result_json['message']})
+            return JsonResponse({"status": 10007, "message":appoint_result_json['message']})
 
         # 转换为datetime.datetime类型
         # current_now_time = datetime.now()

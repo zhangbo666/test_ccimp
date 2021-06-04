@@ -40,3 +40,41 @@ def talk_platform_teacher_query_teacher_info_success(limin_teacher_sum):
         conn_talkplatform_teacher.rollback()
 
         print ("e-->",e)
+
+
+#----------------------------------------------------------------------------------------------------------------------#
+    # 查询talkplatform_teacher库-->teacher_class_schedule老师开课时间表信息字段
+#----------------------------------------------------------------------------------------------------------------------#
+
+def talk_platform_teacher_query_teacher_class_schedule_success(tid,current_now_time_y_m_d_sqlit):
+
+    '''查询老师开课时间表'''
+
+    try:
+
+        with conn_talkplatform_teacher.cursor() as cursor:
+
+            #查询
+            sql_query = "SELECT teacher_id,time,date,status,appoint_status,time_slot from" \
+                        " talkplatform_teacher.teacher_class_schedule where status = 'on' and appoint_status = '1' " \
+                        "and teacher_id = %s and date > %s" % (tid,current_now_time_y_m_d_sqlit)
+
+
+            #连接中断重连
+            conn_talkplatform_teacher.ping(reconnect=True)
+
+            cursor.execute(sql_query)
+
+            teacher_class_schedule_result = cursor.fetchall()
+
+            # print ("teacher_class_schedule_result-->",teacher_class_schedule_result)
+            # print ("teacher_class_schedule_result-->",type(teacher_class_schedule_result))
+
+            return teacher_class_schedule_result
+
+    except Exception as e:
+
+        conn_talkplatform_teacher.rollback()
+
+        print ("e-->",e)
+

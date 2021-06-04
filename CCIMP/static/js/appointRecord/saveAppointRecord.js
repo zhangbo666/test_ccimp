@@ -187,7 +187,8 @@ function saveAppointRecord(){
                 }
 
                 else if (data.status === 10001 || data.status === 10002 || data.status === 10003 ||
-                         data.status === 10005) {
+                         data.status === 10004 || data.status === 10005 || data.status === 10006 ||
+                         data.status === 10007) {
 
                     alert(data.message);
                     console.log(data.message);

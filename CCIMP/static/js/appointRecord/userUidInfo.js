@@ -355,7 +355,8 @@ function UserUidIfon() {
             if (data.status_code === 10101 || data.status_code === 10102 ||
                 data.status_code === 10103 || data.status_code === 10104 ||
                 data.status_code === 10105 || data.status_code === 10106 ||
-                data.status_code === 10107 || data.status_code === 10108) {
+                data.status_code === 10107 || data.status_code === 10108 ||
+                data.status_code === 10109) {
 
                 alert(data.message);
 
@@ -365,7 +366,12 @@ function UserUidIfon() {
 
             else if (data.status_code === 10200) {
 
-                alert("当前约课用户UID为：" + data.uid + ";" +"  当前约课用户角色为：" + data.userRole + ";");
+                if (data.userRole === 11){
+
+                    userRole = data.userRole.toString()+ "（青少学员）";
+                    alert("当前用户UID为：" + data.uid + ";" +"  当前用户角色为：" + userRole + ";");
+
+                }
 
                 document.getElementById("uid_id").value = data.uid;
                 document.getElementById("uid_id").style.color = "red";

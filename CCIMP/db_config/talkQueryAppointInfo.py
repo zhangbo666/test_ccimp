@@ -109,7 +109,7 @@ def talkplatform_appoint_reconstruction_query_appoint_hot_info_detail_success(us
 
 
 # ----------------------------------------------------------------------------------------------------------------------#
-        # 查询talkplatform_appoint_reconstruction库-->appoint_t_xx（老师分库表）相关用户约课信息字段
+    # 查询talkplatform_appoint_reconstruction库-->appoint_t_xx（老师分库表）相关用户约课信息字段
 # ----------------------------------------------------------------------------------------------------------------------#
 
 def talkplatform_appoint_reconstruction_query_appoint_t_xx_info_detail_success(t_id, t_id_xx, user_id,
