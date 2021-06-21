@@ -84,7 +84,10 @@ from db_config.talkQueryUserOrder import talk_platform_order_query_user_order2_s
 
 #新添加调用文件
 '''###############################################################################'''
-
+from externalClass.appoint.getTalkPlatformAppointId import getTalkPlatformAppointId
+from externalClass.appoint.getTalkAppointId import getTalkAppointId
+from externalClass.appoint.getTalkPlatformAppointData import getTalkPlatformAppointData
+from externalClass.appoint.setTalkAppointInsertData import setTalkAppointInsertData
 
 
 '''###############################################################################'''
@@ -2061,9 +2064,9 @@ def tool_appoint_add(request):
         junior_book_text3_name = request.POST.get("juniorBookText3Name", "")
 
         start_appoint_time = start_appoint_time + ":00"
-
         end_appoint_time   = end_appoint_time   + ":00"
 
+        #判断约课时间
         start_appoint_time_compare = datetime.strptime(start_appoint_time, "%Y-%m-%d %H:%M:%S")
         end_appoint_time_compare = datetime.strptime(end_appoint_time, "%Y-%m-%d %H:%M:%S")
 
@@ -2081,19 +2084,25 @@ def tool_appoint_add(request):
 
             return JsonResponse({"status": 10003, "message": "青少开始时间不能和结束时间一样！"})
 
-
-        start_appoint_time_float = start_appoint_time_compare.timestamp()
-
+        #获取当前时间
         current_now_time= datetime.now()
-        current_now_time_float = current_now_time.timestamp()
         current_now_time_y_m_d = current_now_time.strftime('%Y-%m-%d %H:%M:%S')
 
-        #当前时间加半小时
-        current_now_time_float = current_now_time_float + float(1800)
+        #判断用户预约大于当前时间30分钟后课程--给客户端造数据方便
+        current_now_time_float = current_now_time.timestamp()
+        start_appoint_time_float = start_appoint_time_compare.timestamp()
+        # current_now_time_float = current_now_time_float + float(1800)
+        # print (current_now_time_float)
+        # print (start_appoint_time_float)
+
+        # if (current_now_time_float >= start_appoint_time_float):
+        #
+        #     return JsonResponse({"status": 10004, "message": "必须大于当前时间30分钟以上才能约付费课！"})
 
         if (current_now_time_float >= start_appoint_time_float):
 
-            return JsonResponse({"status": 10004, "message": "必须大于当前时间30分钟以上才能约付费课！"})
+            return JsonResponse({"status": 10005, "message": "约课开始时间必须大于当前时间点！"})
+
 
         #计算slot时间
         start_date_split_1 = start_date.split("-")[0]
@@ -2130,7 +2139,7 @@ def tool_appoint_add(request):
 
         if teacher_open_time_result == () or teacher_open_time_result == None:
 
-            return JsonResponse({"status": 10005, "message": "该老师未开课，请重新查询！"})
+            return JsonResponse({"status": 10006, "message": "该老师未开课，请重新查询！"})
 
         for teacher_open_time in teacher_open_time_result:
 
@@ -2152,7 +2161,7 @@ def tool_appoint_add(request):
 
         if time_flag == False:
 
-            return JsonResponse({"status": 10006, "message": "该时间点老师未开课，请重新选择老师！"})
+            return JsonResponse({"status": 10007, "message": "该时间点老师未开课，请重新选择老师！"})
 
         #获取约课自增ID
         appointIDUrl = "http://172.16.16.34/talkplatform_idgenerator_consumer/genId?keyName=appoint.id"
@@ -2208,62 +2217,43 @@ def tool_appoint_add(request):
 
         if result_json_code == 10000:
 
-            return JsonResponse({"status": 200, "message": "约课成功，请查看！"})
+            #调平台约课记录获取约课id
+            talkplatfrom_appoint_id_result = getTalkPlatformAppointId(date_time)
+
+            if talkplatfrom_appoint_id_result == 0:
+
+                return JsonResponse({"status": 10008, "message":"约课失败，平台库没有查到约课记录，请查看！"})
+
+            else:
+
+                talk_appoint_id_result = getTalkAppointId(str(talkplatfrom_appoint_id_result))
+
+                if talk_appoint_id_result == () or talk_appoint_id_result == None:
+
+                    #talkplatform_appoint（平台），查询所有数据记录
+                    talkplatform_appoint_info_list = getTalkPlatformAppointData(talkplatfrom_appoint_id_result)
+
+                    #talk_appoint（php），没有找到约课记录，insert数据源
+                    setTalkAppointInsertData(talkplatform_appoint_info_list)
+
+                    #判断数据是否写入成功
+                    talk_appoint_info_result = getTalkAppointId(str(talkplatfrom_appoint_id_result))
+
+                    if talk_appoint_info_result == () or talk_appoint_info_result == None:
+
+                        return JsonResponse({"status": 10009, "message":"php库写入数据失败，请查看原因！"})
+
+                    else:
+
+                        return JsonResponse({"status": 200, "message": "php库和平台库创建约课数据成功！"})
+
+                else:
+
+                    return JsonResponse({"status": 200, "message": "php库和平台库创建约课数据成功！"})
 
         elif result_json_code == 203101:
 
-            return JsonResponse({"status": 10007, "message":appoint_result_json['message']})
-
-        # 转换为datetime.datetime类型
-        # current_now_time = datetime.now()
-
-        # 转换为str类型
-        # current_now_time_y_m_d = current_now_time.strftime('%Y-%m-%d %H:%M:%S')
-
-        #由字符串格式转化为日期格式的函数为: datetime.datetime.strptime()
-        # appoint_start_time = datetime.strptime(appoint_start_time, "%Y-%m-%d %H:%M:%S")
-        # print (appoint_start_time,type(appoint_start_time))
-
-        # current_now_time_y_m_d = datetime.strptime(current_now_time_y_m_d, "%Y-%m-%d %H:%M:%S")
-        # print (current_now_time_y_m_d,type(current_now_time_y_m_d))
-
-        # seconds_int = int((appoint_start_time - current_now_time_y_m_d).total_seconds())
-        # print (seconds_int)
-
-        # if (seconds_int >= 0):
-
-            # open_class_result_json = requests.post(url=addAppointOpenClassUrl, data=addAppointOpenClassData)
-            # print(open_class_result_json.json())
-
-            # open_class_result_code = int(open_class_result_json.json()['code'])
-            # print(open_class_result_code)
-            # print(type(open_class_result_code))
-
-            # open_class_result_message = open_class_result_json.json()['message']
-
-
-            # if open_class_result_code == 10000:
-
-                # return JsonResponse({"status": 200, "message": "公开课开课成功！"})
-
-            # else:
-
-                # return JsonResponse({"status": 10000, "message": open_class_result_message})
-
-        # else:
-
-            # open_class_result_json = requests.post(url=addAppointOpenClassUrl, data=addAppointOpenClassData)
-            # print(open_class_result_json.json())
-
-            # open_class_result_code = int(open_class_result_json.json()['code'])
-            # print(open_class_result_code)
-            # print(type(open_class_result_code))
-
-            # open_class_result_message = open_class_result_json.json()['message']
-
-            # if open_class_result_code == 10030:
-
-                # return JsonResponse({"status": 10001, "message": open_class_result_message})
+            return JsonResponse({"status": 10010, "message":appoint_result_json['message']})
 
 
 '''###############################################################################'''

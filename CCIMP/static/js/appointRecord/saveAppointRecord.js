@@ -110,14 +110,21 @@ function saveAppointRecord(){
     // alert(startTime_unix);
     // alert(endTime_unix);
 
-    if ((newDate_str_unix + 1800000 >= startTime_unix)){
+    //判断用户预约大于当前时间30分钟后课程--给客户端造数据方便
+    // if ((newDate_str_unix + 1800000 >= startTime_unix)){
+    //
+    //     alert("青少约课时间：必须大于当前时间30分钟以上才能约付费课！");
+    //     return;
+    // }
 
-        alert("青少约课时间：必须大于当前时间30分钟以上才能约付费课！");
+    if (newDate_str_unix >= startTime_unix){
+
+        alert("青少约课时间：约课开始时间必须大于当前时间点！");
         return;
+
     }
 
-
-    if((endTime_unix-startTime_unix) ===0){
+    if((endTime_unix-startTime_unix) === 0){
 
         alert("青少约课时间：青少开始时间不能和结束时间一样！");
         return;
@@ -135,7 +142,6 @@ function saveAppointRecord(){
         return;
 
     }
-
 
 
     if(juniorBookText1Name === "0"){
@@ -182,13 +188,14 @@ function saveAppointRecord(){
                 if (data.status === 200) {
 
                     alert(data.message);
-                    window.location.replace("/tool/appoint_manage/");
+                    // window.location.replace("/tool/appoint_manage/");
 
                 }
 
                 else if (data.status === 10001 || data.status === 10002 || data.status === 10003 ||
                          data.status === 10004 || data.status === 10005 || data.status === 10006 ||
-                         data.status === 10007) {
+                         data.status === 10007 || data.status === 10008 || data.status === 10009 ||
+                         data.status === 10010) {
 
                     alert(data.message);
                     console.log(data.message);

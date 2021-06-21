@@ -443,3 +443,98 @@ def talk_query_user_info_id_account_status_success(user_mobile):
         print ("e-->",e)
 
 
+#----------------------------------------------------------------------------------------------------------------------#
+    # 查询talk库-->appoint表appoint_id约课信息字段
+#----------------------------------------------------------------------------------------------------------------------#
+
+def talk_query_appoint_info_appoint_id_success(appoint_id):
+
+    '''查询约课id'''
+
+    try:
+
+        with conn_talk.cursor() as cursor:
+
+            # 查询
+            sql_query = "select id from appoint where id = '" + str(appoint_id) + "'"
+
+            # 连接中断重连
+            conn_talk.ping(reconnect=True)
+
+            cursor.execute(sql_query)
+
+            appoint_info_result = cursor.fetchall()
+
+            return appoint_info_result
+
+    except Exception as e:
+
+        conn_talk.rollback()
+
+        print("e-->", e)
+
+
+# ----------------------------------------------------------------------------------------------------------------------#
+    # 查询talkplatform_appoint_reconstruction库-->appoint表appoint_id约课信息字段
+# ----------------------------------------------------------------------------------------------------------------------#
+
+def talkplatform_appoint_reconstruction_appoint_info_appoint_id_success(date_time):
+
+    '''查询约课详情'''
+
+    try:
+
+        with conn_talkplatform_appoint_reconstruction.cursor() as cursor:
+
+            # 查询
+            sql_query = "select id from appoint where date_time = '" + str(date_time) + "'"
+
+            # 连接中断重连
+            conn_talkplatform_appoint_reconstruction.ping(reconnect=True)
+
+            cursor.execute(sql_query)
+
+            appoint_info_result = cursor.fetchall()
+
+            return appoint_info_result
+
+    except Exception as e:
+
+        conn_talkplatform_appoint_reconstruction.rollback()
+
+        print("e-->", e)
+
+
+# ----------------------------------------------------------------------------------------------------------------------#
+# 查询talkplatform_appoint_reconstruction库-->appoint表所有数据
+# ----------------------------------------------------------------------------------------------------------------------#
+
+def talkplatform_appoint_reconstruction_query_appoint_info_detail2_success(appoint_id):
+
+    '''查询约课详情'''
+
+    try:
+
+        with conn_talkplatform_appoint_reconstruction.cursor() as cursor:
+
+            # 查询
+            sql_query = "select * from appoint where id = '" + str(appoint_id) + "'"
+
+            # 连接中断重连
+            conn_talkplatform_appoint_reconstruction.ping(reconnect=True)
+
+            cursor.execute(sql_query)
+
+            appoint_info_result = cursor.fetchall()
+
+            return appoint_info_result
+
+    except Exception as e:
+
+        conn_talkplatform_appoint_reconstruction.rollback()
+
+        print("e-->", e)
+
+
+#----------------------------------------------------------------------------------------------------------------------#
+#----------------------------------------------------------------------------------------------------------------------#
